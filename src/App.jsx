@@ -7,7 +7,7 @@ import VisibilityToggle from './components/VisibilityToggle';
 function App() {
   const [topic, setTopic] = useState('')
   const [buttonActive, setButtonActive] = useState(false)
-  const fillWidth = 5
+  const fillWidth = 30
 
 
 

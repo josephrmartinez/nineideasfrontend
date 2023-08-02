@@ -1,0 +1,5 @@
+- Run newTopic when addIdea component first mounts
+- Install React Router, split content into pages: AddIdea, IdeaLists, UserProfile, LogIn, SignUp
+- Create LogIn page, link to API
+- Create SignUp page, link to API
+- Create UserProfile page, link to API
