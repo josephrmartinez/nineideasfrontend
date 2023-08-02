@@ -10,16 +10,16 @@ const VisibilityToggle = () => {
 
 return (
 <div 
-    className='grid grid-cols-2 items-center justify-items-center'
-    onClick={handleClick}>
+    className='flex flex-row items-center w-[86px] justify-between'
+    >
     {privateList ? 
     <>
-    <ToggleLeft size={24} className='cursor-pointer' />
-    <div className='text-sm uppercase'>private</div>
+    <ToggleLeft size={24} className='cursor-pointer' onClick={handleClick}/>
+    <div className='text-sm uppercase select-none'>private</div>
     </>
     : <>
-    <ToggleRight size={24} className='cursor-pointer' />
-    <div className='text-sm uppercase'>public</div>
+    <ToggleRight size={24} className='cursor-pointer' onClick={handleClick}/>
+    <div className='text-sm uppercase select-none'>public</div>
     </>}
 </div>
 
