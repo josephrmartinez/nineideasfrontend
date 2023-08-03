@@ -1,5 +1,4 @@
-- Refactor root header component as NavLink
+- Finish LogIn page: set up JWT, connection to API, and reroute on submit
+- Finish SignUp page: set up JWT, connection to API, and reroute on submit
 - Run newTopic when addIdea component first mounts
-- Create LogIn page, set up JWT and connection to API.
-- Create SignUp page, set up JWT and connection to API.
 - Create UserProfile page, link to API

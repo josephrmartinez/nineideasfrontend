@@ -102,7 +102,7 @@ export default function SignUp(){
             className="w-full px-3 py-2 border rounded"
           />
         </div>
-        <button type="submit" className="px-4 py-2 my-4 bg-[#11699c] text-white rounded">
+        <button type="submit" className="px-4 py-2 my-4 bg-[#11699c] text-white rounded-lg">
           Sign Up
         </button>
       </form>
