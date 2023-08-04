@@ -33,7 +33,7 @@ export default function SignUp(){
 
     // Make the POST request using axios
     axios
-      .post('http://localhost:3000/api/register', formData)
+      .post('http://localhost:3000/api/users', formData)
       .then((response) => {
         // Handle the response from the server if needed
         console.log(response.data);
