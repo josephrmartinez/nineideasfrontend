@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -43,25 +44,6 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // Function to handle login action and set the access token
-  const handleLogin = async (username, password) => {
-    try {
-      const response = await axios.post('http://localhost:3000/api/users/login', {
-        username,
-        password,
-      });
-      if (response.data.success) {
-        const accessToken = response.data.accessToken;
-        setAccessToken(accessToken);
-        setIsLoggedIn(true);
-        fetchUserData();
-      } else {
-        console.error('Login failed:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Login failed:', error.message);
-    }
-  };
 
   // Function to handle logout action
   const handleLogout = () => {
@@ -77,7 +59,6 @@ const AuthProvider = ({ children }) => {
     if (token) {
       setAccessToken(token);
       setIsLoggedIn(true);
-      fetchUserData();
     }
   }, []);
 
@@ -92,7 +73,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, userData, handleLogin, handleLogout }}
+      value={{ isLoggedIn, userData, handleLogout }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
 import { useNavigate } from 'react-router-dom';
 
 export default function LogIn() {

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import '../App.css'
-import { ListPlus, StackSimple, ArrowsCounterClockwise, ArrowsClockwise, ToggleLeft, ToggleRight, Stack } from "@phosphor-icons/react";
 import NewTopic from '../components/NewTopic';
 import VisibilityToggle from '../components/VisibilityToggle';
 
