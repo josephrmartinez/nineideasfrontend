@@ -1,4 +1,6 @@
-- Finish LogIn page: set up JWT, connection to API, and reroute on submit
+- Move NewTopic out of component and into AddList page. useEffect to run when component mounts
 - Finish SignUp page: set up JWT, connection to API, and reroute on submit
-- Run newTopic when addIdea component first mounts
-- Create UserProfile page, link to API
+- Create UserProfile page, link NavLink to API
+- Implement modal popup onClick for private/public toggle
+- Update List model (nineideasapi) with object schemas for topic and idea
+- Implement addIdea (create list) functionality

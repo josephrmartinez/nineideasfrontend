@@ -1,19 +1,41 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../App.css'
-import NewTopic from '../components/NewTopic';
 import VisibilityToggle from '../components/VisibilityToggle';
+import { ArrowsClockwise } from "@phosphor-icons/react";
+import axios from 'axios';
+
+
 
 export default function AddList(){
   const [topic, setTopic] = useState('')
   const [buttonActive, setButtonActive] = useState(false)
+  const [isSpinning, setIsSpinning] = useState(false);
+
   const fillWidth = 30
 
 
-  function handleTopicUpdate(newTopic){
-    setTopic(newTopic)
-    // HandletopicRefreshClick
-    // Call function in utils
-  }
+  const getNewTopicAPI = () => {
+    setIsSpinning(true)
+    axios.get('http://localhost:3000/api/topic/new')
+      .then((response) => {
+        const newTopic = response.data.name;
+        setTimeout(() => {
+          setTopic(newTopic); // Pass the topic back to the parent component after a 1000ms delay
+        }, 300);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      })
+      .finally(() => {
+        setTimeout(()=>{
+          setIsSpinning(false);
+        }, 300);
+        }); 
+  };
+
+  useEffect(() => {
+    getNewTopicAPI()
+  }, [])
 
   function handleAddIdea() {
     setButtonActive(true)  
@@ -26,7 +48,14 @@ export default function AddList(){
     <div className='mx-auto'>
       <div className='w-96 mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
-        <NewTopic onClick={handleTopicUpdate} />
+        <div className='flex flex-row items-center'>
+          <ArrowsClockwise
+            size={24}
+            className={`cursor-pointer mr-2 ${isSpinning ? 'animate-spin' : ''}`}
+            onClick={getNewTopicAPI}
+          />
+          <div className='text-sm uppercase select-none'>topic</div>
+      </div>
         <VisibilityToggle /> 
       </div>
       <div className='text-left mb-2'>
@@ -51,10 +80,10 @@ export default function AddList(){
         </div>
       </div>
       <div className='w-80 mx-auto'>
-      <button class={`pushable ${buttonActive ? 'active' : ''}`} onClick={handleAddIdea}>
-        <span class="shadow"></span>
-        <span class="edge"></span>
-        <span class="front">
+      <button className={`pushable ${buttonActive ? 'active' : ''}`} onClick={handleAddIdea}>
+        <span className="shadow"></span>
+        <span className="edge"></span>
+        <span className="front">
           add idea
         </span>
       </button>
