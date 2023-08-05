@@ -11,6 +11,8 @@ export default function AddList(){
 
   function handleTopicUpdate(newTopic){
     setTopic(newTopic)
+    // HandletopicRefreshClick
+    // Call function in utils
   }
 
   function handleAddIdea() {
