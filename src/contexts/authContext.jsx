@@ -6,14 +6,11 @@ import jwtDecode from 'jwt-decode';
 
 const AuthContext = createContext();
 
-
 const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  
-  
   // Function to make login API call
   const login = (formData) => {
     // Make the POST request using axios
@@ -23,12 +20,14 @@ const AuthProvider = ({ children }) => {
         console.log('headers:', response.headers)
         // Handle the response from the server if needed
         console.log('data:', response.data);
-        // If the server responds with the user data, update the userData state
-        // FOCUS HERE. THE SERVER RESPONDS WITH A JWT TOKEN. THIS NEEDS TO BE DECODED BEFORE I CAN USE THE DATA TO SET THE USERDATA
+        // If the server responds with the user data, decode the token and update the userData state
         if (response.data) {
-        setUserData({ userId: response.data.userId, username: response.data.username });
-      }
-
+          const token = getAccessTokenCookie()
+          const decoded = decodeToken(token)
+          setIsLoggedIn(true);
+          console.log(decoded)
+          setUserData({ userId: decoded.userId, username: decoded.username });
+        }
 
       })
       .catch((error) => {

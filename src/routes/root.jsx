@@ -13,6 +13,7 @@ export default function Root() {
 
   const { userData, isLoggedIn, handleLogout } = useAuth()
 
+
   return (
     <div className='mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14 border-b-2 px-4'>
