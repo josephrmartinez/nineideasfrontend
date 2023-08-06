@@ -16,10 +16,12 @@ export default function AddList(){
 
   const getNewTopicAPI = () => {
     setIsSpinning(true)
+    setTopic('')
     axios.get('http://localhost:3000/api/topic/new')
       .then((response) => {
         const newTopic = response.data.name;
         setTimeout(() => {
+          
           setTopic(newTopic); // Pass the topic back to the parent component after a 1000ms delay
         }, 300);
       })
@@ -34,6 +36,7 @@ export default function AddList(){
   };
 
   useEffect(() => {
+    console.log("ran useEffect")
     getNewTopicAPI()
   }, [])
 
@@ -58,8 +61,8 @@ export default function AddList(){
       </div>
         <VisibilityToggle /> 
       </div>
-      <div className='text-left mb-2'>
-        {topic}:
+      <div className='text-left mb-2 h-12'>
+        {topic}{topic ? ':' : ''}
       </div>
 
       <textarea

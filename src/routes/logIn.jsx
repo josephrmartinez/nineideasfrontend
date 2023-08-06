@@ -12,7 +12,6 @@ export default function LogIn() {
     password: '',
   });
 
-  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +28,6 @@ export default function LogIn() {
       setError('Please fill in all required fields.');
       return;
     }
-
     // Send the formData to the login function in useAuth
     login(formData)
     

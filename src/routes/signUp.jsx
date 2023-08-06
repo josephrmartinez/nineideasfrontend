@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../contexts/authContext';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function SignUp(){
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+    confirmPassword: '',
     bio: '',
     email: '',
   });
@@ -31,12 +38,24 @@ export default function SignUp(){
         return;
       }
 
+
+    // Remove the confirmPassword property from formData
+    const { confirmPassword, ...postData } = formData;
+
     // Make the POST request using axios
     axios
-      .post('http://localhost:3000/api/users', formData)
+      .post('http://localhost:3000/api/users', postData)
       .then((response) => {
         // Handle the response from the server if needed
         console.log(response.data);
+        
+        // Log in the user after successful signup
+        login({
+          username: formData.username,
+          password: formData.password,
+        });
+        navigate('/')
+
       })
       .catch((error) => {
         // Handle any errors that occur during the POST request

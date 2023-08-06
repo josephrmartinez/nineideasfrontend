@@ -3,6 +3,8 @@ import '../App.css';
 import { ListPlus, StackSimple } from "@phosphor-icons/react";
 import { Outlet, NavLink, useMatch } from "react-router-dom";
 import { useAuth } from '../contexts/authContext';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function Root() {
@@ -10,8 +12,15 @@ export default function Root() {
   const isSignupActive = useMatch("/signup");
   const isListsActive = useMatch("/lists")
   const isAddListActive = useMatch("/")
+  const isUserActive = useMatch("/user/:userId")
 
   const { userData, isLoggedIn, handleLogout } = useAuth()
+  const navigate = useNavigate()
+
+  function handleSignout(){
+    handleLogout()
+    navigate('/')
+  }
 
 
   return (
@@ -28,10 +37,10 @@ export default function Root() {
         <div className='grid grid-cols-2 gap-4'>
           {isLoggedIn ? (
             <>
-              <div className="text-sm cursor-pointer text-neutral-700" onClick={() => console.log(userData)}>
+              <NavLink to={`/user/${userData.userId}`} className={`text-sm cursor-pointer ${isUserActive ? 'text-[#ff3c00]' : 'text-neutral-700'}`}>
                 {userData?.username}
-              </div>
-              <div className="text-sm cursor-pointer text-neutral-700" onClick={()=> handleLogout()}>sign out</div>
+              </NavLink>
+              <div className="text-sm cursor-pointer text-neutral-700" onClick={()=> handleSignout()}>sign out</div>
             </>
           ) : (
             <>

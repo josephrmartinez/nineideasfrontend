@@ -4,6 +4,7 @@ axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
+
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
