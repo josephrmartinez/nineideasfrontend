@@ -1,43 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const PopupModal = ({ isOpen, onClose, children }) => {
-  const [modalVisible, setModalVisible] = useState(isOpen);
-
-  useEffect(() => {
-    setModalVisible(isOpen);
-  }, [isOpen]);
-
-  const closeModal = () => {
-    setModalVisible(false);
-    onClose();
-  };
-
-  useEffect(() => {
-    const handleEscapeKey = (event) => {
-      if (modalVisible && event.keyCode === 27) {
-        closeModal();
-      }
-    };
-
-    const handleClickOutside = (event) => {
-      if (modalVisible && !event.target.closest('.modal-content')) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscapeKey);
-    document.addEventListener('click', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [modalVisible]);
-
+const PopupModal = ({ message, onClose }) => {
   return (
-    <div className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-gray-500 ${modalVisible ? '' : 'hidden'}`}>
-      <div className="modal-content bg-white rounded-lg p-4">
-        {children}
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
+      <div className="bg-white rounded-lg p-4 w-72 z-10">
+        <p className="text-center">Log in or sign up to:
+Publish public lists
+Comment on and like public lists
+Securely save your lists
+
+You can use the site without creating an account. In this case, all of your lists are private and saved locally on your browser until you choose to clear browsing data.
+
+Generate new ideas every day.</p>
       </div>
     </div>
   );

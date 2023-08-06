@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import '../App.css'
 import VisibilityToggle from '../components/VisibilityToggle';
-import { ArrowsClockwise } from "@phosphor-icons/react";
+import PopupModal from '../components/PopupModal';
+import { ArrowsClockwise, ToggleLeft } from "@phosphor-icons/react";
 import axios from 'axios';
-
-
+import { useAuth } from '../contexts/authContext';
 
 export default function AddList(){
   const [topic, setTopic] = useState('')
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
-
+  const { isLoggedIn } = useAuth()
+  const [showPopup, setShowPopup] = useState(false)
   const fillWidth = 30
-
 
   const getNewTopicAPI = () => {
     setIsSpinning(true)
@@ -47,6 +47,15 @@ export default function AddList(){
       }, 100);
   }
 
+  function handleLoggedOutClick(){
+    console.log("clockly")
+    setShowPopup(true)
+  }
+
+  function handlePopupClose(){
+    setShowPopup(false)
+  }
+
   return (
     <div className='mx-auto'>
       <div className='w-96 mx-auto'>
@@ -59,7 +68,12 @@ export default function AddList(){
           />
           <div className='text-sm uppercase select-none'>topic</div>
       </div>
-        <VisibilityToggle /> 
+        { isLoggedIn ? <VisibilityToggle /> :
+        <div className='flex flex-row items-center w-[86px] justify-between'>
+          <ToggleLeft size={24} className='cursor-pointer' onClick={handleLoggedOutClick}/>
+          <div className='text-sm uppercase select-none'>private</div>
+        </div>
+        }
       </div>
       <div className='text-left mb-2 h-12'>
         {topic}{topic ? ':' : ''}
@@ -92,11 +106,9 @@ export default function AddList(){
       </button>
       </div>
 
+      {showPopup && <PopupModal  onClose={handlePopupClose}/>}
+
       </div>
-      
-      
-
-
     
   )
 }

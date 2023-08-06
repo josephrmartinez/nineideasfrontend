@@ -37,7 +37,7 @@ export default function Root() {
         <div className='grid grid-cols-2 gap-4'>
           {isLoggedIn ? (
             <>
-              <NavLink to={`/user/${userData.userId}`} className={`text-sm cursor-pointer ${isUserActive ? 'text-[#ff3c00]' : 'text-neutral-700'}`}>
+              <NavLink to={`/user/${userData.userId}`} className={`text-sm cursor-pointer ${isUserActive ? 'text-[#ff3c00] font-semibold' : 'text-neutral-700'}`}>
                 {userData?.username}
               </NavLink>
               <div className="text-sm cursor-pointer text-neutral-700" onClick={()=> handleSignout()}>sign out</div>
