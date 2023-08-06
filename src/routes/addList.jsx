@@ -58,7 +58,7 @@ export default function AddList(){
 
   return (
     <div className='mx-auto'>
-      <div className='w-96 mx-auto'>
+      <div className='w-[22rem] mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
         <div className='flex flex-row items-center'>
           <ArrowsClockwise
@@ -80,7 +80,7 @@ export default function AddList(){
       </div>
 
       <textarea
-        className='w-96 h-20 mb-3 outline-none border bg-neutral-50'
+        className='w-[22rem] h-20 mb-3 outline-none border bg-neutral-50'
         // value={currentIdea}
         // ref={ideaInputRef}
         autoFocus
@@ -91,7 +91,7 @@ export default function AddList(){
       
 
       </div>
-      <div className='w-96 h-4 mb-4 mx-auto rounded-full border relative'>  
+      <div className='w-[22rem] h-4 mb-4 mx-auto rounded-full border relative'>  
         <div className='absolute left-0 top-0 h-full rounded-full shadow-lg'
           style={{ width: fillWidth, background: "linear-gradient(to bottom, #6cb00e, #005c14)", transition: "width 0.4s cubic-bezier(0.3, .15, 0.35, 1)" }}>
         </div>

@@ -1,4 +1,3 @@
 - Create UserProfile page, link NavLink to API
-- Implement modal popup onClick for private/public toggle
 - Update List model (nineideasapi) with object schemas for topic and idea
 - Implement addIdea (create list) functionality
