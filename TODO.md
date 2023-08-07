@@ -1,3 +1,6 @@
-- Create UserProfile page, link NavLink to API
-- Update List model (nineideasapi) with object schemas for topic and idea
+- update topic model
+- re-load all topics into db with updated model
+- update list model
+
 - Implement addIdea (create list) functionality
+
