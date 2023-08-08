@@ -87,6 +87,7 @@
 }
 
 .pushable.complete .front {
+  cursor: default;
   transform: translateY(-2px);
   transition: transform 34ms;
 }

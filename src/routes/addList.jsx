@@ -41,6 +41,12 @@ export default function AddList(){
         }); 
   };
 
+
+  // IN PROGRESS
+  const postNewListAPI = () => {
+    axios.post('http://localhost:3000/api/lists/', VALUES)
+  }
+
   useEffect(() => {
     console.log("ran useEffect")
     getNewTopicAPI()
@@ -75,6 +81,7 @@ export default function AddList(){
     setIdeaList(prevIdeas => {
       return [currentIdea, ...prevIdeas]
     })
+    // SEND POST REQUEST TO CREATE LIST
     setCurrentIdea("")
     ideaInputRef.current.focus()
   }
@@ -151,6 +158,7 @@ export default function AddList(){
         </div>
       </div>
       <div className='w-80 mx-auto'>
+      { ideaList.length < 9 ? 
       <button className={`pushable ${buttonActive ? 'active' : ''}`} onClick={handleAddIdea}>
         <span className="shadow"></span>
         <span className="edge"></span>
@@ -158,6 +166,15 @@ export default function AddList(){
           add idea
         </span>
       </button>
+      :
+    
+        <button className="pushable complete">
+          <span className="shadow"></span>
+          <span className="edge"></span>
+          <span className="front">
+            list complete
+          </span>
+      </button>  }
       </div>
       
       {ideaList.length > 0 && 
