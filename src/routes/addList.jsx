@@ -45,11 +45,15 @@ export default function AddList(){
   // IN PROGRESS
   const postNewListAPI = async () => {
     try {
-    axios.post('http://localhost:3000/api/lists/', {
+      console.log(ideaList)
+      const response = await axios.post('http://localhost:3000/api/lists/', {
       topic: topic._id,
       ideas: ideaList,
     });
+
+    console.log(response.data)
     return response.data
+    
       } catch (error) {
         console.error('Error creating list:', error);
         throw error;
@@ -92,39 +96,48 @@ export default function AddList(){
 
   // Functions for idea management
 
-  async function handleAddIdea() {
     // handleAddIdeaAudio.currentTime = 0;
     // handleAddIdeaAudio.play();
 
-    setButtonActive(true)
-    
-    setTimeout(() => {
+
+    async function handleAddIdea() {
+      setButtonActive(true);
+      
+      setTimeout(() => {
         setButtonActive(false);
       }, 100);
-    if (currentIdea.trim().length < 3) return;
-    if (ideaList.includes(currentIdea)) return;
-    
-    try {
-      // SEND POST REQUEST TO CREATE IDEA
-      const responseObj = await postNewIdeaAPI();
-      console.log(responseObj)
-  
-      setIdeaList(prevIdeas => {
-        return [responseObj, ...prevIdeas];
-      });
-
-      // This needs to happen AFTER the setIdeaList is complete
-      postNewListAPI()
       
-      setCurrentIdea("")
-      ideaInputRef.current.focus()
-    } catch (error) {
-      console.error('Error:', error);
+      if (currentIdea.trim().length < 3) return;
+      if (ideaList.includes(currentIdea)) return;
+    
+      try {
+        // SEND POST REQUEST TO CREATE IDEA
+        const responseObj = await postNewIdeaAPI();
+        console.log(responseObj);
+    
+        // Update ideaList state
+        setIdeaList(prevIdeas => {
+          return [responseObj, ...prevIdeas];
+        });
+
+        // Set currentIdea and focus input before calling postNewListAPI
+        setCurrentIdea("");
+        ideaInputRef.current.focus();
+    
+        // // SEND POST REQUEST TO CREATE LIST
+        // const newList = await postNewListAPI();
+        // console.log(newList);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
 
+    useEffect(() => {
+      if (ideaList.length > 0) {
+        postNewListAPI();
+      }
+    }, [ideaList]);
     
-  }
-
 
   function handleIdeaInputChange(event) {
     setCurrentIdea(event.target.value)
