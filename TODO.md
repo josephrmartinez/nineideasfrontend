@@ -1,6 +1,4 @@
-- update topic model
-- re-load all topics into db with updated model
-- update list model
-
 - Implement addIdea (create list) functionality
-
+- Implement display lists in viewUser page
+- Implement display all lists page
+- Implement update bio functionality

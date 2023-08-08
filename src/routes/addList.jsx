@@ -1,18 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import '../App.css'
 import VisibilityToggle from '../components/VisibilityToggle';
 import PopupModal from '../components/PopupModal';
 import { ArrowsClockwise, ToggleLeft } from "@phosphor-icons/react";
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
+import IdeasList from '../components/IdeasList';
 
 export default function AddList(){
   const [topic, setTopic] = useState('')
+  const [currentIdea, setCurrentIdea] = useState("")
+  const [ideaList, setIdeaList] = useState([])
+
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
-  const fillWidth = 30
+  const ideaInputRef = useRef(null)
+
+  const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
   const getNewTopicAPI = () => {
     setIsSpinning(true)
@@ -40,12 +46,7 @@ export default function AddList(){
     getNewTopicAPI()
   }, [])
 
-  function handleAddIdea() {
-    setButtonActive(true)  
-    setTimeout(() => {
-        setButtonActive(false);
-      }, 100);
-  }
+
 
   function handleLoggedOutClick(){
     console.log("clockly")
@@ -55,6 +56,59 @@ export default function AddList(){
   function handlePopupClose(){
     setShowPopup(false)
   }
+
+
+
+  // Functions for idea management
+
+  function handleAddIdea() {
+    // handleAddIdeaAudio.currentTime = 0;
+    // handleAddIdeaAudio.play();
+
+    setButtonActive(true)
+    
+    setTimeout(() => {
+        setButtonActive(false);
+      }, 100);
+    if (currentIdea.trim().length < 3) return;
+    if (ideaList.includes(currentIdea)) return;
+    setIdeaList(prevIdeas => {
+      return [currentIdea, ...prevIdeas]
+    })
+    setCurrentIdea("")
+    ideaInputRef.current.focus()
+  }
+
+
+  function handleIdeaInputChange(event) {
+    setCurrentIdea(event.target.value)
+  }
+
+  function checkForSubmit(event) {
+    if (currentIdea.trim().length < 3) return;
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleAddIdea()
+    }
+  }
+
+  // Update already posted idea
+  function updateIdea(index, idea) {
+    setIdeaList(prevList =>
+      prevList.map((prevIdea, i) => {
+        if (i === index) {
+          return idea;
+        } else {
+          return prevIdea;
+        }
+      })
+    );
+  }
+
+
+
+
+
 
   return (
     <div className='mx-auto'>
@@ -81,11 +135,11 @@ export default function AddList(){
 
       <textarea
         className='w-[22rem] h-20 mb-3 outline-none border bg-neutral-50'
-        // value={currentIdea}
-        // ref={ideaInputRef}
+        value={currentIdea}
+        ref={ideaInputRef}
         autoFocus
-        // onChange={handleIdeaInputChange}
-        // onKeyDown={checkForSubmit}
+        onChange={handleIdeaInputChange}
+        onKeyDown={checkForSubmit}
       >
       </textarea> 
       
@@ -105,6 +159,17 @@ export default function AddList(){
         </span>
       </button>
       </div>
+      
+      {ideaList.length > 0 && 
+      <div className='w-full border-t-2 mx-auto mt-8 overflow-y-scroll h-64'>
+        <div className='w-[22rem] mx-auto'>
+          <IdeasList ideaList={ideaList} updateIdea={updateIdea} />
+        </div>
+      </div>
+      }
+      
+      
+
 
       {showPopup && <PopupModal  onClose={handlePopupClose}/>}
 
