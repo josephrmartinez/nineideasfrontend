@@ -8,7 +8,7 @@ import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
 
 export default function AddList(){
-  const [topic, setTopic] = useState('')
+  const [topic, setTopic] = useState({})
   const [currentIdea, setCurrentIdea] = useState("")
   const [ideaList, setIdeaList] = useState([])
 
@@ -25,7 +25,7 @@ export default function AddList(){
     setTopic('')
     axios.get('http://localhost:3000/api/topic/new')
       .then((response) => {
-        const newTopic = response.data.name;
+        const newTopic = response.data;
         setTimeout(() => {
           
           setTopic(newTopic); // Pass the topic back to the parent component after a 1000ms delay
@@ -137,7 +137,7 @@ export default function AddList(){
         }
       </div>
       <div className='text-left mb-2 h-12'>
-        {topic}{topic ? ':' : ''}
+        {topic.name}{topic ? ':' : ''}
       </div>
 
       <textarea
