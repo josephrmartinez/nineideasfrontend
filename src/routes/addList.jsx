@@ -44,8 +44,33 @@ export default function AddList(){
 
   // IN PROGRESS
   const postNewListAPI = () => {
-    axios.post('http://localhost:3000/api/lists/', VALUES)
-  }
+    axios.post('http://localhost:3000/api/lists/', {
+      topic: topic._id,
+      ideas: ideaList,
+
+    }).then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.error('Error creating list:', error);
+      })
+  };
+
+  // CREATE IDEA
+  const postNewIdeaAPI = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/idea/', {
+        text: currentIdea,
+        parentTopic: topic._id
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error creating idea:', error);
+      throw error;
+    }
+  };
+
+
 
   useEffect(() => {
     console.log("ran useEffect")
@@ -67,7 +92,7 @@ export default function AddList(){
 
   // Functions for idea management
 
-  function handleAddIdea() {
+  async function handleAddIdea() {
     // handleAddIdeaAudio.currentTime = 0;
     // handleAddIdeaAudio.play();
 
@@ -78,12 +103,23 @@ export default function AddList(){
       }, 100);
     if (currentIdea.trim().length < 3) return;
     if (ideaList.includes(currentIdea)) return;
-    setIdeaList(prevIdeas => {
-      return [currentIdea, ...prevIdeas]
-    })
-    // SEND POST REQUEST TO CREATE LIST
-    setCurrentIdea("")
-    ideaInputRef.current.focus()
+    
+    try {
+      // SEND POST REQUEST TO CREATE IDEA
+      const responseObj = await postNewIdeaAPI();
+      console.log(responseObj)
+  
+      setIdeaList(prevIdeas => {
+        return [responseObj, ...prevIdeas];
+      });
+      setCurrentIdea("")
+      ideaInputRef.current.focus()
+    } catch (error) {
+      // Handle error if needed
+      console.error('Error:', error);
+    }
+
+    
   }
 
 
@@ -100,17 +136,18 @@ export default function AddList(){
   }
 
   // Update already posted idea
-  function updateIdea(index, idea) {
-    setIdeaList(prevList =>
+  function updateIdea(index, updatedText) {
+    setIdeaList((prevList) =>
       prevList.map((prevIdea, i) => {
         if (i === index) {
-          return idea;
+          return { ...prevIdea, text: updatedText }; // Update text property
         } else {
           return prevIdea;
         }
       })
     );
   }
+  
 
 
 
