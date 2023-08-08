@@ -43,18 +43,18 @@ export default function AddList(){
 
 
   // IN PROGRESS
-  const postNewListAPI = () => {
+  const postNewListAPI = async () => {
+    try {
     axios.post('http://localhost:3000/api/lists/', {
       topic: topic._id,
       ideas: ideaList,
-
-    }).then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
+    });
+    return response.data
+      } catch (error) {
         console.error('Error creating list:', error);
-      })
-  };
+        throw error;
+      }
+    };
 
   // CREATE IDEA
   const postNewIdeaAPI = async () => {
@@ -112,10 +112,13 @@ export default function AddList(){
       setIdeaList(prevIdeas => {
         return [responseObj, ...prevIdeas];
       });
+
+      // This needs to happen AFTER the setIdeaList is complete
+      postNewListAPI()
+      
       setCurrentIdea("")
       ideaInputRef.current.focus()
     } catch (error) {
-      // Handle error if needed
       console.error('Error:', error);
     }
 
