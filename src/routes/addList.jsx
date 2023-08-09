@@ -11,6 +11,7 @@ export default function AddList(){
   const [topic, setTopic] = useState({})
   const [currentIdea, setCurrentIdea] = useState("")
   const [ideaList, setIdeaList] = useState([])
+  const [currentListId, setCurrentListId] = useState("")
 
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
@@ -38,27 +39,19 @@ export default function AddList(){
         setTimeout(()=>{
           setIsSpinning(false);
         }, 300);
+        setCurrentListId("")
+        setIdeaList([])
         }); 
   };
 
+  // GET NEW TOPIC WHEN COMPONENT MOUNTS
+  // DEBUG: WHY IS THIS RUNNING TWICE?
+  useEffect(() => {
+    console.log("ran useEffect")
+    getNewTopicAPI()
+  }, [])
 
-  // IN PROGRESS
-  const postNewListAPI = async () => {
-    try {
-      console.log(ideaList)
-      const response = await axios.post('http://localhost:3000/api/lists/', {
-      topic: topic._id,
-      ideas: ideaList,
-    });
 
-    console.log(response.data)
-    return response.data
-    
-      } catch (error) {
-        console.error('Error creating list:', error);
-        throw error;
-      }
-    };
 
   // CREATE IDEA
   const postNewIdeaAPI = async () => {
@@ -74,12 +67,57 @@ export default function AddList(){
     }
   };
 
+  // CREATE LIST ON FIRST IDEA
+  const postNewListAPI = async () => {
+    try {
+      console.log(ideaList)
+      const response = await axios.post('http://localhost:3000/api/lists/', {
+      topic: topic._id,
+      ideas: ideaList,
+    });
+    console.log(response.data)
+    setCurrentListId(response.data._id)
+    return response.data
+    } catch (error) {
+      console.error('Error creating list:', error);
+      throw error;
+    }
+  };
+
+  // UPDATE LIST ON IDEAS 2 - 8
+  const updateListAPI = async () => {
+    try {
+      const response = await axios.put(`http://localhost:3000/api/lists/${currentListId}`, {
+        ideas: ideaList,
+      });
+      console.log(response)
+      return response.data
+      } catch (error) {
+        console.error('Error updating list:', error);
+        throw error;
+      }
+    };
 
 
-  useEffect(() => {
-    console.log("ran useEffect")
-    getNewTopicAPI()
-  }, [])
+    // IN PROGRSS
+  const finishListAPI = async () => {
+    try {
+      const response = await axios.put(`http://localhost:3000/api/lists/${currentListId}`, {
+        ideas: ideaList,
+        status: 'complete',
+        // timeCompleted: Date.now TROUBLESHOOT DIFFERENCE BTWN FRNTEND AND SERVER TIMES
+      });
+      console.log(response)
+      return response.data
+      } catch (error) {
+        console.error('Error updating list:', error);
+        throw error;
+      }
+    };
+
+
+
+  
 
 
 
@@ -94,50 +132,53 @@ export default function AddList(){
 
 
 
-  // Functions for idea management
+// Functions for idea management
 
-    // handleAddIdeaAudio.currentTime = 0;
-    // handleAddIdeaAudio.play();
+  // handleAddIdeaAudio.currentTime = 0;
+  // handleAddIdeaAudio.play();
 
 
-    async function handleAddIdea() {
-      setButtonActive(true);
-      
-      setTimeout(() => {
-        setButtonActive(false);
-      }, 100);
-      
-      if (currentIdea.trim().length < 3) return;
-      if (ideaList.includes(currentIdea)) return;
+  async function handleAddIdea() {
+    setButtonActive(true);
     
-      try {
-        // SEND POST REQUEST TO CREATE IDEA
-        const responseObj = await postNewIdeaAPI();
-        console.log(responseObj);
+    setTimeout(() => {
+      setButtonActive(false);
+    }, 100);
     
-        // Update ideaList state
-        setIdeaList(prevIdeas => {
-          return [responseObj, ...prevIdeas];
-        });
+    if (currentIdea.trim().length < 3) return;
+    if (ideaList.includes(currentIdea)) return;
+  
+    try {
+      // SEND POST REQUEST TO CREATE IDEA
+      const responseObj = await postNewIdeaAPI();
+      console.log(responseObj);
+  
+      // Update ideaList state
+      setIdeaList(prevIdeas => {
+        return [responseObj, ...prevIdeas];
+      });
 
-        // Set currentIdea and focus input before calling postNewListAPI
-        setCurrentIdea("");
-        ideaInputRef.current.focus();
-    
-        // // SEND POST REQUEST TO CREATE LIST
-        // const newList = await postNewListAPI();
-        // console.log(newList);
-      } catch (error) {
-        console.error('Error:', error);
-      }
+      // Set currentIdea and focus input before calling postNewListAPI
+      setCurrentIdea("");
+      ideaInputRef.current.focus();
+  
+      // // SEND POST REQUEST TO CREATE LIST
+      // const newList = await postNewListAPI();
+      // console.log(newList);
+    } catch (error) {
+      console.error('Error:', error);
     }
+  }
 
-    useEffect(() => {
-      if (ideaList.length > 0) {
-        postNewListAPI();
-      }
-    }, [ideaList]);
-    
+  useEffect(() => {
+    if (ideaList.length === 1) {
+      postNewListAPI();
+    } else if (ideaList.length > 1 && ideaList.length < 9) {
+      updateListAPI();
+    } else if (ideaList.length === 9) {
+      finishListAPI();
+    }
+  }, [ideaList]);
 
   function handleIdeaInputChange(event) {
     setCurrentIdea(event.target.value)
@@ -162,7 +203,7 @@ export default function AddList(){
         }
       })
     );
-  }
+}
   
 
 
