@@ -2,6 +2,11 @@
     - First submit is POST, subsequent should be PUT or PATCH?
     - Finalize finish submit function and ensure that it is called on ninth idea
 - Make sure that when a list is created, it gets added to the user's "lists" field. 
+
+
+
+
+
 - Enable public/private toggle on ninth idea
     - Develop and implement explanatory popup (idea lists are private until finished)
 - Implement display lists in viewUser page

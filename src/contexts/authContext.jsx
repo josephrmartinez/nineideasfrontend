@@ -54,23 +54,34 @@ const AuthProvider = ({ children }) => {
     }
   };
 
- // Retrieve the accessToken cookie when the component mounts
- useEffect(() => {
-  const token = getAccessTokenCookie();
-  console.log("Access Token from Cookie:", token);
-  if (token) {
-    setAccessToken(token);
-    setIsLoggedIn(true);
-
-    // Decode the token and get user ID and username
-    const decodedToken = decodeToken(token);
-    if (decodedToken) {
-      setUserData({ userId: decodedToken.userId, username: decodedToken.username });
+  useEffect(() => {
+    const token = getAccessTokenCookie();
+    console.log("Access Token from Cookie:", token);
+  
+    if (token) {
+      setAccessToken(token);
+      setIsLoggedIn(true);
+  
+      const decodedToken = decodeToken(token);
+      if (decodedToken) {
+        setUserData({ userId: decodedToken.userId, username: decodedToken.username });
+      } else {
+        setUserData(null);
+      }
     } else {
+      setIsLoggedIn(false);
       setUserData(null);
     }
-  }
-}, []);
+  
+    // Update Axios headers
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common['Authorization'];
+    }
+  }, []);
+  
+  
 
 
 // Function to handle logout action
@@ -83,13 +94,13 @@ const handleLogout = () => {
 
 
 // Set the accessToken in the Axios headers when it's available or changed
-useEffect(() => {
-  if (accessToken) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-  } else {
-    delete axios.defaults.headers.common['Authorization'];
-  }
-}, [accessToken]);
+// useEffect(() => {
+//   if (accessToken) {
+//     axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+//   } else {
+//     delete axios.defaults.headers.common['Authorization'];
+//   }
+// }, [accessToken]);
 
 
   return (

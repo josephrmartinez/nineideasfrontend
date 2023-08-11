@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useLayoutEffect, useState, useRef } from 'react'
 import '../App.css'
 import VisibilityToggle from '../components/VisibilityToggle';
 import PopupModal from '../components/PopupModal';
@@ -18,40 +18,32 @@ export default function AddList(){
   const { isLoggedIn, userData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const ideaInputRef = useRef(null)
-
-  
-  
-
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
-  const getNewTopicAPI = () => {
-    setIsSpinning(true)
-    setTopic('')
-    axios.get('http://localhost:3000/api/topic/new')
-      .then((response) => {
-        const newTopic = response.data;
-        setTimeout(() => {
-          
-          setTopic(newTopic); // Pass the topic back to the parent component after a 1000ms delay
-        }, 300);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      })
-      .finally(() => {
-        setTimeout(()=>{
-          setIsSpinning(false);
-        }, 300);
-        setCurrentListId("")
-        setIdeaList([])
-        }); 
+  const getNewTopic = async () => {
+    try {
+      setIsSpinning(true);
+      setTopic('');
+      
+      const response = await axios.get('http://localhost:3000/api/topic/new');
+      const newTopic = response.data;
+      
+      await new Promise(resolve => setTimeout(resolve, 300)); // Delay for 300ms
+      
+      setTopic(newTopic);
+      setIsSpinning(false);
+      setCurrentListId('');
+      setIdeaList([]);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
-
+  
   // GET NEW TOPIC WHEN COMPONENT MOUNTS
   // DEBUG: WHY IS THIS RUNNING TWICE?
   useEffect(() => {
-    console.log("ran useEffect")
-    getNewTopicAPI()
+    console.log("ran getNewTopic useEffect")
+    getNewTopic()
   }, [])
 
 
@@ -88,11 +80,12 @@ export default function AddList(){
   //     throw error;
   //   }
   // };
-  const postNewList = async (topicId, ideaList) => {
+
+  const postNewList = async () => {
     try {
       // Create the new list
       const newListResponse = await axios.post('http://localhost:3000/api/lists/', {
-        topic: topicId,
+        topic: topic._id,
         ideas: ideaList,
         dateAdded: Date.now(),
         timeStarted: Date.now(),
@@ -143,28 +136,33 @@ export default function AddList(){
     };
 
 
-    // const addListToUser = async () => {
-    //   try {
-        
-    //     // Fetch the user's current data first
-    //     const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
-    //     const currentUserData = getUserResponse.data;
+    const addListToUser = async () => {
+      try {
+        if (userData.userId) {
+          // Fetch the user's current data first
+          const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
+          const currentUserData = getUserResponse.data;
     
-    //     // Create an updated lists array by pushing the new value
-    //     const updatedLists = [...currentUserData.lists, currentListId];
+          // Create an updated lists array by pushing the new value
+          const updatedLists = [...currentUserData.lists, currentListId];
     
-    //     // Make the PATCH request with the updated lists array
-    //     const response = await axios.patch(`http://localhost:3000/api/users/${userData.userId}`, {
-    //       lists: updatedLists, // Use the updated lists array
-    //     });
+          // Make the PATCH request with the updated lists array
+          const response = await axios.patch(`http://localhost:3000/api/users/${userData.userId}`, {
+            lists: updatedLists, // Use the updated lists array
+          });
     
-    //     console.log(response);
-    //     return response.data;
-    //   } catch (error) {
-    //     console.error('Error updating user:', error);
-    //     throw error;
-    //   }
-    // };
+          console.log(response);
+          return response.data;
+        } else {
+          console.log("User data not available yet.");
+          return null; // Or some appropriate value indicating that the action was not performed
+        }
+      } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+      }
+    };
+    
 
 
   function handleLoggedOutClick(){
@@ -218,7 +216,7 @@ export default function AddList(){
   }, [ideaList]);
 
 
-  
+
   // useEffect(() => {
   //   addListToUser()
   // }, [currentListId]);
@@ -264,7 +262,7 @@ export default function AddList(){
           <ArrowsClockwise
             size={24}
             className={`cursor-pointer mr-2 ${isSpinning ? 'animate-spin' : ''}`}
-            onClick={getNewTopicAPI}
+            onClick={getNewTopic}
           />
           <div className='text-sm uppercase select-none'>topic</div>
       </div>
