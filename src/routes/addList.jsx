@@ -98,7 +98,6 @@ export default function AddList(){
     };
 
 
-    // IN PROGReSS
   const finishList = async () => {
     try {
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
@@ -106,7 +105,7 @@ export default function AddList(){
         status: 'complete',
         timeCompleted: Date.now()
       });
-      console.log(response)
+      console.log("Finished list response object:", response)
       return response.data
       } catch (error) {
         console.error('Error updating list:', error);
@@ -194,10 +193,13 @@ export default function AddList(){
   }, [ideaList]);
 
 
-
+  // Improve implementation. This is a hacky workaround to deal with 
+  // the currentListID value changing twice because of the component mounting twice.
+  // I need to address the root issue of the component remounting.
+  // This is preventing me from being able to use the useEffect
   useEffect(() => {
     if (currentListId.length > 1){
-    console.log(currentListId)
+    console.log("currentListId has just been updated to:", currentListId)
     addListToUser()
   }
   }, [currentListId]);
@@ -313,23 +315,3 @@ export default function AddList(){
   )
 }
 
-
-
-// CREATE LIST ON FIRST IDEA
-  // const postNewListAPI = async () => {
-  //   try {
-  //     console.log(ideaList)
-  //     const response = await axios.post('http://localhost:3000/api/lists/', {
-  //     topic: topic._id,
-  //     ideas: ideaList,
-  //     dateAdded: Date.now(),
-  //     timeStarted: Date.now(),
-  //   });
-  //   console.log(response.data)
-  //   setCurrentListId(response.data._id)
-  //   return response.data
-  //   } catch (error) {
-  //     console.error('Error creating list:', error);
-  //     throw error;
-  //   }
-  // };

@@ -1,15 +1,10 @@
-- Implement addIdea (create list) functionality
-    - First submit is POST, subsequent should be PUT or PATCH?
-    - Finalize finish submit function and ensure that it is called on ninth idea
-- Make sure that when a list is created, it gets added to the user's "lists" field. 
+- Implement display lists in viewUser page
 
-
-
-
+- Implement ability to click list in viewUser page to load list for viewing
+- Implement display all (public) lists page
 
 - Enable public/private toggle on ninth idea
     - Develop and implement explanatory popup (idea lists are private until finished)
-- Implement display lists in viewUser page
-- Implement ability to click list in viewUser page to load list for viewing
-- Implement display all lists page
+    
+
 - Implement update bio functionality
