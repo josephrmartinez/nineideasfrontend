@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import '../App.css'
 import VisibilityToggle from '../components/VisibilityToggle';
 import PopupModal from '../components/PopupModal';
@@ -12,7 +12,6 @@ export default function AddList(){
   const [currentIdea, setCurrentIdea] = useState("")
   const [ideaList, setIdeaList] = useState([])
   const [currentListId, setCurrentListId] = useState("")
-
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn, userData } = useAuth()
@@ -23,13 +22,10 @@ export default function AddList(){
   const getNewTopic = async () => {
     try {
       setIsSpinning(true);
-      setTopic('');
-      
+      setTopic({});
       const response = await axios.get('http://localhost:3000/api/topic/new');
       const newTopic = response.data;
-      
       await new Promise(resolve => setTimeout(resolve, 300)); // Delay for 300ms
-      
       setTopic(newTopic);
       setIsSpinning(false);
       setCurrentListId('');
@@ -55,6 +51,7 @@ export default function AddList(){
         text: currentIdea,
         parentTopic: topic._id
       });
+      console.log("postNewIdea response:", response.data)
       return response.data;
     } catch (error) {
       console.error('Error creating idea:', error);
@@ -62,24 +59,7 @@ export default function AddList(){
     }
   };
 
-  // CREATE LIST ON FIRST IDEA
-  // const postNewListAPI = async () => {
-  //   try {
-  //     console.log(ideaList)
-  //     const response = await axios.post('http://localhost:3000/api/lists/', {
-  //     topic: topic._id,
-  //     ideas: ideaList,
-  //     dateAdded: Date.now(),
-  //     timeStarted: Date.now(),
-  //   });
-  //   console.log(response.data)
-  //   setCurrentListId(response.data._id)
-  //   return response.data
-  //   } catch (error) {
-  //     console.error('Error creating list:', error);
-  //     throw error;
-  //   }
-  // };
+  
 
   const postNewList = async () => {
     try {
@@ -91,8 +71,7 @@ export default function AddList(){
         timeStarted: Date.now(),
       });
       setCurrentListId(newListResponse.data._id)
-  
-      console.log(newListResponse.data);
+      console.log("post new list response data:", newListResponse.data);
   
       return newListResponse.data;
     } catch (error) {
@@ -110,7 +89,7 @@ export default function AddList(){
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
         ideas: ideaList,
       });
-      console.log(response)
+      console.log("Updated list after PATCH:", response)
       return response.data
       } catch (error) {
         console.error('Error updating list:', error);
@@ -190,12 +169,11 @@ export default function AddList(){
   
     try {
       // SEND POST REQUEST TO CREATE IDEA
-      const responseObj = await postNewIdea();
-      console.log(responseObj);
+      const newIdea = await postNewIdea();
   
       // Update ideaList state
       setIdeaList(prevIdeas => {
-        return [responseObj, ...prevIdeas];
+        return [newIdea, ...prevIdeas];
       });
       // Set currentIdea and focus input before calling postNewListAPI
       setCurrentIdea("");
@@ -217,9 +195,12 @@ export default function AddList(){
 
 
 
-  // useEffect(() => {
-  //   addListToUser()
-  // }, [currentListId]);
+  useEffect(() => {
+    if (currentListId.length > 1){
+    console.log(currentListId)
+    addListToUser()
+  }
+  }, [currentListId]);
 
 
 
@@ -331,3 +312,24 @@ export default function AddList(){
     
   )
 }
+
+
+
+// CREATE LIST ON FIRST IDEA
+  // const postNewListAPI = async () => {
+  //   try {
+  //     console.log(ideaList)
+  //     const response = await axios.post('http://localhost:3000/api/lists/', {
+  //     topic: topic._id,
+  //     ideas: ideaList,
+  //     dateAdded: Date.now(),
+  //     timeStarted: Date.now(),
+  //   });
+  //   console.log(response.data)
+  //   setCurrentListId(response.data._id)
+  //   return response.data
+  //   } catch (error) {
+  //     console.error('Error creating list:', error);
+  //     throw error;
+  //   }
+  // };
