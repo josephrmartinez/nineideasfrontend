@@ -15,9 +15,12 @@ export default function AddList(){
 
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, userData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const ideaInputRef = useRef(null)
+
+  
+  
 
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
@@ -54,7 +57,7 @@ export default function AddList(){
 
 
   // CREATE IDEA
-  const postNewIdeaAPI = async () => {
+  const postNewIdea = async () => {
     try {
       const response = await axios.post('http://localhost:3000/api/idea/', {
         text: currentIdea,
@@ -68,26 +71,50 @@ export default function AddList(){
   };
 
   // CREATE LIST ON FIRST IDEA
-  const postNewListAPI = async () => {
+  // const postNewListAPI = async () => {
+  //   try {
+  //     console.log(ideaList)
+  //     const response = await axios.post('http://localhost:3000/api/lists/', {
+  //     topic: topic._id,
+  //     ideas: ideaList,
+  //     dateAdded: Date.now(),
+  //     timeStarted: Date.now(),
+  //   });
+  //   console.log(response.data)
+  //   setCurrentListId(response.data._id)
+  //   return response.data
+  //   } catch (error) {
+  //     console.error('Error creating list:', error);
+  //     throw error;
+  //   }
+  // };
+  const postNewList = async (topicId, ideaList) => {
     try {
-      console.log(ideaList)
-      const response = await axios.post('http://localhost:3000/api/lists/', {
-      topic: topic._id,
-      ideas: ideaList,
-    });
-    console.log(response.data)
-    setCurrentListId(response.data._id)
-    return response.data
+      // Create the new list
+      const newListResponse = await axios.post('http://localhost:3000/api/lists/', {
+        topic: topicId,
+        ideas: ideaList,
+        dateAdded: Date.now(),
+        timeStarted: Date.now(),
+      });
+      setCurrentListId(newListResponse.data._id)
+  
+      console.log(newListResponse.data);
+  
+      return newListResponse.data;
     } catch (error) {
-      console.error('Error creating list:', error);
+      console.error('Error creating list and updating user:', error);
       throw error;
     }
   };
 
+  
+ 
+
   // UPDATE LIST ON IDEAS 2 - 8
-  const updateListAPI = async () => {
+  const addIdeaToList = async () => {
     try {
-      const response = await axios.put(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
         ideas: ideaList,
       });
       console.log(response)
@@ -99,13 +126,13 @@ export default function AddList(){
     };
 
 
-    // IN PROGRSS
-  const finishListAPI = async () => {
+    // IN PROGReSS
+  const finishList = async () => {
     try {
-      const response = await axios.put(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
         ideas: ideaList,
         status: 'complete',
-        // timeCompleted: Date.now TROUBLESHOOT DIFFERENCE BTWN FRNTEND AND SERVER TIMES
+        timeCompleted: Date.now()
       });
       console.log(response)
       return response.data
@@ -116,13 +143,31 @@ export default function AddList(){
     };
 
 
-
-  
-
+    // const addListToUser = async () => {
+    //   try {
+        
+    //     // Fetch the user's current data first
+    //     const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
+    //     const currentUserData = getUserResponse.data;
+    
+    //     // Create an updated lists array by pushing the new value
+    //     const updatedLists = [...currentUserData.lists, currentListId];
+    
+    //     // Make the PATCH request with the updated lists array
+    //     const response = await axios.patch(`http://localhost:3000/api/users/${userData.userId}`, {
+    //       lists: updatedLists, // Use the updated lists array
+    //     });
+    
+    //     console.log(response);
+    //     return response.data;
+    //   } catch (error) {
+    //     console.error('Error updating user:', error);
+    //     throw error;
+    //   }
+    // };
 
 
   function handleLoggedOutClick(){
-    console.log("clockly")
     setShowPopup(true)
   }
 
@@ -133,11 +178,8 @@ export default function AddList(){
 
 
 // Functions for idea management
-
   // handleAddIdeaAudio.currentTime = 0;
   // handleAddIdeaAudio.play();
-
-
   async function handleAddIdea() {
     setButtonActive(true);
     
@@ -150,21 +192,16 @@ export default function AddList(){
   
     try {
       // SEND POST REQUEST TO CREATE IDEA
-      const responseObj = await postNewIdeaAPI();
+      const responseObj = await postNewIdea();
       console.log(responseObj);
   
       // Update ideaList state
       setIdeaList(prevIdeas => {
         return [responseObj, ...prevIdeas];
       });
-
       // Set currentIdea and focus input before calling postNewListAPI
       setCurrentIdea("");
       ideaInputRef.current.focus();
-  
-      // // SEND POST REQUEST TO CREATE LIST
-      // const newList = await postNewListAPI();
-      // console.log(newList);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -172,13 +209,21 @@ export default function AddList(){
 
   useEffect(() => {
     if (ideaList.length === 1) {
-      postNewListAPI();
+      postNewList();
     } else if (ideaList.length > 1 && ideaList.length < 9) {
-      updateListAPI();
+      addIdeaToList();
     } else if (ideaList.length === 9) {
-      finishListAPI();
+      finishList();
     }
   }, [ideaList]);
+
+
+  
+  // useEffect(() => {
+  //   addListToUser()
+  // }, [currentListId]);
+
+
 
   function handleIdeaInputChange(event) {
     setCurrentIdea(event.target.value)
