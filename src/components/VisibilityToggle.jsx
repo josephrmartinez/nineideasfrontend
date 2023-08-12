@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToggleLeft, ToggleRight } from "@phosphor-icons/react";
 
-const VisibilityToggle = () => {
-    const [privateList, setPrivateList] = useState(true)
-
-    const handleClick = () => {
-        setPrivateList(!privateList);
-    };
+const VisibilityToggle = ({privateList, onToggleClick}) => {
 
 return (
 <div 
@@ -14,11 +9,11 @@ return (
     >
     {privateList ? 
     <>
-    <ToggleLeft size={24} className='cursor-pointer' onClick={handleClick}/>
+    <ToggleLeft size={24} className='cursor-pointer' onClick={onToggleClick}/>
     <div className='text-sm uppercase select-none'>private</div>
     </>
     : <>
-    <ToggleRight size={24} className='cursor-pointer' onClick={handleClick}/>
+    <ToggleRight size={24} className='cursor-pointer' onClick={onToggleClick}/>
     <div className='text-sm uppercase select-none'>public</div>
     </>}
 </div>

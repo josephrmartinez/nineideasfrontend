@@ -16,6 +16,7 @@ export default function AddList(){
   const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn, userData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
+  const [privateList, setPrivateList] = useState(true)
   const ideaInputRef = useRef(null)
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
@@ -102,10 +103,11 @@ export default function AddList(){
     try {
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
         ideas: ideaList,
-        status: 'complete',
+        status: 'public',
         timeCompleted: Date.now()
       });
       console.log("Finished list response object:", response)
+      setPrivateList(false)
       return response.data
       } catch (error) {
         console.error('Error updating list:', error);
@@ -151,6 +153,13 @@ export default function AddList(){
     setShowPopup(false)
   }
 
+  function handleIncompleteListClick(){
+    console.log("List not yeet complete...")
+  }
+
+  function handleToggleVisibility(){
+    setPrivateList(!privateList);
+  }
 
 
 // Functions for idea management
@@ -249,15 +258,22 @@ export default function AddList(){
           />
           <div className='text-sm uppercase select-none'>topic</div>
       </div>
-        { isLoggedIn ? <VisibilityToggle /> :
+
+        { isLoggedIn && ideaList.length === 9 ? (
+        <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/> 
+        ) : (
         <div className='flex flex-row items-center w-[86px] justify-between'>
-          <ToggleLeft size={24} className='cursor-pointer' onClick={handleLoggedOutClick}/>
+          <ToggleLeft 
+            size={24} 
+            className='cursor-pointer' 
+            onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }/>
           <div className='text-sm uppercase select-none'>private</div>
         </div>
+        )
         }
       </div>
       <div className='text-left mb-2 h-12'>
-        {topic.name}{topic ? ':' : ''}
+        {topic.name}{topic.name ? ':' : ''}
       </div>
 
       <textarea
