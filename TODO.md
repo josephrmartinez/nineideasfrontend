@@ -1,4 +1,4 @@
-- UPDATE LIST MODEL: STATUS: DRAFT, PRIVATE, PUBLIC ??
+- Route update: should be able to reload on 5173/user/34857394759347
 
 - Implement display lists in viewUser page
     - Place filler content so that loading delay does not cause content shift
@@ -7,7 +7,6 @@
 - Implement display all (public) lists page
 
 - Enable public/private toggle on ninth idea
-    - Develop and implement explanatory popup (idea lists are private until finished)
     
 
 - Implement update bio functionality

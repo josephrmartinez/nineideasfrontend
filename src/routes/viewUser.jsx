@@ -30,11 +30,15 @@ export default function ViewUser(){
   // DEVELOP STYLING FURTHER
   const completedLists = userProfile.lists?.map((list, index) => {
     return (
+      <div key={index} className='my-6'>
       <div
-        className="text-left text-sm font-semibold tracking-wide text-gray-600 my-6"
+        className="text-left text-sm font-semibold tracking-wide text-gray-600"
         key={index}
       >
         {list.topic.name}
+      </div>
+
+      <div className='text-xs uppercase text-left'>{list.status}</div>
       </div>
       )
     })
