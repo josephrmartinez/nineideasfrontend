@@ -16,6 +16,7 @@ export default function AddList(){
   const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn, userData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
+  const [popupMessage, setPopupMessage] = useState({})
   const [privateList, setPrivateList] = useState(true)
   const ideaInputRef = useRef(null)
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
@@ -146,6 +147,18 @@ export default function AddList(){
 
 
   function handleLoggedOutClick(){
+    setPopupMessage(
+    <>
+    <p className="font-semibold text-md mb-1">Log in or sign up to:</p>
+    <ul className='text-sm mb-4 ml-4 list-disc'>
+      <li>Publish public lists</li>
+      <li>Comment on and like public lists</li>
+      <li>Securely save your lists</li>
+    </ul>
+    <p className='text-sm mb-4'>Or don't. You can use the site without creating an account. In this case, all of your lists are private and saved locally on your browser until you choose to clear browsing data.</p>
+    <p className='text-sm'>Make generating ideas a daily habit.</p>
+    </>
+    )
     setShowPopup(true)
   }
 
@@ -154,7 +167,15 @@ export default function AddList(){
   }
 
   function handleIncompleteListClick(){
-    console.log("List not yeet complete...")
+    setPopupMessage(
+      <>
+      <p className="font-semibold text-md mb-1">This list is not yet complete.</p>
+      <p className='text-sm mb-4'>Lists are saved as private drafts until they are completed with nine ideas.</p>
+      <p className='text-sm mb-4'>Once an idea list is complete, you can decide whether to share is publicly or to keep it private.</p>
+      <p className='text-sm'>Make generating ideas a daily habit.</p>
+      </>
+      )
+      setShowPopup(true)
   }
 
   function handleToggleVisibility(){
@@ -324,7 +345,7 @@ export default function AddList(){
       
 
 
-      {showPopup && <PopupModal  onClose={handlePopupClose}/>}
+      {showPopup && <PopupModal popupMessage={popupMessage} onClose={handlePopupClose}/>}
 
       </div>
     
