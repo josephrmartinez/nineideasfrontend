@@ -1,34 +1,43 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/authContext';
-import axios from 'axios'; // Don't forget to import axios
+import axios from 'axios'; 
 
 
 export default function ViewUser(){
     const { userData } = useAuth()
     const [userProfile, setUserProfile] = useState({})
 
-
-     // Function to make login API call
-  const getUserProfile = (userData) => {
-    // Make the GET request using axios
-    axios
-      .get(`http://localhost:3000/api/users/${userData.userId}`)
-      .then((response) => {
-        console.log(response.data)
-        // set userProfile with returned data obj
-        setUserProfile(response.data)
-      })
-      .catch((error) => {
+    const getUserProfile = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
+        console.log("getUserProfile response:", response.data)
+        setUserProfile(response.data);
+      } catch (error) {
         // Handle any errors that occur during the GET request
         console.error('Error:', error);
-      });
-  };
+      }
+    };
   
 
   // useEffect with an empty dependency array to run only once when the component mounts
   useEffect(() => {
-    getUserProfile(userData); // Call the function to fetch user profile data
+    console.log("Ran useEffect in viewUser file to getUserProfile")
+    getUserProfile(); // Call the function to fetch user profile data
   }, []);
+
+
+
+  // DEVELOP STYLING FURTHER
+  const completedLists = userProfile.lists?.map((list, index) => {
+    return (
+      <div
+        className="text-left text-sm font-semibold tracking-wide text-gray-600 my-6"
+        key={index}
+      >
+        {list.topic.name}
+      </div>
+      )
+    })
 
 
     return(
@@ -40,7 +49,7 @@ export default function ViewUser(){
         </div>
         <div className='flex flex-row w-[22rem] my-16 justify-around mx-auto text-center'>
             <div className='flex flex-col w-16'>
-                <div className='text-2xl font-bold'>8</div>
+                <div className='text-2xl font-bold'>{userProfile.lists ? userProfile.lists.length : 0}</div>
                 <div className='text-sm uppercase text-neutral-600'>total lists</div>
             </div>
             <div className='flex flex-col w-16'>
@@ -56,6 +65,9 @@ export default function ViewUser(){
         
         <div className='w-full border-b-2'>
             <div className='mb-1 text-sm font-semibold uppercase text-neutral-500 tracking-wide'>completed lists</div>
+        </div>
+        <div className='w-full'>
+          <div className='w-80 mx-auto'>{completedLists}</div>
         </div>
         
 
