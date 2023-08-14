@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/authContext';
 import axios from 'axios'; 
+import { HandsClapping, Chat } from "@phosphor-icons/react";
+
 
 
 export default function ViewUser(){

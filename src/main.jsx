@@ -13,7 +13,7 @@ import LogIn from './routes/logIn';
 import SignUp from './routes/signUp';
 import ViewList from './routes/viewList';
 import ViewUser from './routes/viewUser';
-import Lists from './routes/lists';
+import Lists, {loader as listsLoader} from './routes/lists';
 
 
 const router = createBrowserRouter([
@@ -38,6 +38,7 @@ const router = createBrowserRouter([
       {
         path: "/lists",
         element: <Lists />,
+        loader: listsLoader,
       },
       {
         path: "/lists/:listId",
