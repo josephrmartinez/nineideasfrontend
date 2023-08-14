@@ -70,7 +70,7 @@ export default function ViewUser(){
         </div>
         
         <div className='w-full border-b-2'>
-            <div className='mb-1 text-sm font-semibold uppercase text-neutral-500 tracking-wide'>completed lists</div>
+            <div className='mb-1 text-sm font-semibold uppercase text-neutral-500 tracking-wide'>lists</div>
         </div>
         <div className='w-full'>
           <div className='w-80 mx-auto'>{completedLists}</div>
