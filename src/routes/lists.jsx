@@ -15,7 +15,7 @@ export default function Lists(){
     return(
         <div className="h-full overflow-y-scroll">
             {allLists.map((each) => (
-                <div className="border-b-2 w-10/12 max-w-md mx-auto my-4 cursor-pointer" key={each._id}>
+                <div className="border-b-2 w-10/12 max-w-md mx-auto my-4 cursor-pointer" key={each._id} onClick={()=> console.log(each._id)}>
                     <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                     <div className="my-4 flex flex-row justify-between">
                         <div className="text-neutral-400 text-left ">{each.author.username}</div>

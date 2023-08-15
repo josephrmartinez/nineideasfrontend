@@ -10,4 +10,6 @@
     - Add click event on each list -> navigate to view list page OR addList page if draft
     - Implement update bio functionality
 
+- Refactor addList page to utilize ReactRouter
+
 - Route update: should be able to reload on 5173/user/34857394759347
