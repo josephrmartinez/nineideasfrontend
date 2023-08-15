@@ -1,6 +1,6 @@
 - Implement display all (public) lists page
-    - Implement pending style on NavLink
     - Add click event to each list -> navigate to viewList page
+    - Implement pending style on NavLink
     
 - Implement display lists in viewUser page USING REACT ROUTER LOADERS!
     - Styling
