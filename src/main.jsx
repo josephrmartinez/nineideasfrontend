@@ -12,7 +12,7 @@ import AddList from './routes/addList';
 import LogIn from './routes/logIn';
 import SignUp from './routes/signUp';
 import ViewList, {loader as listLoader} from './routes/viewList';
-import ViewUser from './routes/viewUser';
+import ViewUser, {loader as userLoader} from './routes/viewUser';
 import Lists, {loader as listsLoader} from './routes/lists';
 
 
@@ -48,6 +48,7 @@ const router = createBrowserRouter([
       {
         path: "/user/:userId",
         element: <ViewUser />,
+        loader: userLoader
       },
     ],
   },
