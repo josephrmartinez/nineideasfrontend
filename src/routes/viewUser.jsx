@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLoaderData, redirect, useNavigation } from "react-router-dom";
+import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
 import { useAuth } from '../contexts/authContext';
 import axios from 'axios'; 
 import { HandsClapping, Chat } from "@phosphor-icons/react";
@@ -20,25 +20,26 @@ export default function ViewUser(){
     
 
 
-  // DEVELOP STYLING FURTHER
-  const completedLists = userData.lists?.map((list, index) => {
-    return (
-      <div key={index} className='my-6'>
-      <div
-        className="text-left text-sm font-semibold tracking-wide text-gray-600"
-        key={index}
-      >
-        {list.topic.name}
-      </div>
+  // // DEVELOP STYLING FURTHER
+  // const completedLists = userData.lists?.map((list, index) => {
+  //   return (
+  //     <div key={index} className='my-6'>
+  //     <div
+  //       className="text-left text-sm font-semibold tracking-wide text-gray-600"
+  //       key={index}
+  //     >
+  //       {list.topic.name}
+  //     </div>
 
-      <div className='text-xs uppercase text-left'>{list.status}</div>
-      </div>
-      )
-    })
+  //     <div className='text-xs uppercase text-left'>{list.status}</div>
+  //     </div>
+  //     )
+  //   })
 
 
-    return(
-        <>
+  return(
+    <div className="h-full flex flex-col items-center">
+      <div className='w-full border-b-2'>
         <div className='text-left mt-6 w-10/12 max-w-md mx-auto space-y-2'>
             <div className='font-bold'>{userData.username}</div>
             <div className='text-sm'>{userData.bio}</div>
@@ -59,35 +60,42 @@ export default function ViewUser(){
             </div>
             
         </div>
+        <div className='mb-1 text-sm font-semibold uppercase text-neutral-500 tracking-wide'>lists</div>
+      </div>
+
+  
         
-        <div className='w-full border-b-2'>
-            <div className='mb-1 text-sm font-semibold uppercase text-neutral-500 tracking-wide'>lists</div>
-        </div>
-        <div className='w-full'>
-          <div className='w-80 mx-auto'>{completedLists}</div>
-        </div>
+      <div className="flex-grow overflow-y-scroll w-full">
+          {userData.lists.map((each, index) => (
+              <div className={`w-10/12 max-w-md mx-auto my-4 cursor-pointer ${index !== userData.lists.length - 1 ? 'border-b-2' : ''}`} key={each._id}>
+                  <NavLink to={`/lists/${each._id}`}>
+                      <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
+                  </NavLink>
+                  <div className="my-4 flex flex-row justify-between">
+                    <div className="text-neutral-400 text-left uppercase ">{each.status}</div>
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        {each.likes.length > 0 && (
+                            <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">
+                                <HandsClapping size={22} weight="light"/>
+                                {each.likes.length}
+                            </div>
+                        )}
+                        {each.comments.length > 0 && (
+                            <div className={`grid gap-2 items-center text-neutral-600 ${each.likes.length === 0 ? 'col-start-2' : ''}`}>
+                                <Chat size={22} weight="light"/>
+                                {each.comments.length}
+                            </div>
+                        )}
+                    </div>
+
+                  </div>      
+              </div>
+          ))}
+      </div>
         
 
-        </>
-        
-    )
+    </div>
+      
+  )
 }
-
-
-// const getUserProfile = async () => {
-//   try {
-//     const response = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
-//     console.log("getUserProfile response:", response.data)
-//     setUserProfile(response.data);
-//   } catch (error) {
-//     // Handle any errors that occur during the GET request
-//     console.error('Error:', error);
-//   }
-// };
-
-
-// // useEffect with an empty dependency array to run only once when the component mounts
-// useEffect(() => {
-// console.log("Ran useEffect in viewUser file to getUserProfile")
-// getUserProfile(); // Call the function to fetch user profile data
-// }, []);

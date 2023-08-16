@@ -1,4 +1,4 @@
-import { useLoaderData, redirect, useNavigation } from "react-router-dom";
+import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { HandsClapping, Chat } from "@phosphor-icons/react";
 
@@ -21,9 +21,11 @@ export default function ViewList(){
                     {listData.topic.name}
                 </div>
                 <div className="my-4 flex flex-row justify-between">
-                    <div className="text-neutral-400 text-left ">
-                        {listData.author.username}
-                    </div>
+                    <NavLink to={`/user/${listData.author._id}`}>
+                        <div className="text-neutral-400 text-left ">
+                            {listData.author.username}
+                        </div>
+                    </NavLink>
                     {/* UPDATE WITH CONDITIONAL RENDERING FOR CLAPS AND COMMENTS */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><HandsClapping size={22} weight="light"/> 3</div>
@@ -34,7 +36,7 @@ export default function ViewList(){
         </div>
         <div className="flex-grow overflow-y-scroll">
         {listData.ideas.map((each) => (
-            <div className="border-b-2 pb-4  w-10/12 max-w-md mx-auto my-4 text-left text-neutral-600" key={each._id}>
+            <div className="border-b-2 pb-4 w-10/12 max-w-md mx-auto my-4 text-left text-neutral-600" key={each._id}>
                 {each.text}
             </div>))}
         </div>
