@@ -47,15 +47,15 @@ export default function ViewUser(){
         </div>
         <div className='flex flex-row w-[22rem] my-16 justify-around mx-auto text-center'>
             <div className='flex flex-col w-16'>
-                <div className='text-2xl font-bold'>{userData.lists ? userData.lists.length : 0}</div>
-                <div className='text-sm uppercase text-neutral-600'>total lists</div>
+                <div className='text-2xl font-bold'>{userData.completedLists}</div>
+                <div className='text-sm uppercase text-neutral-600 text-center'>finished lists</div>
             </div>
             <div className='flex flex-col w-16'>
-                <div className='text-2xl font-bold'>3</div>
+                <div className='text-2xl font-bold'>{userData.currentStreak}</div>
                 <div className='text-sm uppercase text-neutral-600'>current streak</div>
             </div>
             <div className='flex flex-col w-16'>
-                <div className='text-2xl font-bold'>3</div>
+                <div className='text-2xl font-bold'>{userData.recordStreak}</div>
                 <div className='text-sm uppercase text-neutral-600'>record streak</div>
             </div>
             

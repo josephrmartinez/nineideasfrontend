@@ -34,7 +34,7 @@ export default function ViewList(){
                 </div>      
             </div>
         </div>
-        <div className="flex-grow overflow-y-scroll">
+        <div className="flex-grow overflow-y-scroll w-full">
         {listData.ideas.map((each) => (
             <div className="border-b-2 pb-4 w-10/12 max-w-md mx-auto my-4 text-left text-neutral-600" key={each._id}>
                 {each.text}
