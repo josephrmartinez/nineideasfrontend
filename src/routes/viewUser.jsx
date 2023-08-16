@@ -14,28 +14,7 @@ export default function ViewUser(){
     // const { userData } = useAuth()
     // const [userProfile, setUserProfile] = useState({})
 
-    const { userData } = useLoaderData();
-
-
-    
-
-
-  // // DEVELOP STYLING FURTHER
-  // const completedLists = userData.lists?.map((list, index) => {
-  //   return (
-  //     <div key={index} className='my-6'>
-  //     <div
-  //       className="text-left text-sm font-semibold tracking-wide text-gray-600"
-  //       key={index}
-  //     >
-  //       {list.topic.name}
-  //     </div>
-
-  //     <div className='text-xs uppercase text-left'>{list.status}</div>
-  //     </div>
-  //     )
-  //   })
-
+  const { userData } = useLoaderData();
 
   return(
     <div className="h-full flex flex-col items-center">
