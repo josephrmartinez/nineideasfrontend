@@ -268,7 +268,7 @@ export default function AddList(){
 
 
   return (
-    <div className='mx-auto'>
+    <div className='h-full flex flex-col items-center'>
       <div className='w-[22rem] mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
         <div className='flex flex-row items-center'>
@@ -309,11 +309,13 @@ export default function AddList(){
       
 
       </div>
+
       <div className='w-[22rem] h-4 mb-4 mx-auto rounded-full border relative'>  
         <div className='absolute left-0 top-0 h-full rounded-full shadow-lg'
           style={{ width: fillWidth, background: "linear-gradient(to bottom, #6cb00e, #005c14)", transition: "width 0.4s cubic-bezier(0.3, .15, 0.35, 1)" }}>
         </div>
       </div>
+
       <div className='w-80 mx-auto'>
       { ideaList.length < 9 ? 
       <button className={`pushable ${buttonActive ? 'active' : ''}`} onClick={handleAddIdea}>
@@ -324,30 +326,26 @@ export default function AddList(){
         </span>
       </button>
       :
-    
-        <button className="pushable complete">
-          <span className="shadow"></span>
-          <span className="edge"></span>
-          <span className="front">
-            list complete
-          </span>
+      <button className="pushable complete">
+        <span className="shadow"></span>
+        <span className="edge"></span>
+        <span className="front">
+          list complete
+        </span>
       </button>  }
       </div>
       
       {ideaList.length > 0 && 
-      <div className='w-full border-t-2 mx-auto mt-8 overflow-y-scroll h-64'>
+      <div className='flex-grow overflow-y-scroll w-full border-t-2 mx-auto mt-8'>
         <div className='w-[22rem] mx-auto'>
           <IdeasList ideaList={ideaList} updateIdea={updateIdea} />
         </div>
       </div>
       }
       
-      
-
-
       {showPopup && <PopupModal popupMessage={popupMessage} onClose={handlePopupClose}/>}
 
-      </div>
+    </div>
     
   )
 }

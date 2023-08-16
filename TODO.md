@@ -1,3 +1,5 @@
+- Update idea list section height in addList page
+
 - Learn how to determine on the viewUser page if the user is viewing their own page. Check if the url param matches the id from the decoded token?
 
 - viewUser page
