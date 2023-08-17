@@ -1,7 +1,9 @@
 import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { HandsClapping, Chat } from "@phosphor-icons/react";
-
+import VisibilityToggle from "../components/VisibilityToggle";
+import { useState } from "react";
+import { toggleStatus } from "../utils/list";
 
 export async function loader({ params }) {
     const listData = await getOneList(params.listId);
@@ -11,6 +13,13 @@ export async function loader({ params }) {
 
 export default function ViewList(){
     const { listData } = useLoaderData();
+    const [privateList, setPrivateList] = useState(listData.visible)
+
+
+    // THIS ONLY WORKS ON MANUAL RELOAD. CHECK DATA BINDINGS ON REACT ROUTER
+    function handleToggleVisibility(){
+        toggleStatus(listData._id, !privateList)
+    }
 
     return(
     <div className="h-full flex flex-col items-center">
@@ -31,9 +40,14 @@ export default function ViewList(){
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><HandsClapping size={22} weight="light"/> 3</div>
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><Chat size={22} weight="light"/> 6</div>
                     </div>
-                </div>      
+                </div>
+                <div className="flex flex-row justify-end">
+                    <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/> 
+                </div>
+                     
             </div>
         </div>
+
         <div className="flex-grow overflow-y-scroll w-full">
         {listData.ideas.map((each) => (
             <div className="border-b-2 pb-4 w-10/12 max-w-md mx-auto my-4 text-left text-neutral-600" key={each._id}>

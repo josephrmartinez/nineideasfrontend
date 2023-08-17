@@ -19,3 +19,16 @@ export async function getOneList(listId) {
         throw error;
     } 
     };
+
+export async function toggleStatus(listId, visible) {
+    try {
+        const response = await axios.patch(`http://localhost:3000/api/lists/${listId}`, {
+        visible: visible,
+        });
+        console.log("Updated list after PATCH:", response.data)
+        return response.data
+        } catch (error) {
+          console.error('Error updating list:', error);
+          throw error;
+        }
+      };

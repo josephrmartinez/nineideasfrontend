@@ -5,7 +5,7 @@ const VisibilityToggle = ({privateList, onToggleClick}) => {
 
 return (
 <div 
-    className='flex flex-row items-center w-[86px] justify-between'
+    className='flex flex-row items-center w-[86px] justify-between text-neutral-600'
     >
     {privateList ? 
     <>

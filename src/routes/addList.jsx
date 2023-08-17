@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
 
+
+
 export default function AddList(){
   const [topic, setTopic] = useState({})
   const [currentIdea, setCurrentIdea] = useState("")
@@ -21,10 +23,25 @@ export default function AddList(){
   const ideaInputRef = useRef(null)
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
+  // TOPIC MANAGEMENT // 
+  const [checkme, setCheck] = useState(false)
+
+
+  // GET NEW TOPIC WHEN COMPONENT MOUNTS
+  // DEBUG: WHY IS THIS RUNNING TWICE?
+  useEffect(() => {
+
+    if (!checkme) {
+      console.log("ran getNewTopic useEffect")
+      getNewTopic()
+    }
+    setCheck(true);
+   
+  }, [])
+
   const getNewTopic = async () => {
     try {
       setIsSpinning(true);
-      setTopic({});
       const response = await axios.get('http://localhost:3000/api/topic/new');
       const newTopic = response.data;
       await new Promise(resolve => setTimeout(resolve, 300)); // Delay for 300ms
@@ -36,17 +53,14 @@ export default function AddList(){
       console.error('Error fetching data:', error);
     }
   };
-  
-  // GET NEW TOPIC WHEN COMPONENT MOUNTS
-  // DEBUG: WHY IS THIS RUNNING TWICE?
-  useEffect(() => {
-    console.log("ran getNewTopic useEffect")
-    getNewTopic()
-  }, [])
 
 
 
-  // CREATE IDEA
+
+
+  // IDEA MANAGEMENT //
+
+  // CREATE IDEA OBJ
   const postNewIdea = async () => {
     try {
       const response = await axios.post('http://localhost:3000/api/idea/', {
@@ -61,8 +75,67 @@ export default function AddList(){
     }
   };
 
-  
 
+  // ADD IDEA OBJ TO IDEASLIST
+  async function handleAddIdea() {
+    setButtonActive(true);
+    // handleAddIdeaAudio.currentTime = 0;
+    // handleAddIdeaAudio.play();
+    
+    setTimeout(() => {
+      setButtonActive(false);
+    }, 100);
+    
+    if (currentIdea.trim().length < 3) return;
+    if (ideaList.includes(currentIdea)) return;
+
+    try {
+      // SEND POST REQUEST TO CREATE IDEA
+      const newIdea = await postNewIdea();
+
+      // Update ideaList state
+      setIdeaList(prevIdeas => {
+        return [newIdea, ...prevIdeas];
+      });
+      // Set currentIdea and focus input before calling postNewListAPI
+      setCurrentIdea("");
+      ideaInputRef.current.focus();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  // Update already posted idea
+  // CURRENTLY, THIS FUNCTION TRIGGERS THE USEEFFECT BECAUSE THE LOCAL IDEALIST IS BEING UPDATED.
+  function updateIdea(index, updatedText) {
+    setIdeaList((prevList) =>
+      prevList.map((prevIdea, i) => {
+        if (i === index) {
+          return { ...prevIdea, text: updatedText }; // Update text property
+        } else {
+          return prevIdea;
+        }
+      })
+    );
+  }
+
+  function handleIdeaInputChange(event) {
+    setCurrentIdea(event.target.value)
+  }
+
+  function checkForSubmit(event) {
+    if (currentIdea.trim().length < 3) return;
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleAddIdea()
+    }
+  }
+
+
+
+  // LIST MANAGEMENT //
+
+  // CREATE LIST WITH FIRST IDEA
   const postNewList = async () => {
     try {
       // Create the new list
@@ -82,11 +155,9 @@ export default function AddList(){
     }
   };
 
-  
- 
-
   // UPDATE LIST ON IDEAS 2 - 8
   const addIdeaToList = async () => {
+    console.log("Calling addIdeaToList")
     try {
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
         ideas: ideaList,
@@ -99,12 +170,13 @@ export default function AddList(){
       }
     };
 
-
+  // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
     try {
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
         ideas: ideaList,
-        status: 'public',
+        completed: true,
+        visible: true,
         timeCompleted: Date.now()
       });
       console.log("Finished list response object:", response)
@@ -116,102 +188,37 @@ export default function AddList(){
       }
     };
 
-
-    const addListToUser = async () => {
-      try {
-        if (userData.userId) {
-          // Fetch the user's current data first
-          const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
-          const currentUserData = getUserResponse.data;
-    
-          // Create an updated lists array by pushing the new value
-          const updatedLists = [...currentUserData.lists, currentListId];
-    
-          // Make the PATCH request with the updated lists array
-          const response = await axios.patch(`http://localhost:3000/api/users/${userData.userId}`, {
-            lists: updatedLists, // Use the updated lists array
-          });
-    
-          console.log(response);
-          return response.data;
-        } else {
-          console.log("User data not available yet.");
-          return null; // Or some appropriate value indicating that the action was not performed
-        }
-      } catch (error) {
-        console.error('Error updating user:', error);
-        throw error;
-      }
-    };
-    
-
-
-  function handleLoggedOutClick(){
-    setPopupMessage(
-    <>
-    <p className="font-semibold text-md mb-1">Log in or sign up to:</p>
-    <ul className='text-sm mb-4 ml-4 list-disc'>
-      <li>Publish public lists</li>
-      <li>Comment on and like public lists</li>
-      <li>Securely save your lists</li>
-    </ul>
-    <p className='text-sm mb-4'>Or don't. You can use the site without creating an account. In this case, all of your lists are private and saved locally on your browser until you choose to clear browsing data.</p>
-    <p className='text-sm'>Make generating ideas a daily habit.</p>
-    </>
-    )
-    setShowPopup(true)
-  }
-
-  function handlePopupClose(){
-    setShowPopup(false)
-  }
-
-  function handleIncompleteListClick(){
-    setPopupMessage(
-      <>
-      <p className="font-semibold text-md mb-1">This list is not yet complete.</p>
-      <p className='text-sm mb-4'>Lists are saved as private drafts until they are completed with nine ideas.</p>
-      <p className='text-sm mb-4'>Once an idea list is complete, you can decide whether to share is publicly or to keep it private.</p>
-      <p className='text-sm'>Make generating ideas a daily habit.</p>
-      </>
-      )
-      setShowPopup(true)
-  }
-
-  function handleToggleVisibility(){
-    setPrivateList(!privateList);
-  }
-
-
-// Functions for idea management
-  // handleAddIdeaAudio.currentTime = 0;
-  // handleAddIdeaAudio.play();
-  async function handleAddIdea() {
-    setButtonActive(true);
-    
-    setTimeout(() => {
-      setButtonActive(false);
-    }, 100);
-    
-    if (currentIdea.trim().length < 3) return;
-    if (ideaList.includes(currentIdea)) return;
-  
+  const addListToUser = async () => {
     try {
-      // SEND POST REQUEST TO CREATE IDEA
-      const newIdea = await postNewIdea();
+      if (userData.userId) {
+        // Fetch the user's current data first
+        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
+        const currentUserData = getUserResponse.data;
   
-      // Update ideaList state
-      setIdeaList(prevIdeas => {
-        return [newIdea, ...prevIdeas];
-      });
-      // Set currentIdea and focus input before calling postNewListAPI
-      setCurrentIdea("");
-      ideaInputRef.current.focus();
+        // Create an updated lists array by pushing the new value
+        const updatedLists = [...currentUserData.lists, currentListId];
+  
+        // Make the PATCH request with the updated lists array
+        const response = await axios.patch(`http://localhost:3000/api/users/${userData.userId}`, {
+          lists: updatedLists, // Use the updated lists array
+        });
+  
+        console.log(response);
+        return response.data;
+      } else {
+        console.log("User data not available yet.");
+        return null; // Or some appropriate value indicating that the action was not performed
+      }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error updating user:', error);
+      throw error;
     }
-  }
+  };
+  
 
+  // Is there a better way to implement this logic?
+  // There is a bug here where a new list is generated if the user makes an edit to their first idea.
+  // Likewise, the finishList function is called every time a user makes updates to an idea in a completed list
   useEffect(() => {
     if (ideaList.length === 1) {
       postNewList();
@@ -236,31 +243,48 @@ export default function AddList(){
 
 
 
-  function handleIdeaInputChange(event) {
-    setCurrentIdea(event.target.value)
+  // TOGGLE AND POPUP MANAGEMENT //
+
+  // POPUP HANDLER FUNCTION
+  function handleLoggedOutClick(){
+    setPopupMessage(
+      <>
+      <p className="font-semibold text-md mb-1">Log in or sign up to:</p>
+      <ul className='text-sm mb-4 ml-4 list-disc'>
+        <li>Publish public lists</li>
+        <li>Comment on and like public lists</li>
+        <li>Securely save your lists</li>
+      </ul>
+      <p className='text-sm mb-4'>Or don't. You can use the site without creating an account. In this case, all of your lists are private and saved locally on your browser until you choose to clear browsing data.</p>
+      <p className='text-sm'>Make generating ideas a daily habit.</p>
+      </>
+    )
+    setShowPopup(true)
   }
 
-  function checkForSubmit(event) {
-    if (currentIdea.trim().length < 3) return;
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleAddIdea()
-    }
+  // POPUP HANDLER FUNCTION
+  function handlePopupClose(){
+    setShowPopup(false)
   }
-
-  // Update already posted idea
-  function updateIdea(index, updatedText) {
-    setIdeaList((prevList) =>
-      prevList.map((prevIdea, i) => {
-        if (i === index) {
-          return { ...prevIdea, text: updatedText }; // Update text property
-        } else {
-          return prevIdea;
-        }
-      })
-    );
-}
   
+  // POPUP HANDLER FUNCTION
+  function handleIncompleteListClick(){
+    setPopupMessage(
+      <>
+      <p className="font-semibold text-md mb-1">This list is not yet complete.</p>
+      <p className='text-sm mb-4'>Lists are saved as private drafts until they are completed with nine ideas.</p>
+      <p className='text-sm mb-4'>Once an idea list is complete, you can decide whether to share is publicly or to keep it private.</p>
+      <p className='text-sm'>Make generating ideas a daily habit.</p>
+      </>
+    )
+    setShowPopup(true)
+  }
+
+
+  function handleToggleVisibility(){
+    setPrivateList(!privateList);
+  }
+
 
 
 

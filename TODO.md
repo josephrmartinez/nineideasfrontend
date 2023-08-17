@@ -1,6 +1,11 @@
-- Update idea list section height in addList page
-
 - Learn how to determine on the viewUser page if the user is viewing their own page. Check if the url param matches the id from the decoded token?
+
+- Implement functionality to run a PATCH request on public/private toggle in addList page
+
+
+
+
+- In progress: updating list model to have boolean values for completed and visible
 
 - viewUser page
     - Add click event on each list -> navigate to addList page if draft
