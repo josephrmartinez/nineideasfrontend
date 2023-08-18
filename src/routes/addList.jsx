@@ -6,7 +6,7 @@ import { ArrowsClockwise, ToggleLeft } from "@phosphor-icons/react";
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
-
+import { fetchNewTopic } from '../utils/topic';
 
 
 export default function AddList(){
@@ -27,23 +27,14 @@ export default function AddList(){
   const [checkme, setCheck] = useState(false)
 
 
-  // GET NEW TOPIC WHEN COMPONENT MOUNTS
-  // DEBUG: WHY IS THIS RUNNING TWICE?
   useEffect(() => {
-
-    if (!checkme) {
-      console.log("ran getNewTopic useEffect")
-      getNewTopic()
-    }
-    setCheck(true);
-   
-  }, [])
+      getNewTopic();
+  }, []);
 
   const getNewTopic = async () => {
     try {
       setIsSpinning(true);
-      const response = await axios.get('http://localhost:3000/api/topic/new');
-      const newTopic = response.data;
+      const newTopic = await fetchNewTopic()
       await new Promise(resolve => setTimeout(resolve, 300)); // Delay for 300ms
       setTopic(newTopic);
       setIsSpinning(false);
@@ -53,9 +44,6 @@ export default function AddList(){
       console.error('Error fetching data:', error);
     }
   };
-
-
-
 
 
   // IDEA MANAGEMENT //

@@ -3,8 +3,6 @@
 - Implement functionality to run a PATCH request on public/private toggle in addList page
 
 
-
-
 - In progress: updating list model to have boolean values for completed and visible
 
 - viewUser page
