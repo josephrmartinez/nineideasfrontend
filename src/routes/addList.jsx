@@ -24,9 +24,8 @@ export default function AddList(){
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
   // TOPIC MANAGEMENT // 
-  const [checkme, setCheck] = useState(false)
 
-
+  // Run on component mount (occurs twice in StrictMode)
   useEffect(() => {
       getNewTopic();
   }, []);

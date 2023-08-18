@@ -1,6 +1,6 @@
 import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
 import { getOneList } from "../utils/list";
-import { HandsClapping, Chat } from "@phosphor-icons/react";
+import { HandsClapping, Chat, Trash } from "@phosphor-icons/react";
 import VisibilityToggle from "../components/VisibilityToggle";
 import { useState } from "react";
 import { toggleStatus } from "../utils/list";
@@ -21,12 +21,16 @@ export default function ViewList(){
         toggleStatus(listData._id, !privateList)
     }
 
+    function deleteList(){
+        null
+    }
+
     return(
     <div className="h-full flex flex-col items-center">
 
         <div className="border-b-2 w-full max-w-3xl">
-            <div className="w-10/12 max-w-md mx-auto my-4 cursor-pointer">
-                <div className="text-left text-neutral-700 my-4" onClick={()=> console.log(listData)}>
+            <div className="w-10/12 max-w-md mx-auto my-4">
+                <div className="text-left text-neutral-700 my-4">
                     {listData.topic.name}
                 </div>
                 <div className="my-4 flex flex-row justify-between">
@@ -42,7 +46,14 @@ export default function ViewList(){
                     </div>
                 </div>
                 <div className="flex flex-row justify-end">
-                    <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/> 
+                
+                    <div className="mr-12">
+                        
+                            <Trash size={22} weight={'thin'} className="cursor-pointer" onClick={()=> console.log(listData._id)}/>
+                        
+                    </div>
+                    {/* <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/>  */}
+                    <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div>                
                 </div>
                      
             </div>
