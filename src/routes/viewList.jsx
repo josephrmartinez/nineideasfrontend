@@ -1,4 +1,4 @@
-import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
+import { useLoaderData, redirect, useNavigation, NavLink, Form } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { HandsClapping, Chat, Trash } from "@phosphor-icons/react";
 import VisibilityToggle from "../components/VisibilityToggle";
@@ -48,8 +48,21 @@ export default function ViewList(){
                 <div className="flex flex-row justify-end">
                 
                     <div className="mr-12">
-                        
-                            <Trash size={22} weight={'thin'} className="cursor-pointer" onClick={()=> console.log(listData._id)}/>
+                    <Form
+            method="post"
+            action="delete"
+            onSubmit={(event) => {
+              if (
+                !confirm(
+                  "Please confirm you want to delete this record."
+                )
+              ) {
+                event.preventDefault();
+              }
+            }}
+          >
+            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer"/></button>
+          </Form>
                         
                     </div>
                     {/* <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/>  */}

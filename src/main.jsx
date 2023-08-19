@@ -14,6 +14,7 @@ import SignUp from './routes/signUp';
 import ViewList, {loader as listLoader} from './routes/viewList';
 import ViewUser, {loader as userLoader} from './routes/viewUser';
 import Lists, {loader as listsLoader} from './routes/lists';
+import {action as deleteListAction} from './routes/deleteList';
 
 
 const router = createBrowserRouter([
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
         path: "/lists/:listId",
         element: <ViewList />,
         loader: listLoader,
+      },
+      {
+        path: "/lists/:listId/delete",
+        action: deleteListAction,
       },
       {
         path: "/user/:userId",

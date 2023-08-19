@@ -20,6 +20,16 @@ export async function getOneList(listId) {
     } 
     };
 
+export async function deleteList(listId) {
+    try {
+        const response = await axios.delete(`http://localhost:3000/api/lists/${listId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching list:', error);
+        throw error;
+    } 
+    };
+
 export async function toggleStatus(listId, visible) {
     try {
         const response = await axios.patch(`http://localhost:3000/api/lists/${listId}`, {
