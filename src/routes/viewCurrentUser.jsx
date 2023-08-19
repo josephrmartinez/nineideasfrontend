@@ -1,19 +1,17 @@
-import { useEffect, useState } from 'react';
 import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
-import { useAuth } from '../contexts/authContext';
-import axios from 'axios'; 
 import { HandsClapping, Chat } from "@phosphor-icons/react";
-import { getUserData } from '../utils/user';
+import { useAuth } from "../contexts/authContext";
 
-export async function loader({ params }) {
-  const userData = await getUserData(params.userId);
-  return { userData };
-}
 
-export default function ViewUser(){
-  const { userData } = useLoaderData();
 
-  return(
+
+export default function ViewCurrentUser(){
+    const { userData } = useAuth()
+
+  if (!userData) {
+    // Return a loading indicator or message while userData is being fetched
+    return <div>Loading...</div>;
+  } else return(
     <div className="h-full flex flex-col items-center">
       <div className='w-full border-b-2'>
         <div className='text-left mt-6 w-10/12 max-w-md mx-auto space-y-2'>
@@ -71,7 +69,6 @@ export default function ViewUser(){
       </div>
         
 
-    </div>
-      
+    </div>  
   )
 }

@@ -4,6 +4,7 @@ import { ListPlus, StackSimple } from "@phosphor-icons/react";
 import { Outlet, NavLink, useMatch } from "react-router-dom";
 import { useAuth } from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
+import { getUserData } from '../utils/user';
 
 
 
@@ -12,10 +13,28 @@ export default function Root() {
   const isSignupActive = useMatch("/signup");
   const isListsActive = useMatch("/lists")
   const isAddListActive = useMatch("/")
-  const isUserActive = useMatch("/user/:userId")
+  const isUserActive = useMatch("/user/current")
 
-  const { userData, isLoggedIn, handleLogout } = useAuth()
+  const { userAuthData, isLoggedIn, handleLogout } = useAuth()
+  const [userData, setUserData] = useState({})
   const navigate = useNavigate()
+  
+
+  useEffect(() => {
+    if (userAuthData) {
+      const fetchUserData = async () => {
+        try {
+          const fetchedUserData = await getUserData(userAuthData.userId);
+          setUserData(fetchedUserData);
+          console.log("Fetched user data in root:", fetchedUserData)
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [userAuthData]); 
 
   function handleSignout(){
     handleLogout()
@@ -38,8 +57,8 @@ export default function Root() {
           <div className='grid grid-cols-2 gap-4'>
             {isLoggedIn ? (
               <>
-                <NavLink to={`/user/${userData.userId}`} className={`text-sm cursor-pointer ${isUserActive ? 'text-[#ff3c00] font-semibold' : 'text-neutral-700'}`}>
-                  {userData?.username}
+                <NavLink to={`/user/current`} className={`text-sm cursor-pointer ${isUserActive ? 'text-[#ff3c00] font-semibold' : 'text-neutral-700'}`}>
+                  {userAuthData?.username}
                 </NavLink>
                 <div className="text-sm cursor-pointer text-neutral-700" onClick={()=> handleSignout()}>sign out</div>
               </>
@@ -57,7 +76,7 @@ export default function Root() {
         </div>
       </div>
       <div className={`h-[calc(100vh-3.5rem)] overflow-y-auto`}>
-        <Outlet />
+        <Outlet userData={userData}/>
       </div>
       
     </div>
