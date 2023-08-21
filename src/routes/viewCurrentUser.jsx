@@ -9,6 +9,8 @@ export default function ViewCurrentUser(){
     const { userData } = useAuth()
 
   console.log(userData)
+  // This is a problem using useAuth to load the userData. The data will not update unless the whole page is manually reloaded.
+  // Determine how to use useAuth just to pass a value into a proper loader. 
 
   if (!userData) {
     // Return a loading indicator or message while userData is being fetched

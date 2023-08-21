@@ -18,7 +18,8 @@ export default function ViewList(){
     const isAuthenticatedUser = userAuthData.userId === listData.author._id
     
 
-    const [privateList, setPrivateList] = useState(listData.visible)
+    
+    const [publicList, setPublicList] = useState(listData.public)
 
 
     // THIS ONLY WORKS ON MANUAL RELOAD. CHECK DATA BINDINGS ON REACT ROUTER
@@ -72,7 +73,7 @@ export default function ViewList(){
                     </Form>
                         
                     </div>
-                    <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/> 
+                    <VisibilityToggle privateList={publicList} onToggleClick={handleToggleVisibility}/> 
                     {/* <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div>                 */}
                 </div>
                 }

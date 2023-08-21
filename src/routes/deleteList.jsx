@@ -3,5 +3,5 @@ import { deleteList } from "../utils/list";
 
 export async function action({ params }) {
   await deleteList(params.listId);
-  return redirect("/");
+  return redirect("/user/current");
 }

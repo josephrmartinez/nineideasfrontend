@@ -9,15 +9,17 @@ import { getUserData } from '../utils/user';
 
 
 export default function Root() {
+  const { userAuthData, isLoggedIn, handleLogout } = useAuth()
+  const [userData, setUserData] = useState({})
+  const navigate = useNavigate()
+
   const isLoginActive = useMatch("/login");
   const isSignupActive = useMatch("/signup");
   const isListsActive = useMatch("/lists")
   const isAddListActive = useMatch("/")
-  const isUserActive = useMatch("/user/current")
+  const isUserActive = useMatch(`/user/${userAuthData.userId}`)
 
-  const { userAuthData, isLoggedIn, handleLogout } = useAuth()
-  const [userData, setUserData] = useState({})
-  const navigate = useNavigate()
+  
   
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function Root() {
           <div className='grid grid-cols-2 gap-4'>
             {isLoggedIn ? (
               <>
-                <NavLink to={`/user/current`} className={`text-sm cursor-pointer font-semibold ${isUserActive ? 'text-[#ff3c00] ' : 'text-neutral-500'}`}>
+                <NavLink to={`/user/${userAuthData.userId}`} className={`text-sm cursor-pointer font-semibold ${isUserActive ? 'text-[#ff3c00] ' : 'text-neutral-500'}`}>
                   {userAuthData?.username}
                 </NavLink>
                 <div className="text-sm cursor-pointer font-semibold text-neutral-500" onClick={()=> handleSignout()}>sign out</div>

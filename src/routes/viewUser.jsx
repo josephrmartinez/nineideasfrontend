@@ -13,7 +13,7 @@ export async function loader({ params }) {
 export default function ViewUser(){
   const { userData } = useLoaderData();
 
-  console.log(userData)
+  
 
   return(
     <div className="h-full flex flex-col items-center">
