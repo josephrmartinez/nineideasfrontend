@@ -13,13 +13,14 @@ export async function loader({ params }) {
 export default function ViewUser(){
   const { userData } = useLoaderData();
 
+  console.log(userData)
+
   return(
     <div className="h-full flex flex-col items-center">
       <div className='w-full border-b-2'>
         <div className='text-left mt-6 w-10/12 max-w-md mx-auto space-y-2'>
             <div className='font-bold'>{userData.username}</div>
             <div className='text-sm'>{userData.bio}</div>
-            <div className='text-sm font-light italic underline underline-offset-2 cursor-pointer'>update</div>
         </div>
         <div className='flex flex-row w-[22rem] my-16 justify-around mx-auto text-center'>
             <div className='flex flex-col w-16'>
@@ -48,7 +49,7 @@ export default function ViewUser(){
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
                   <div className="my-4 flex flex-row justify-between">
-                    <div className="text-neutral-400 text-left uppercase ">{each.status}</div>
+                    <div className="text-neutral-400 text-left uppercase "> </div>
                       
                       <div className="grid grid-cols-2 gap-4">
                         {each.likes.length > 0 && (

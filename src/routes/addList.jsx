@@ -163,7 +163,7 @@ export default function AddList(){
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
         ideas: ideaList,
         completed: true,
-        visible: true,
+        public: true,
         timeCompleted: Date.now()
       });
       console.log("Finished list response object:", response)
@@ -177,16 +177,16 @@ export default function AddList(){
 
   const addListToUser = async () => {
     try {
-      if (userData.userId) {
+      if (userData._id) {
         // Fetch the user's current data first
-        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData.userId}`);
+        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData._id}`);
         const currentUserData = getUserResponse.data;
   
         // Create an updated lists array by pushing the new value
         const updatedLists = [...currentUserData.lists, currentListId];
   
         // Make the PATCH request with the updated lists array
-        const response = await axios.patch(`http://localhost:3000/api/users/${userData.userId}`, {
+        const response = await axios.patch(`http://localhost:3000/api/users/${userData._id}`, {
           lists: updatedLists, // Use the updated lists array
         });
   
@@ -260,7 +260,7 @@ export default function AddList(){
       <>
       <p className="font-semibold text-md mb-1">This list is not yet complete.</p>
       <p className='text-sm mb-4'>Lists are saved as private drafts until they are completed with nine ideas.</p>
-      <p className='text-sm mb-4'>Once an idea list is complete, you can decide whether to share is publicly or to keep it private.</p>
+      <p className='text-sm mb-4'>Once an idea list is complete, you can decide whether to share it publicly or to keep it private.</p>
       <p className='text-sm'>Make generating ideas a daily habit.</p>
       </>
     )

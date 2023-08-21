@@ -8,6 +8,8 @@ import { useAuth } from "../contexts/authContext";
 export default function ViewCurrentUser(){
     const { userData } = useAuth()
 
+  console.log(userData)
+
   if (!userData) {
     // Return a loading indicator or message while userData is being fetched
     return <div>Loading...</div>;
@@ -46,8 +48,8 @@ export default function ViewCurrentUser(){
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
                   <div className="my-4 flex flex-row justify-between">
-                    <div className="text-neutral-400 text-left uppercase ">{each.status}</div>
-                      
+                    <div className="text-neutral-400 text-left uppercase ">{each.public ? 'public' : 'private'}</div>
+                    <div className="text-neutral-400 text-left uppercase ">{each.completed ? '' : 'draft'}</div>
                       <div className="grid grid-cols-2 gap-4">
                         {each.likes.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">

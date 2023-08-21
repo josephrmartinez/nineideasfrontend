@@ -57,17 +57,17 @@ export default function Root() {
           <div className='grid grid-cols-2 gap-4'>
             {isLoggedIn ? (
               <>
-                <NavLink to={`/user/current`} className={`text-sm cursor-pointer ${isUserActive ? 'text-[#ff3c00] font-semibold' : 'text-neutral-700'}`}>
+                <NavLink to={`/user/current`} className={`text-sm cursor-pointer font-semibold ${isUserActive ? 'text-[#ff3c00] ' : 'text-neutral-500'}`}>
                   {userAuthData?.username}
                 </NavLink>
-                <div className="text-sm cursor-pointer text-neutral-700" onClick={()=> handleSignout()}>sign out</div>
+                <div className="text-sm cursor-pointer font-semibold text-neutral-500" onClick={()=> handleSignout()}>sign out</div>
               </>
             ) : (
               <>
-                <NavLink to={`/login`} className="font-normal text-neutral-700">
+                <NavLink to={`/login`} className="font-semibold text-neutral-500">
                   <div className={`text-sm cursor-pointer ${isLoginActive ? 'font-semibold text-[#ff3c00]' : ''}`}>log in</div>
                 </NavLink>
-                <NavLink to={`/signup`} className="font-normal text-neutral-700">
+                <NavLink to={`/signup`} className="font-semibold text-neutral-500">
                   <div className={`text-sm cursor-pointer w-14 ${isSignupActive ? 'font-semibold text-[#ff3c00]' : ''}`}>sign up</div>
                 </NavLink>
               </>
