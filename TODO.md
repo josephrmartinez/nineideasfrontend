@@ -1,6 +1,4 @@
-- viewList page
-    - differentiate between viewList of current and other users
-        - delete and public private toggle visible only for current user
+
 
 - viewUser page
     - Differentiate viewUser and viewCurrentUser pages

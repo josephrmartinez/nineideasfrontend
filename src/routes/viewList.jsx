@@ -1,5 +1,6 @@
 import { useLoaderData, redirect, useNavigation, NavLink, Form } from "react-router-dom";
 import { getOneList } from "../utils/list";
+import { useAuth } from "../contexts/authContext";
 import { HandsClapping, Chat, Trash } from "@phosphor-icons/react";
 import VisibilityToggle from "../components/VisibilityToggle";
 import { useState } from "react";
@@ -13,6 +14,10 @@ export async function loader({ params }) {
 
 export default function ViewList(){
     const { listData } = useLoaderData();
+    const { userAuthData } = useAuth()
+    const isAuthenticatedUser = userAuthData.userId === listData.author._id
+    
+
     const [privateList, setPrivateList] = useState(listData.visible)
 
 
@@ -45,6 +50,8 @@ export default function ViewList(){
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><Chat size={22} weight="light"/> 6</div>
                     </div>
                 </div>
+                {/* Authenticated users can view the delete and public toggle option on a list */}
+                { isAuthenticatedUser && 
                 <div className="flex flex-row justify-end">
                 
                     <div className="mr-12">
@@ -68,6 +75,7 @@ export default function ViewList(){
                     {/* <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/>  */}
                     <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div>                
                 </div>
+                }
                      
             </div>
         </div>
