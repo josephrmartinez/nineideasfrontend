@@ -56,24 +56,24 @@ export default function ViewList(){
                 
                     <div className="mr-12">
                     <Form
-            method="post"
-            action="delete"
-            onSubmit={(event) => {
-              if (
-                !confirm(
-                  "Please confirm you want to delete this record."
-                )
-              ) {
-                event.preventDefault();
-              }
-            }}
-          >
-            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer"/></button>
-          </Form>
+                        method="post"
+                        action="delete"
+                        onSubmit={(event) => {
+                        if (
+                            !confirm(
+                            "Please confirm you want to delete this record."
+                            )
+                        ) {
+                            event.preventDefault();
+                        }
+                        }}
+                    >
+                        <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer"/></button>
+                    </Form>
                         
                     </div>
-                    {/* <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/>  */}
-                    <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div>                
+                    <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/> 
+                    {/* <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div>                 */}
                 </div>
                 }
                      

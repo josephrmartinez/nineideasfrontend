@@ -19,7 +19,7 @@ export default function AddList(){
   const { isLoggedIn, userData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const [popupMessage, setPopupMessage] = useState({})
-  const [privateList, setPrivateList] = useState(true)
+  const [publicList, setPublicList] = useState(true)
   const ideaInputRef = useRef(null)
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
@@ -167,7 +167,7 @@ export default function AddList(){
         timeCompleted: Date.now()
       });
       console.log("Finished list response object:", response)
-      setPrivateList(false)
+      setPublicList(true)
       return response.data
       } catch (error) {
         console.error('Error updating list:', error);
@@ -269,7 +269,7 @@ export default function AddList(){
 
 
   function handleToggleVisibility(){
-    setPrivateList(!privateList);
+    setPublicList(!publicList);
   }
 
 
@@ -285,16 +285,16 @@ export default function AddList(){
         <div className='flex flex-row items-center'>
           <ArrowsClockwise
             size={24}
-            className={`cursor-pointer mr-2 ${isSpinning ? 'animate-spin' : ''}`}
+            className={`cursor-pointer text-neutral-600 mr-2 ${isSpinning ? 'animate-spin' : ''}`}
             onClick={getNewTopic}
           />
           <div className='text-sm uppercase select-none'>topic</div>
       </div>
 
         { isLoggedIn && ideaList.length === 9 ? (
-        <VisibilityToggle privateList={privateList} onToggleClick={handleToggleVisibility}/> 
+        <VisibilityToggle publicList={publicList} onToggleClick={handleToggleVisibility}/> 
         ) : (
-        <div className='flex flex-row items-center w-[86px] justify-between'>
+        <div className='flex flex-row items-center w-[86px] justify-between text-neutral-600'>
           <ToggleLeft 
             size={24} 
             className='cursor-pointer' 
@@ -308,15 +308,18 @@ export default function AddList(){
         {topic.name}{topic.name ? ':' : ''}
       </div>
 
+        
       <textarea
-        className='w-[22rem] h-20 mb-3 outline-none border bg-neutral-50'
+        className={`w-[22rem] mb-3 outline-none bg-neutral-50 ${ideaList.length >= 9 ? 'h-0 border-none transition-all duration-700' : 'h-20 border'}`}
         value={currentIdea}
         ref={ideaInputRef}
         autoFocus
+        disabled={ideaList.length === 9}
         onChange={handleIdeaInputChange}
         onKeyDown={checkForSubmit}
       >
       </textarea> 
+      
       
 
       </div>
