@@ -1,12 +1,11 @@
-import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
+import { useLoaderData, redirect, useLocation, NavLink } from "react-router-dom";
 import { HandsClapping, Chat } from "@phosphor-icons/react";
 import { useAuth } from "../contexts/authContext";
 
 
-
-
 export default function ViewCurrentUser(){
-    const { userData } = useAuth()
+  const location = useLocation();
+  const userData = location.state?.userData
 
   console.log(userData)
   // This is a problem using useAuth to load the userData. The data will not update unless the whole page is manually reloaded.

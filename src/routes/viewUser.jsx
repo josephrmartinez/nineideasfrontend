@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
+import { useLoaderData, redirect, useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from '../contexts/authContext';
 import axios from 'axios'; 
 import { HandsClapping, Chat } from "@phosphor-icons/react";
 import { getUserData } from '../utils/user';
+import { useMatch } from 'react-router-dom';
 
 export async function loader({ params }) {
   const userData = await getUserData(params.userId);
@@ -12,6 +13,17 @@ export async function loader({ params }) {
 
 export default function ViewUser(){
   const { userData } = useLoaderData();
+  const { userAuthData } = useAuth()
+  const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    const isCurrentUser = userAuthData.userId === userData._id;
+
+    if (isCurrentUser) {
+      navigate('/user/current', { state: { userData } });
+    }
+  }, [userAuthData, userData, navigate]);
 
   
 
