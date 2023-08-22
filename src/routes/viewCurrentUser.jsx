@@ -2,6 +2,12 @@ import { useLoaderData, redirect, useLocation, NavLink } from "react-router-dom"
 import { HandsClapping, Chat } from "@phosphor-icons/react";
 import { useAuth } from "../contexts/authContext";
 
+// DEPRICATING THIS ROUTE
+
+// export async function action(){
+//   const contact = await createContact();
+//   return redirect(`/contacts/${contact.id}/edit`)
+// }
 
 export default function ViewCurrentUser(){
   const location = useLocation();

@@ -17,26 +17,24 @@ export default function Root() {
   const isSignupActive = useMatch("/signup");
   const isListsActive = useMatch("/lists")
   const isAddListActive = useMatch("/")
-  const isUserActive = useMatch(`/user/current`)
+  const isUserActive = useMatch(`/user/${userAuthData?.userId}`)
 
   
-  
+  // useEffect(() => {
+  //   if (userAuthData) {
+  //     const fetchUserData = async () => {
+  //       try {
+  //         const fetchedUserData = await getUserData(userAuthData.userId);
+  //         setUserData(fetchedUserData);
+  //         console.log("Fetched user data in root:", fetchedUserData)
+  //       } catch (error) {
+  //         console.error('Error fetching user data:', error);
+  //       }
+  //     };
 
-  useEffect(() => {
-    if (userAuthData) {
-      const fetchUserData = async () => {
-        try {
-          const fetchedUserData = await getUserData(userAuthData.userId);
-          setUserData(fetchedUserData);
-          console.log("Fetched user data in root:", fetchedUserData)
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      };
-
-      fetchUserData();
-    }
-  }, [userAuthData]); 
+  //     fetchUserData();
+  //   }
+  // }, [userAuthData]); 
 
   function handleSignout(){
     handleLogout()
@@ -78,7 +76,7 @@ export default function Root() {
         </div>
       </div>
       <div className={`h-[calc(100vh-3.5rem)] overflow-y-auto`}>
-        <Outlet userData={userData}/>
+        <Outlet/>
       </div>
       
     </div>

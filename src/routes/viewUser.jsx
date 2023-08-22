@@ -16,15 +16,17 @@ export default function ViewUser(){
   const { userAuthData } = useAuth()
   const navigate = useNavigate();
 
-  
-  useEffect(() => {
-    const isCurrentUser = userAuthData.userId === userData._id;
+  // Redirect to /user/current
+  // useEffect(() => {
+  //   const isCurrentUser = userAuthData.userId === userData._id;
 
-    if (isCurrentUser) {
-      navigate('/user/current', { state: { userData } });
-    }
-  }, [userAuthData, userData, navigate]);
+  //   if (isCurrentUser) {
+  //     navigate('/user/current', { state: { userData } });
+  //   }
+  // }, [userAuthData, userData, navigate]);
 
+
+  const isCurrentUser = userAuthData.userId === userData._id;
   
 
   return(
@@ -33,6 +35,11 @@ export default function ViewUser(){
         <div className='text-left mt-6 w-10/12 max-w-md mx-auto space-y-2'>
             <div className='font-bold'>{userData.username}</div>
             <div className='text-sm'>{userData.bio}</div>
+            {isCurrentUser ? 
+            <div className='text-sm font-light italic underline underline-offset-2 cursor-pointer'>update</div>
+            :
+            <div> </div>}
+
         </div>
         <div className='flex flex-row w-[22rem] my-16 justify-around mx-auto text-center'>
             <div className='flex flex-col w-16'>
@@ -61,8 +68,11 @@ export default function ViewUser(){
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
                   <div className="my-4 flex flex-row justify-between">
-                    <div className="text-neutral-400 text-left uppercase "> </div>
-                      
+                    { isCurrentUser &&
+                      <>
+                    <div className="text-neutral-400 text-left uppercase ">{each.public ? 'public' : 'private'}</div>
+                    <div className="text-neutral-400 text-left uppercase ">{each.completed ? '' : 'draft'}</div>
+                      </>}
                       <div className="grid grid-cols-2 gap-4">
                         {each.likes.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">

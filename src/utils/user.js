@@ -11,3 +11,7 @@ export async function getUserData(userId) {
     } 
     };
 
+ 
+    export async function updateUser(userId) {
+    return null
+    }
