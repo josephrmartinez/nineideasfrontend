@@ -15,7 +15,7 @@ export async function loader({ params }) {
 export default function ViewList(){
     const { listData } = useLoaderData();
     const { userAuthData } = useAuth()
-    const isAuthenticatedUser = userAuthData.userId === listData.author._id
+    const isCurrentUserList = userAuthData.userId === listData.author._id
     
 
     
@@ -51,8 +51,8 @@ export default function ViewList(){
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><Chat size={22} weight="light"/> 6</div>
                     </div>
                 </div>
-                {/* Authenticated users can view the delete and public toggle option on a list */}
-                { isAuthenticatedUser && 
+                {/* users can view the delete and public toggle option on their OWN lists */}
+                { isCurrentUserList && 
                 <div className="flex flex-row justify-end">
                 
                     <div className="mr-12">

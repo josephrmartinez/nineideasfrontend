@@ -14,8 +14,6 @@ import LogIn from './routes/logIn';
 import SignUp from './routes/signUp';
 import ViewList, {loader as listLoader} from './routes/viewList';
 import ViewUser, {loader as userLoader} from './routes/viewUser';
-import ViewCurrentUser from './routes/viewCurrentUser';
-import EditCurrentUser from './routes/editCurrentUser';
 import Lists, {loader as listsLoader} from './routes/lists';
 import {action as deleteListAction} from './routes/deleteList';
 // import CurrentUserDataLoader from './utils/CurrentUserDataLoader';
@@ -58,14 +56,6 @@ const router = createBrowserRouter([
         path: "/user/:userId",
         element: <ViewUser />,
         loader: userLoader
-      },
-      {
-        path: "/user/current",
-        element: <ViewCurrentUser/>
-      },
-      {
-        path: "/user/current/edit",
-        element: <EditCurrentUser/>
       },
     ],
   },
