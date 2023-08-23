@@ -17,14 +17,14 @@ export default function ViewList(){
     const { userAuthData } = useAuth()
     const isCurrentUserList = userAuthData.userId === listData.author._id
     
-
-    
     const [publicList, setPublicList] = useState(listData.public)
 
+    console.log("List data:", listData)
 
     // THIS ONLY WORKS ON MANUAL RELOAD. CHECK DATA BINDINGS ON REACT ROUTER
+    // USE ACTION INSTEAD???
     function handleToggleVisibility(){
-        toggleStatus(listData._id, !privateList)
+        toggleStatus(listData._id, publicList)
     }
 
     function deleteList(){

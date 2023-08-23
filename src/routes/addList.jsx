@@ -12,8 +12,10 @@ import { fetchNewTopic } from '../utils/topic';
 export default function AddList(){
   const [topic, setTopic] = useState({})
   const [currentIdea, setCurrentIdea] = useState("")
+
   const [ideaList, setIdeaList] = useState([])
   const [currentListId, setCurrentListId] = useState("")
+  
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn, userData } = useAuth()
@@ -26,6 +28,7 @@ export default function AddList(){
   // TOPIC MANAGEMENT // 
 
   // Run on component mount (occurs twice in StrictMode)
+  // UPDATE THIS SO THAT PASSED IN DATA IS NOT OVERWRITTEN
   useEffect(() => {
       getNewTopic();
   }, []);

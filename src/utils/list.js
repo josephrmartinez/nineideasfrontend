@@ -30,10 +30,10 @@ export async function deleteList(listId) {
     } 
     };
 
-export async function toggleStatus(listId, visible) {
+export async function toggleStatus(listId, publicList) {
     try {
         const response = await axios.patch(`http://localhost:3000/api/lists/${listId}`, {
-        visible: visible,
+        public: publicList,
         });
         console.log("Updated list after PATCH:", response.data)
         return response.data
