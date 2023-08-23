@@ -1,48 +1,52 @@
-import { useEffect, useState } from 'react';
-import { useLoaderData, redirect, useNavigate, NavLink, Form } from "react-router-dom";
-import { useAuth } from '../contexts/authContext';
-import axios from 'axios'; 
-import { HandsClapping, Chat } from "@phosphor-icons/react";
-import { getUserData } from '../utils/user';
-import { useMatch } from 'react-router-dom';
+import { Form, useLoaderData, redirect, NavLink } from "react-router-dom";
+import { updateUser } from "../utils/user";
+import { getUserData } from "../utils/user";
+
 
 export async function loader({ params }) {
   const userData = await getUserData(params.userId);
   return { userData };
 }
 
-export default function ViewUser(){
+export async function action({ request, params }) {
+    const formData = await request.formData();
+    const updates = Object.fromEntries(formData);
+    
+    await updateUser(params.userId, updates);
+    return redirect(`/user/${params.userId}`);
+  }
+
+export default function EditUser() {
   const { userData } = useLoaderData();
-  const { userAuthData } = useAuth()
-  const navigate = useNavigate();
-
-  // Redirect to /user/current
-  // useEffect(() => {
-  //   const isCurrentUser = userAuthData.userId === userData._id;
-
-  //   if (isCurrentUser) {
-  //     navigate('/user/current', { state: { userData } });
-  //   }
-  // }, [userAuthData, userData, navigate]);
-
-
-  const isCurrentUser = userAuthData.userId === userData._id;
-  
 
   return(
     <div className="h-full flex flex-col items-center">
       <div className='w-full border-b-2'>
         <div className='text-left mt-6 w-10/12 max-w-md mx-auto space-y-2'>
+        <Form method="post">
+            {/* <div>
+              <input
+              className='font-bold border'
+            placeholder="username"
+            aria-label="username"
+            type="text"
+            name="username"
+            defaultValue={userData.username}
+              />
+            </div> */}
             <div className='font-bold'>{userData.username}</div>
-            <div className='text-sm'>{userData.bio}</div>
-            {isCurrentUser ? 
-            <Form action="edit">
-              <button type='submit'>
-                <div className='text-sm font-light italic underline underline-offset-2 cursor-pointer'>update</div>
-              </button>
-            </Form>
-            :
-            <div> </div>}
+            <div className="my-[6px]">
+              <input
+                  className='text-sm border'
+                placeholder="bio"
+                aria-label="bio"
+                type="text"
+                name="bio"
+                defaultValue={userData.bio}
+              />
+            </div>
+            <button type="submit"><div className='text-sm font-light italic underline underline-offset-2 cursor-pointer'>save</div></button>
+        </Form>
 
         </div>
         <div className='flex flex-row w-[22rem] my-16 justify-around mx-auto text-center'>
@@ -72,11 +76,10 @@ export default function ViewUser(){
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
                   <div className="my-4 flex flex-row justify-between">
-                    { isCurrentUser &&
-                      <>
+                    
                     <div className="text-neutral-400 text-left uppercase ">{each.public ? 'public' : 'private'}</div>
                     <div className="text-neutral-400 text-left uppercase ">{each.completed ? '' : 'draft'}</div>
-                      </>}
+                      
                       <div className="grid grid-cols-2 gap-4">
                         {each.likes.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">

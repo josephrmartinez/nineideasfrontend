@@ -17,7 +17,7 @@ export default function Root() {
   const isSignupActive = useMatch("/signup");
   const isListsActive = useMatch("/lists")
   const isAddListActive = useMatch("/")
-  const isUserActive = useMatch(`/user/${userAuthData?.userId}`)
+  const isUserActive = useMatch(`/user/${userAuthData?.userId}/*`)
 
   
   // useEffect(() => {
