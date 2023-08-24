@@ -1,32 +1,36 @@
-import { useLoaderData, redirect, useNavigation, NavLink, Form } from "react-router-dom";
+import { useLoaderData, redirect, useNavigation, useFetcher, NavLink, Form } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { useAuth } from "../contexts/authContext";
-import { HandsClapping, Chat, Trash } from "@phosphor-icons/react";
-import VisibilityToggle from "../components/VisibilityToggle";
+import { HandsClapping, Chat, Trash, ToggleLeft, ToggleRight } from "@phosphor-icons/react";
+// import VisibilityToggle from "../components/VisibilityToggle";
 import { useState } from "react";
-import { toggleStatus } from "../utils/list";
+import { toggleStatus, updateList } from "../utils/list";
 
 export async function loader({ params }) {
     const listData = await getOneList(params.listId);
     return { listData };
   }
 
+export async function action({ request, params }) {
+let formData = await request.formData();
+return updateList(params.listId, 
+    (formData.get("visibilityToggle") === "true")
+);
+}
 
 export default function ViewList(){
     const { listData } = useLoaderData();
     const { userAuthData } = useAuth()
     const isCurrentUserList = userAuthData.userId === listData.author._id
     
-    const [publicList, setPublicList] = useState(listData.public)
+    // const [publicList, setPublicList] = useState(listData.public)
     // THIS ONLY WORKS ON MANUAL RELOAD. CHECK DATA BINDINGS ON REACT ROUTER
     // USE ACTION INSTEAD???
-    function handleToggleVisibility(){
-        toggleStatus(listData._id, publicList)
-    }
+    // function handleToggleVisibility(){
+    //     toggleStatus(listData._id, publicList)
+    // }
 
-    function deleteList(){
-        null
-    }
+   
 
     return(
     <div className="h-full flex flex-col items-center">
@@ -70,7 +74,7 @@ export default function ViewList(){
                     </Form>
                         
                     </div>
-                    <VisibilityToggle privateList={publicList} onToggleClick={handleToggleVisibility}/> 
+                    <VisibilityToggle listData={listData} /> 
                     {/* <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div>                 */}
                 </div>
                 }
@@ -88,3 +92,30 @@ export default function ViewList(){
     </div>
     )
 }
+
+const VisibilityToggle = ({listData}) => {
+    const fetcher = useFetcher();
+    let publicList = listData.public
+
+
+    return (
+        <fetcher.Form method="post">
+            <button
+                name="visibilityToggle"
+                value={publicList ? "false" : "true"} 
+                className='flex flex-row items-center w-[86px] justify-between text-neutral-600'
+                >
+                {publicList ? 
+                <>
+                <ToggleRight size={24} className='cursor-pointer'/>
+                <div className='text-sm uppercase select-none'>public</div>
+                </>
+                :
+                <>
+                <ToggleLeft size={24} className='cursor-pointer'/>
+                <div className='text-sm uppercase select-none'>private</div>
+                </>}
+            </button>
+        </fetcher.Form>
+    )
+        }

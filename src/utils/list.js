@@ -42,3 +42,17 @@ export async function toggleStatus(listId, publicList) {
           throw error;
         }
       };
+
+export async function updateList(listId, publicList) {
+    console.log("updateList value passed in:", publicList)
+    try {
+        const response = await axios.patch(`http://localhost:3000/api/lists/${listId}`, {
+        public: publicList,
+        });
+        console.log("Updated list after PATCH:", response.data)
+        return response.data
+        } catch (error) {
+            console.error('Error updating list:', error);
+            throw error;
+        }
+        };
