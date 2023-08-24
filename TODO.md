@@ -1,4 +1,3 @@
-- Implement (action?) functionality to run a PATCH request on public/private toggle in addList and viewList pages
 
 - viewUser page
     - Add click event on each list -> navigate to addList page if draft and pass along needed props to populate page correctly.
