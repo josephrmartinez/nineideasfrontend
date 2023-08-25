@@ -7,10 +7,13 @@ import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
 import { fetchNewTopic } from '../utils/topic';
+import { useLocation } from 'react-router-dom';
 
 
 export default function AddList(){
-  const [topic, setTopic] = useState({})
+  const location = useLocation();
+
+  const [topic, setTopic] = useState(location.state?.topic || {})
   const [currentIdea, setCurrentIdea] = useState("")
 
   const [ideaList, setIdeaList] = useState([])
@@ -30,7 +33,9 @@ export default function AddList(){
   // Run on component mount (occurs twice in StrictMode)
   // UPDATE THIS SO THAT PASSED IN DATA IS NOT OVERWRITTEN
   useEffect(() => {
+    if (location.state?.topic == null){
       getNewTopic();
+    }
   }, []);
 
   const getNewTopic = async () => {

@@ -1,7 +1,7 @@
-import { useLoaderData, redirect, useNavigation, useFetcher, NavLink, Form } from "react-router-dom";
+import { useLoaderData, redirect, useNavigation, useFetcher, NavLink, Form, useNavigate } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { useAuth } from "../contexts/authContext";
-import { HandsClapping, Chat, Trash, ToggleLeft, ToggleRight } from "@phosphor-icons/react";
+import { HandsClapping, Chat, Trash, ToggleLeft, ToggleRight, ArrowBendDoubleUpRight } from "@phosphor-icons/react";
 // import VisibilityToggle from "../components/VisibilityToggle";
 import { useState } from "react";
 import { toggleStatus, updateList } from "../utils/list";
@@ -18,18 +18,20 @@ return updateList(params.listId,
 );
 }
 
+
+
 export default function ViewList(){
     const { listData } = useLoaderData();
     const { userAuthData } = useAuth()
+    const navigate = useNavigate()
     const isCurrentUserList = userAuthData.userId === listData.author._id
     
-    // const [publicList, setPublicList] = useState(listData.public)
-    // THIS ONLY WORKS ON MANUAL RELOAD. CHECK DATA BINDINGS ON REACT ROUTER
-    // USE ACTION INSTEAD???
-    // function handleToggleVisibility(){
-    //     toggleStatus(listData._id, publicList)
-    // }
+    
 
+    function createListOnTopic(){
+        navigate('/', { state: {topic: listData.topic}})
+    }
+    
    
 
     return(
@@ -37,9 +39,11 @@ export default function ViewList(){
 
         <div className="border-b-2 w-full max-w-3xl">
             <div className="w-10/12 max-w-md mx-auto my-4">
+                
                 <div className="text-left text-neutral-700 my-4">
                     {listData.topic.name}
                 </div>
+                
                 <div className="my-4 flex flex-row justify-between">
                     <NavLink to={`/user/${listData.author._id}`}>
                         <div className="text-neutral-400 text-left ">
@@ -50,6 +54,7 @@ export default function ViewList(){
                     <div className="grid grid-cols-2 gap-4">
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><HandsClapping size={22} weight="light"/> 3</div>
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><Chat size={22} weight="light"/> 6</div>
+                        
                     </div>
                 </div>
                 {/* users can view the delete and public toggle option on their OWN lists */}
@@ -75,9 +80,19 @@ export default function ViewList(){
                         
                     </div>
                     <VisibilityToggle listData={listData} /> 
-                    {/* <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div>                 */}
+                    {/* <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div> */}
                 </div>
                 }
+                { !isCurrentUserList &&
+                    <div className="flex flex-row justify-end">
+                    <div 
+                    className="flex flex-row cursor-pointer items-center underline underline-offset-4 text-neutral-600"
+                    onClick={createListOnTopic}
+                    >
+                        <div className='text-sm uppercase mr-2'>create list</div>
+                        <ArrowBendDoubleUpRight size={22} weight="light"/>
+                    </div>
+                    </div> }
                      
             </div>
         </div>
