@@ -2,7 +2,6 @@ import { useLoaderData, redirect, useNavigation, useFetcher, NavLink, Form, useN
 import { getOneList } from "../utils/list";
 import { useAuth } from "../contexts/authContext";
 import { HandsClapping, Chat, Trash, ToggleLeft, ToggleRight, ArrowBendDoubleUpRight } from "@phosphor-icons/react";
-// import VisibilityToggle from "../components/VisibilityToggle";
 import { useState } from "react";
 import { toggleStatus, updateList } from "../utils/list";
 
@@ -11,10 +10,16 @@ export async function loader({ params }) {
     return { listData };
   }
 
+// IN PROGRESS
+// HOW TO TOGGLE LIKES BEING ADDED AND REMOVED
 export async function action({ request, params }) {
 let formData = await request.formData();
-return updateList(params.listId, 
-    (formData.get("visibilityToggle") === "true")
+return updateList(params.listId, {
+    public: (formData.get("visibilityToggle") === "true"),
+    likes: (formData.get("likeToggle"))
+
+}
+    
 );
 }
 
@@ -26,10 +31,16 @@ export default function ViewList(){
     const navigate = useNavigate()
     const isCurrentUserList = userAuthData.userId === listData.author._id
     
-    
+    console.log("listData:", listData)
+    console.log("currentUserId:", userAuthData.userId)
 
     function createListOnTopic(){
         navigate('/', { state: {topic: listData.topic}})
+    }
+
+    function likeTopic(){
+        // Should the function go here?
+        // Or should I write an action like I did for the visibilityToggle?
     }
     
    
@@ -50,14 +61,15 @@ export default function ViewList(){
                             {listData.author.username}
                         </div>
                     </NavLink>
-                    {/* UPDATE WITH CONDITIONAL RENDERING FOR CLAPS AND COMMENTS */}
+                    
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><HandsClapping size={22} weight="light"/> 3</div>
+                        
+                        <LikeIcon listData={listData} userAuthData={userAuthData}/>
                         <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><Chat size={22} weight="light"/> 6</div>
                         
                     </div>
                 </div>
-                {/* users can view the delete and public toggle option on their OWN lists */}
+                
                 { isCurrentUserList && 
                 <div className="flex flex-row justify-end">
                 
@@ -80,7 +92,6 @@ export default function ViewList(){
                         
                     </div>
                     <VisibilityToggle listData={listData} /> 
-                    {/* <div className="cursor-pointer uppercase text-sm text-neutral-700">public</div> */}
                 </div>
                 }
                 { !isCurrentUserList &&
@@ -89,7 +100,7 @@ export default function ViewList(){
                     className="flex flex-row cursor-pointer items-center underline underline-offset-4 text-neutral-600"
                     onClick={createListOnTopic}
                     >
-                        <div className='text-sm uppercase mr-2'>create list</div>
+                        <div className='text-sm uppercase mr-2'>use topic</div>
                         <ArrowBendDoubleUpRight size={22} weight="light"/>
                     </div>
                     </div> }
@@ -134,3 +145,25 @@ const VisibilityToggle = ({listData}) => {
         </fetcher.Form>
     )
         }
+
+
+// IN PROGRESS
+        const LikeIcon = ({listData, userAuthData}) => {
+            const fetcher = useFetcher();
+            let likes = listData.likes
+            const hasLiked = listData.likes?.includes(userAuthData.userId) 
+        
+            return (
+                <fetcher.Form method="post">
+                    <button
+                        name="likeToggle"
+                        value={userAuthData.userId}
+                        className='flex flex-row items-center w-[86px] justify-between text-neutral-600'
+                        >
+                        <HandsClapping size={22} weight={hasLiked ? "fill" : "light"}/>
+                    </button>
+                        {/* HOW TO HANDLE LIKES AS EMPTY ARRAY? */}
+                        <div>{likes?.length}</div>
+                </fetcher.Form>
+            )
+                }

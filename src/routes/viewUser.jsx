@@ -16,6 +16,8 @@ export default function ViewUser(){
   const { userAuthData } = useAuth()
   const navigate = useNavigate();
 
+  console.log("userData from loader:", userData)
+
   // Redirect to /user/current
   // useEffect(() => {
   //   const isCurrentUser = userAuthData.userId === userData._id;
@@ -78,7 +80,7 @@ export default function ViewUser(){
                     <div className="text-neutral-400 text-left uppercase ">{each.completed ? '' : 'draft'}</div>
                       </>}
                       <div className="grid grid-cols-2 gap-4">
-                        {each.likes.length > 0 && (
+                        {each.likes?.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">
                                 <HandsClapping size={22} weight="light"/>
                                 {each.likes.length}
