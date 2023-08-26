@@ -10,17 +10,16 @@ export async function loader({ params }) {
     return { listData };
   }
 
-// IN PROGRESS
-// HOW TO TOGGLE LIKES BEING ADDED AND REMOVED
-export async function action({ request, params }) {
-let formData = await request.formData();
-return updateList(params.listId, {
-    public: (formData.get("visibilityToggle") === "true"),
-    likes: (formData.get("likeToggle"))
 
-}
+export async function action({ request, params }) {
+    const formData = await request.formData();
+    const updates = Object.fromEntries(formData);
+
+    console.log("formData updates:", updates)
     
-);
+    return updateList(params.listId, {
+        updates
+    });
 }
 
 
@@ -127,7 +126,7 @@ const VisibilityToggle = ({listData}) => {
     return (
         <fetcher.Form method="post">
             <button
-                name="visibilityToggle"
+                name="public"
                 value={publicList ? "false" : "true"} 
                 className='flex flex-row items-center w-[86px] justify-between text-neutral-600'
                 >
@@ -150,19 +149,28 @@ const VisibilityToggle = ({listData}) => {
 // IN PROGRESS
         const LikeIcon = ({listData, userAuthData}) => {
             const fetcher = useFetcher();
-            let likes = listData.likes
-            const hasLiked = listData.likes?.includes(userAuthData.userId) 
-        
+            let likes = [...(listData.likes ?? [])];
+
+            const hasLiked = likes.includes(userAuthData.userId)         
+
+            if (hasLiked) {
+                likes= likes.filter(item => item !== userAuthData.userId)
+            } else {
+                likes.push(userAuthData.userId)
+            }
+
+            
+
             return (
                 <fetcher.Form method="post">
                     <button
-                        name="likeToggle"
-                        value={userAuthData.userId}
+                        name="likes"
+                        value={likes.join(',')}
                         className='flex flex-row items-center w-[86px] justify-between text-neutral-600'
                         >
                         <HandsClapping size={22} weight={hasLiked ? "fill" : "light"}/>
                     </button>
-                        {/* HOW TO HANDLE LIKES AS EMPTY ARRAY? */}
+                        
                         <div>{likes?.length}</div>
                 </fetcher.Form>
             )
