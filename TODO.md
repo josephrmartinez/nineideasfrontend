@@ -14,6 +14,7 @@
 - sign up
     - make email optional. write warning about no password recovery without email.
     - confirm username needs to be unique on sign up
+    - BUG: After a user signs up, they are redirected to the addList page, but the userData does not appear to be updating correctly. This may be due to useAuth not rerunning. 
 
 - viewUser page
     - Add click event on each list -> navigate to addList page if draft and pass along needed props to populate page correctly.

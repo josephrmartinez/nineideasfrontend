@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import '../App.css'
 import VisibilityToggle from '../components/VisibilityToggle';
 import PopupModal from '../components/PopupModal';
-import { ArrowsClockwise, ToggleLeft } from "@phosphor-icons/react";
+import { ArrowsClockwise, ToggleLeft, LockLaminated, LockKeyOpen } from "@phosphor-icons/react";
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
@@ -334,8 +334,9 @@ export default function AddList(){
         <VisibilityToggle publicList={publicList} onToggleClick={handleToggleVisibility}/> 
         ) : (
         <div className='flex flex-row items-center w-[86px] justify-between text-neutral-600'>
-          <ToggleLeft 
+          <LockLaminated 
             size={24} 
+            weight='light'
             className='cursor-pointer' 
             onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }/>
           <div className='text-sm uppercase select-none'>private</div>

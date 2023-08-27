@@ -77,6 +77,8 @@ export default function ViewUser(){
                         }
                      </div>
                     }
+                    { ! isCurrentUser &&
+                    <div></div>}
                       <div className="">
                         {each.likes?.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">

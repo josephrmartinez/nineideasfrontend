@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ToggleLeft, ToggleRight } from "@phosphor-icons/react";
+import { ToggleLeft, ToggleRight, LockLaminated, LockKeyOpen } from "@phosphor-icons/react";
 
 const VisibilityToggle = ({publicList, onToggleClick}) => {
 
@@ -9,11 +9,11 @@ return (
     >
     {!publicList ? 
     <>
-    <ToggleLeft size={24} className='cursor-pointer' onClick={onToggleClick}/>
+    <LockLaminated size={24} weight="light" className='cursor-pointer' onClick={onToggleClick}/>
     <div className='text-sm uppercase select-none'>private</div>
     </>
     : <>
-    <ToggleRight size={24} className='cursor-pointer' onClick={onToggleClick}/>
+    <LockKeyOpen size={24} weight="light" className='cursor-pointer' onClick={onToggleClick}/>
     <div className='text-sm uppercase select-none'>public</div>
     </>}
 </div>
