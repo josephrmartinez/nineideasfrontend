@@ -75,18 +75,24 @@ export default function EditUser() {
   
         
       <div className="flex-grow overflow-y-scroll w-full">
-          {userData.lists.map((each, index) => (
+          {userData.lists
+          .filter(each => each !== null)
+          .map((each, index) => (
               <div className={`w-10/12 max-w-md mx-auto my-4 cursor-pointer ${index !== userData.lists.length - 1 ? 'border-b-2' : ''}`} key={each._id}>
                   <NavLink to={`/lists/${each._id}`}>
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
                   <div className="my-4 flex flex-row justify-between">
-                    { isCurrentUser &&
-                      <>
-                    <div className="text-neutral-400 text-left uppercase ">{each.public ? 'public' : 'private'}</div>
-                    <div className="text-neutral-400 text-left uppercase ">{each.completed ? '' : 'draft'}</div>
-                      </>}
-                      <div className="grid grid-cols-2 gap-4">
+                    
+                      <div>
+                        {each.public ? 
+                        <div className="text-neutral-400 text-left uppercase ">public</div> 
+                        :
+                        <div className="text-neutral-400 text-left uppercase ">{each.completed ? 'private' : 'draft'}</div>
+                        }
+                     </div>
+                    
+                      <div className="">
                         {each.likes?.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">
                                 <HandsClapping size={22} weight="light"/>

@@ -5,6 +5,8 @@
     - Set up content moderation AI API integration.
         - Check whether content is complete and related to topic. 
 
+- API
+    - Clean up unused endpoint functions (get lists by user is still using visilibity: public, but this endpoint is not even being called.)
 
 - lists page
     - update feed to only display lists NOT by current user
@@ -14,8 +16,10 @@
     - confirm username needs to be unique on sign up
 
 - viewUser page
-    - sort lists by reverse chronological order. newest on top.
     - Add click event on each list -> navigate to addList page if draft and pass along needed props to populate page correctly.
+
+- editUser page:
+    - consolidate this action into just the input box rendering and calling the PATCH request. 
 
 - viewList page
     - Header content is shifting over to the right compared to lists page. This is due to the scroll bar gutter. Address this so that content does not shift over between pages.
