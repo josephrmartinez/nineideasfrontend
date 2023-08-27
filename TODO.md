@@ -1,4 +1,5 @@
 - viewUser page
+    - update conditional rendering so that likes icon appears to the right when viewing non current user
     - Add click event on each list -> navigate to addList page if draft and pass along needed props to populate page correctly.
 
 - viewList page

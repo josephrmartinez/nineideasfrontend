@@ -59,7 +59,9 @@ export default function ViewUser(){
   
         
       <div className="flex-grow overflow-y-scroll w-full">
-          {userData.lists.map((each, index) => (
+          {userData.lists
+          .filter(each => each !== null)
+          .map((each, index) => (
               <div className={`w-10/12 max-w-md mx-auto my-4 cursor-pointer ${index !== userData.lists.length - 1 ? 'border-b-2' : ''}`} key={each._id}>
                   <NavLink to={`/lists/${each._id}`}>
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
