@@ -61,11 +61,8 @@ export default function ViewList(){
                         </div>
                     </NavLink>
                     
-                    <div className="grid grid-cols-2 gap-4">
-                        
-                        <LikeIcon listData={listData} userAuthData={userAuthData}/>
-                        <div className="grid grid-cols-2 gap-2 items-center text-neutral-600"><Chat size={22} weight="light"/> 6</div>
-                        
+                    <div>
+                        <LikeIcon listData={listData} userAuthData={userAuthData}/> 
                     </div>
                 </div>
                 
@@ -163,15 +160,16 @@ const VisibilityToggle = ({listData}) => {
 
             return (
                 <fetcher.Form method="post">
+                    <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
                     <button
                         name="likes"
                         value={likes.join(',')}
-                        className='flex flex-row items-center w-[86px] justify-between text-neutral-600'
+                        className=''
                         >
                         <HandsClapping size={22} weight={hasLiked ? "fill" : "light"}/>
                     </button>
-                        
-                        <div>{likes?.length}</div>
+                    <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
+                    </div>
                 </fetcher.Form>
             )
                 }

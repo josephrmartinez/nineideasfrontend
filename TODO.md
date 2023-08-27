@@ -1,8 +1,11 @@
+- implement "like" feature
+    - style like to be more prominent 
+    - implement "unlike" option
+
 - viewUser page
     - Add click event on each list -> navigate to addList page if draft and pass along needed props to populate page correctly.
 
 - viewList page
-    - add icon to take topic and create own list
     - Create new route to view lists on same topic: lists/:topicId OR list/:topicId ??
     - add icon and route to view all lists on the same topic
 
@@ -14,7 +17,7 @@
     - Need to troubleshoot the way that useAuth is handling userData. 
         If I log out of one account, the userId remains. This causes lists to be added to the previous user. 
 
-- implement "like" feature
+
 
 - implement "comment" feature
 
