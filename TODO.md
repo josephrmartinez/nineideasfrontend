@@ -14,8 +14,3 @@
         If I log out of one account, the userId remains. This causes lists to be added to the previous user. 
 
 
-
-- implement "comment" feature
-
-
-

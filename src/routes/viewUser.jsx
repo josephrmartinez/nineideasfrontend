@@ -18,15 +18,6 @@ export default function ViewUser(){
 
   console.log("userData from loader:", userData)
 
-  // Redirect to /user/current
-  // useEffect(() => {
-  //   const isCurrentUser = userAuthData.userId === userData._id;
-
-  //   if (isCurrentUser) {
-  //     navigate('/user/current', { state: { userData } });
-  //   }
-  // }, [userAuthData, userData, navigate]);
-
 
   const isCurrentUser = userAuthData.userId === userData._id;
   
@@ -86,12 +77,7 @@ export default function ViewUser(){
                                 {each.likes.length}
                             </div>
                         )}
-                        {each.comments.length > 0 && (
-                            <div className={`grid gap-2 items-center text-neutral-600 ${each.likes.length === 0 ? 'col-start-2' : ''}`}>
-                                <Chat size={22} weight="light"/>
-                                {each.comments.length}
-                            </div>
-                        )}
+                        
                     </div>
 
                   </div>      

@@ -1,6 +1,8 @@
 import { Form, useLoaderData, redirect, NavLink } from "react-router-dom";
-import { updateUser } from "../utils/user";
-import { getUserData } from "../utils/user";
+import { getUserData, updateUser } from "../utils/user";
+import { HandsClapping } from "@phosphor-icons/react";
+import { useAuth } from "../contexts/authContext";
+
 
 
 export async function loader({ params }) {
@@ -18,6 +20,9 @@ export async function action({ request, params }) {
 
 export default function EditUser() {
   const { userData } = useLoaderData();
+  const { userAuthData } = useAuth()
+
+  const isCurrentUser = userAuthData.userId === userData._id;
 
   return(
     <div className="h-full flex flex-col items-center">
@@ -76,23 +81,19 @@ export default function EditUser() {
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
                   <div className="my-4 flex flex-row justify-between">
-                    
+                    { isCurrentUser &&
+                      <>
                     <div className="text-neutral-400 text-left uppercase ">{each.public ? 'public' : 'private'}</div>
                     <div className="text-neutral-400 text-left uppercase ">{each.completed ? '' : 'draft'}</div>
-                      
+                      </>}
                       <div className="grid grid-cols-2 gap-4">
-                        {each.likes.length > 0 && (
+                        {each.likes?.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">
                                 <HandsClapping size={22} weight="light"/>
                                 {each.likes.length}
                             </div>
                         )}
-                        {each.comments.length > 0 && (
-                            <div className={`grid gap-2 items-center text-neutral-600 ${each.likes.length === 0 ? 'col-start-2' : ''}`}>
-                                <Chat size={22} weight="light"/>
-                                {each.comments.length}
-                            </div>
-                        )}
+                        
                     </div>
 
                   </div>      
