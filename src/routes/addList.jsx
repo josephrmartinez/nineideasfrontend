@@ -335,7 +335,7 @@ export default function AddList(){
         ) : (
         <div className='flex flex-row items-center w-[86px] justify-between text-neutral-600'>
           <LockLaminated 
-            size={24} 
+            size={22} 
             weight='light'
             className='cursor-pointer' 
             onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }/>

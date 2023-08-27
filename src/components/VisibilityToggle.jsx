@@ -9,11 +9,11 @@ return (
     >
     {!publicList ? 
     <>
-    <LockLaminated size={24} weight="light" className='cursor-pointer' onClick={onToggleClick}/>
+    <LockLaminated size={22} weight="light" className='cursor-pointer' onClick={onToggleClick}/>
     <div className='text-sm uppercase select-none'>private</div>
     </>
     : <>
-    <LockKeyOpen size={24} weight="light" className='cursor-pointer' onClick={onToggleClick}/>
+    <LockKeyOpen size={22} weight="light" className='cursor-pointer' onClick={onToggleClick}/>
     <div className='text-sm uppercase select-none'>public</div>
     </>}
 </div>
