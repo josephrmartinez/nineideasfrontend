@@ -1,7 +1,3 @@
-- implement "like" feature
-    - style like to be more prominent 
-    - implement "unlike" option
-
 - viewUser page
     - Add click event on each list -> navigate to addList page if draft and pass along needed props to populate page correctly.
 

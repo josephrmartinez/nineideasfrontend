@@ -13,13 +13,23 @@ export async function loader({ params }) {
 
 export async function action({ request, params }) {
     const formData = await request.formData();
-    const updates = Object.fromEntries(formData);
 
-    console.log("formData updates:", updates)
+    const serializedLikes = formData.get('likes'); // Get the serialized JSON string
+    const parsedLikes = JSON.parse(serializedLikes); // Parse the JSON string to an array
+
+    const listVisibility = formData.get('public');
+
+    let updates = {}
+
+    if (parsedLikes) {
+        updates = { likes: parsedLikes };
+    } else {
+        updates = { public: listVisibility };
+    }
+
+    console.log("updates:", updates)
     
-    return updateList(params.listId, {
-        updates
-    });
+    return updateList(params.listId, updates);
 }
 
 
@@ -163,10 +173,10 @@ const VisibilityToggle = ({listData}) => {
                     <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
                     <button
                         name="likes"
-                        value={likes.join(',')}
+                        value={JSON.stringify(likes)}
                         className=''
                         >
-                        <HandsClapping size={22} weight={hasLiked ? "fill" : "light"}/>
+                        <HandsClapping size={22} weight={hasLiked ? "duotone" : "light"} color={hasLiked ? "#489757" : "#666666"}/>
                     </button>
                     <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
                     </div>
