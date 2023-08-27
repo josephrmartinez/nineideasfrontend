@@ -1,8 +1,6 @@
 
 - addList page:
-    - BUG FIX: IDEAS 2 - 9 ARE NOT BEING PATCHED INTO THE LIST OBJ. FIX ASAP
     - Check that only unused topics are being suggested by fetchNewTopic
-    - Enable public/private toggle to make patch update to list. This works on viewList but not yet on the addList page.
     - Enable user to write their own topic by double clicking topic text. Submit to create topic endpoint on completion
     - Set up content moderation AI API integration.
         - Check whether content is complete and related to topic. 

@@ -282,7 +282,34 @@ export default function AddList(){
 
   function handleToggleVisibility(){
     setPublicList(!publicList);
-  }
+    console.log("Calling handleToggleVisibility")
+    };
+
+
+  useEffect(() => {
+    if (ideaList.length === 9){
+      async function updateListVisibility(){
+      try {
+        const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+          updates: {
+            public: publicList
+          }
+      });
+      console.log("Updated list after PATCH:", response.data)
+      
+      } catch (error) {
+        console.error('Error updating list:', error);
+        throw error;
+      }
+      }
+      updateListVisibility();
+    }
+  }, [publicList]);
+
+
+
+
+  
 
 
 

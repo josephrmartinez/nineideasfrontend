@@ -150,49 +150,49 @@ const VisibilityToggle = ({listData}) => {
             </button>
         </fetcher.Form>
     )
-        }
+}
 
 
-// IN PROGRESS
-        const LikeIcon = ({listData, userAuthData}) => {
-            const fetcher = useFetcher();
-            let likes = [...(listData.likes ?? [])];
+
+const LikeIcon = ({listData, userAuthData}) => {
+    const fetcher = useFetcher();
+    let likes = [...(listData.likes ?? [])];
 
 
-            const isLoggedIn = userAuthData?.userId === true;
+    const isLoggedIn = userAuthData?.userId === true;
 
-            const hasLiked = likes.includes(userAuthData?.userId)         
+    const hasLiked = likes.includes(userAuthData?.userId)         
 
-            if (hasLiked) {
-                likes= likes.filter(item => item !== userAuthData.userId)
-            } else {
-                likes.push(userAuthData?.userId)
-            }
+    if (hasLiked) {
+        likes= likes.filter(item => item !== userAuthData.userId)
+    } else {
+        likes.push(userAuthData?.userId)
+    }
 
-            const formContent = isLoggedIn ? (
-                <fetcher.Form method="post">
-                    <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
-                    <button
-                        name="likes"
-                        value={JSON.stringify(likes)}
-                        className=''
-                        >
-                        <HandsClapping size={22} weight={hasLiked ? "duotone" : "light"} color={hasLiked ? "#489757" : "#666666"}/>
-                    </button>
-                    <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
-                    </div>
-                </fetcher.Form>
-            ) : (
-                    <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
-                    <button
-                        className=''
-                        >
-                        <HandsClapping size={22} weight={"light"} color={"#666666"}/>
-                    </button>
-                    <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
-                    </div>
-                
-            );
+    const formContent = isLoggedIn ? (
+        <fetcher.Form method="post">
+            <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
+            <button
+                name="likes"
+                value={JSON.stringify(likes)}
+                className=''
+                >
+                <HandsClapping size={22} weight={hasLiked ? "duotone" : "light"} color={hasLiked ? "#489757" : "#666666"}/>
+            </button>
+            <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
+            </div>
+        </fetcher.Form>
+    ) : (
+            <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
+            <button
+                className=''
+                >
+                <HandsClapping size={22} weight={"light"} color={"#666666"}/>
+            </button>
+            <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
+            </div>
+        
+    );
 
-            return formContent
-        }
+    return formContent
+}
