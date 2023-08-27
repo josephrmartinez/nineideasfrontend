@@ -155,7 +155,9 @@ export default function AddList(){
     console.log("Calling addIdeaToList")
     try {
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
-        ideas: ideaList,
+        updates: {
+          ideas: ideaList
+        }
       });
       console.log("Updated list after PATCH:", response)
       return response.data
@@ -169,12 +171,14 @@ export default function AddList(){
   const finishList = async () => {
     try {
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
-        ideas: ideaList,
-        completed: true,
-        public: true,
-        timeCompleted: Date.now()
-      });
-      console.log("Finished list response object:", response)
+        updates: {
+          ideas: ideaList,
+          completed: true,
+          public: true,
+          timeCompleted: Date.now()
+        }
+        });
+      console.log("Finished list response object:", response.data)
       setPublicList(true)
       return response.data
       } catch (error) {
@@ -198,7 +202,7 @@ export default function AddList(){
           lists: updatedLists, // Use the updated lists array
         });
   
-        console.log(response);
+        console.log("Added list to user:", response.data);
         return response.data;
       } else {
         console.log("User data not available yet.");

@@ -67,15 +67,16 @@ export default function ViewUser(){
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
                   <div className="my-4 flex flex-row justify-between">
-                    { isCurrentUser ?
+                    { isCurrentUser &&
                       <div>
-                    <div className="text-neutral-400 text-left uppercase ">{each.public ? 'public' : 'private'}</div>
-                    <div className="text-neutral-400 text-left uppercase ">{each.completed ? '' : 'draft'}</div>
-                      </div>
-                    :
-                    <div></div>  
+                        {each.public ? 
+                        <div className="text-neutral-400 text-left uppercase ">public</div> 
+                        :
+                        <div className="text-neutral-400 text-left uppercase ">{each.completed ? 'private' : 'draft'}</div>
+                        }
+                     </div>
                     }
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="">
                         {each.likes?.length > 0 && (
                             <div className="grid grid-cols-2 gap-2 items-center text-neutral-600">
                                 <HandsClapping size={22} weight="light"/>

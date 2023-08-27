@@ -38,10 +38,10 @@ export default function ViewList(){
     const { listData } = useLoaderData();
     const { userAuthData } = useAuth()
     const navigate = useNavigate()
-    const isCurrentUserList = userAuthData.userId === listData.author._id
+    const isCurrentUserList = userAuthData?.userId === listData.author._id
     
     console.log("listData:", listData)
-    console.log("currentUserId:", userAuthData.userId)
+    console.log("currentUserId:", userAuthData?.userId)
 
     function createListOnTopic(){
         navigate('/', { state: {topic: listData.topic}})
@@ -158,17 +158,18 @@ const VisibilityToggle = ({listData}) => {
             const fetcher = useFetcher();
             let likes = [...(listData.likes ?? [])];
 
-            const hasLiked = likes.includes(userAuthData.userId)         
+
+            const isLoggedIn = userAuthData?.userId === true;
+
+            const hasLiked = likes.includes(userAuthData?.userId)         
 
             if (hasLiked) {
                 likes= likes.filter(item => item !== userAuthData.userId)
             } else {
-                likes.push(userAuthData.userId)
+                likes.push(userAuthData?.userId)
             }
 
-            
-
-            return (
+            const formContent = isLoggedIn ? (
                 <fetcher.Form method="post">
                     <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
                     <button
@@ -181,5 +182,17 @@ const VisibilityToggle = ({listData}) => {
                     <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
                     </div>
                 </fetcher.Form>
-            )
-                }
+            ) : (
+                    <div className='flex flex-row items-center w-12 justify-between text-neutral-600'>
+                    <button
+                        className=''
+                        >
+                        <HandsClapping size={22} weight={"light"} color={"#666666"}/>
+                    </button>
+                    <div className='text-xs text-left w-4'>{listData.likes?.length || ""}</div>
+                    </div>
+                
+            );
+
+            return formContent
+        }
