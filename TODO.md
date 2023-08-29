@@ -1,8 +1,8 @@
 
 - editList page:
     - Finalize action to manage updates based on length of ideaList
-    - Prevent component from remounting on every key stroke in textarea. console.log("listData:", listData) is running on every key stroke.
-    - Clean up all unused functions and conditional rendering logic. Use ReactRouter action
+    - Prevent component from remounting on every key stroke in textarea. e.g. console.log("listData:", listData) is running on every key stroke.
+    - Clean up all unused functions and conditional rendering logic. Use ReactRouter action for ever add idea event
 
 - addList page:
     - Check that only unused topics are being suggested by fetchNewTopic
@@ -11,7 +11,7 @@
         - Check whether content is complete and related to topic. 
 
 - API
-    - Clean up unused endpoint functions (get lists by user is still using visilibity: public, but this endpoint is not even being called.)
+    - Clean up unused endpoint functions (get lists by user is still using visibility: public, but this endpoint is not ever being called.)
 
 - lists page
     - update feed to only display lists NOT by current user
