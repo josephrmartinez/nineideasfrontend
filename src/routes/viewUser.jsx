@@ -20,7 +20,12 @@ export default function ViewUser(){
 
 
   const isCurrentUser = userAuthData.userId === userData._id;
+
+  // function createListOnTopic(){
+  //   navigate('/', { state: {topic: listData.topic}})
+  // }
   
+  // onClick={createListOnTopic}/>
 
   return(
     <div className="h-full flex flex-col items-center">
@@ -64,9 +69,11 @@ export default function ViewUser(){
           .reverse()
           .map((each, index) => (
               <div className={`w-10/12 max-w-md mx-auto my-4 cursor-pointer ${index !== userData.lists.length - 1 ? 'border-b-2' : ''}`} key={each._id}>
-                  <NavLink to={`/lists/${each._id}`}>
+                  
+                  <NavLink to={each.completed ? `/lists/${each._id}` : `/edit/${each._id}`}>
                       <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                   </NavLink>
+                  
                   <div className="my-4 flex flex-row justify-between">
                     { isCurrentUser &&
                       <div>

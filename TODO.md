@@ -1,4 +1,9 @@
 
+- editList page:
+    - Finalize action to manage updates based on length of ideaList
+    - Prevent component from remounting on every key stroke in textarea. console.log("listData:", listData) is running on every key stroke.
+    - Clean up all unused functions and conditional rendering logic. Use ReactRouter action
+
 - addList page:
     - Check that only unused topics are being suggested by fetchNewTopic
     - Enable user to write their own topic by double clicking topic text. Submit to create topic endpoint on completion
