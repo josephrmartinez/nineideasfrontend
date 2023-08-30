@@ -6,26 +6,13 @@ import { ArrowsClockwise, ToggleLeft, Trash } from "@phosphor-icons/react";
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
-import { fetchNewTopic } from '../utils/topic';
-import { getOneList } from '../utils/list';
+import { getOneList, updateList } from '../utils/list';
 import { useLoaderData, Form } from 'react-router-dom';
-
 
 export async function loader({ params }) {
     const listData = await getOneList(params.listId);
     return { listData };
   }
-
-
-// USE ACTION TO MAKE LIST UPDATES
-// export async function action({ request, params }) {
-//     const formData = await request.formData();
-//     const updates = Object.fromEntries(formData);
-    
-//     await updateList(params.listId, updates);
-//     return redirect(`/user/${params.userId}`);
-//   }
-
 
 export default function EditList(){
     const { listData } = useLoaderData();
@@ -37,7 +24,6 @@ export default function EditList(){
   const [currentListId, setCurrentListId] = useState(listData._id)
   
   const [buttonActive, setButtonActive] = useState(false)
-  const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn, userData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const [popupMessage, setPopupMessage] = useState({})
@@ -45,22 +31,6 @@ export default function EditList(){
   const ideaInputRef = useRef(null)
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
-  // TOPIC MANAGEMENT // 
-
-
-  const getNewTopic = async () => {
-    try {
-      setIsSpinning(true);
-      const newTopic = await fetchNewTopic()
-      await new Promise(resolve => setTimeout(resolve, 300)); // Delay for 300ms
-      setTopic(newTopic);
-      setIsSpinning(false);
-      setCurrentListId('');
-      setIdeaList([]);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
 
 
   // IDEA MANAGEMENT //
@@ -84,8 +54,6 @@ export default function EditList(){
   // ADD IDEA OBJ TO IDEASLIST
   async function handleAddIdea() {
     setButtonActive(true);
-    // handleAddIdeaAudio.currentTime = 0;
-    // handleAddIdeaAudio.play();
     
     setTimeout(() => {
       setButtonActive(false);
@@ -110,19 +78,38 @@ export default function EditList(){
     }
   }
 
+
+
+  async function updateIdeaTextOnServer(ideaId, updatedText) {
+    try {
+    const response = await axios.patch(`http://localhost:3000/api/idea/${ideaId}`, {
+      updates: {
+          text: updatedText,
+    }});
+    console.log("Updated idea after PATCH:", response.data)
+    } catch (error) {
+      console.error('Error updating list:', error);
+      throw error;
+    }
+  }
+
   // Update already posted idea
-  // CURRENTLY, THIS FUNCTION TRIGGERS THE USEEFFECT BECAUSE THE LOCAL IDEALIST IS BEING UPDATED.
+  // WHY IS THIS NOT TRIGGERING THE USEEFFECT?
   function updateIdea(index, updatedText) {
     setIdeaList((prevList) =>
       prevList.map((prevIdea, i) => {
         if (i === index) {
+            updateIdeaTextOnServer(prevIdea._id, updatedText)
           return { ...prevIdea, text: updatedText }; // Update text property
+          
         } else {
           return prevIdea;
         }
       })
     );
+    
   }
+
 
   function handleIdeaInputChange(event) {
     setCurrentIdea(event.target.value)
@@ -140,34 +127,17 @@ export default function EditList(){
 
   // LIST MANAGEMENT //
 
-  // CREATE LIST WITH FIRST IDEA
-  const postNewList = async () => {
-    try {
-      // Create the new list
-      const newListResponse = await axios.post('http://localhost:3000/api/lists/', {
-        topic: topic._id,
-        ideas: ideaList,
-        dateAdded: Date.now(),
-        timeStarted: Date.now(),
-      });
-      setCurrentListId(newListResponse.data._id)
-      console.log("post new list response data:", newListResponse.data);
-  
-      return newListResponse.data;
-    } catch (error) {
-      console.error('Error creating list and updating user:', error);
-      throw error;
-    }
-  };
 
   // UPDATE LIST ON IDEAS 2 - 8
   const addIdeaToList = async () => {
-    console.log("Calling addIdeaToList")
+    console.log("Calling addIdeaToList with this ideaList:", ideaList)
     try {
+        const updatedIdeas = [...ideaList]
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
-        ideas: ideaList,
-      });
-      console.log("Updated list after PATCH:", response)
+        updates: {
+            ideas: updatedIdeas,
+      }});
+      console.log("Updated list after PATCH:", response.data)
       return response.data
       } catch (error) {
         console.error('Error updating list:', error);
@@ -179,74 +149,28 @@ export default function EditList(){
   const finishList = async () => {
     try {
       const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+        updates: {
         ideas: ideaList,
         completed: true,
         public: true,
-        timeCompleted: Date.now()
+        timeCompleted: Date.now()}
       });
-      console.log("Finished list response object:", response)
+      console.log("Finished list response data:", response.data)
       setPublicList(true)
-      return response.data
       } catch (error) {
         console.error('Error updating list:', error);
         throw error;
       }
     };
 
-  const addListToUser = async () => {
-    try {
-      if (userData._id) {
-        // Fetch the user's current data first
-        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData._id}`);
-        const currentUserData = getUserResponse.data;
-  
-        // Create an updated lists array by pushing the new value
-        const updatedLists = [...currentUserData.lists, currentListId];
-  
-        // Make the PATCH request with the updated lists array
-        const response = await axios.patch(`http://localhost:3000/api/users/${userData._id}`, {
-          lists: updatedLists, // Use the updated lists array
-        });
-  
-        console.log(response);
-        return response.data;
-      } else {
-        console.log("User data not available yet.");
-        return null; // Or some appropriate value indicating that the action was not performed
-      }
-    } catch (error) {
-      console.error('Error updating user:', error);
-      throw error;
-    }
-  };
-  
-
-  // Is there a better way to implement this logic?
-  // There is a bug here where a new list is generated if the user makes an edit to their first idea.
-  // Likewise, the finishList function is called every time a user makes updates to an idea in a completed list
-//   useEffect(() => {
-//     console.log("Calling the useEffect")
-//     if (ideaList.length === 1) {
-//       postNewList();
-//     } else if (ideaList.length > 1 && ideaList.length < 9) {
-//       addIdeaToList();
-//     } else if (ideaList.length === 9) {
-//       finishList();
-//     }
-//   }, [ideaList]);
-
-
-  // Improve implementation. This is a hacky workaround to deal with 
-  // the currentListID value changing twice because of the component mounting twice.
-  // I need to address the root issue of the component remounting.
-  // This is preventing me from being able to use the useEffect
-//   useEffect(() => {
-//     if (currentListId.length > 1){
-//     console.log("currentListId has just been updated to:", currentListId)
-//     addListToUser()
-//   }
-//   }, [currentListId]);
-
+    useEffect(() => {
+        console.log("useEffect triggered")
+        if (ideaList.length < 9) {
+          addIdeaToList();
+        } else if (ideaList.length === 9) {
+          finishList();
+        }
+      }, [ideaList]);
 
 
   // TOGGLE AND POPUP MANAGEMENT //
@@ -298,36 +222,13 @@ export default function EditList(){
 
 
   return (
-    <div className='h-full flex flex-col items-center'>
+    <div
+        className='h-full flex flex-col items-center'>
       <div className='w-[22rem] mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
-        {/* <div className='flex flex-row items-center'>
-          <ArrowsClockwise
-            size={24}
-            className={`cursor-pointer text-neutral-600 mr-2 ${isSpinning ? 'animate-spin' : ''}`}
-            onClick={getNewTopic}
-          />
-          <div className='text-sm uppercase select-none'>topic</div>
-      </div> */}
         <div className='flex flex-row items-center'>
-        
-        <Form
-            method="post"
-            action="delete"
-            className='flex flex-row items-center'
-            onSubmit={(event) => {
-            if (
-                !confirm(
-                "Please confirm you want to delete this record."
-                )
-            ) {
-                event.preventDefault();
-            }
-            }}
-        >
-            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer mx-4"/></button>
-        </Form>
-        <div className='text-sm uppercase select-none'>DRAFT</div>
+            <DeleteList />
+            <div className='text-sm uppercase select-none'>DRAFT</div>
         </div>
 
         { isLoggedIn && ideaList.length === 9 ? (
@@ -348,6 +249,7 @@ export default function EditList(){
       </div>
 
         
+        
       <textarea
         className={`w-[22rem] mb-3 outline-none bg-neutral-50 ${ideaList.length >= 9 ? 'h-0 border-none transition-all duration-700' : 'h-20 border'}`}
         value={currentIdea}
@@ -359,8 +261,6 @@ export default function EditList(){
       >
       </textarea> 
       
-      
-
       </div>
 
       <div className='w-[22rem] h-4 mb-4 mx-auto rounded-full border relative'>  
@@ -369,6 +269,7 @@ export default function EditList(){
         </div>
       </div>
 
+        
       <div className='w-80 mx-auto'>
       { ideaList.length < 9 ? 
       <button className={`pushable ${buttonActive ? 'active' : ''}`} onClick={handleAddIdea}>
@@ -388,6 +289,8 @@ export default function EditList(){
       </button>  }
       </div>
       
+
+
       {ideaList.length > 0 && 
       <div className='flex-grow overflow-y-scroll w-full border-t-2 mx-auto mt-8'>
         <div className='w-[22rem] mx-auto'>
@@ -403,3 +306,131 @@ export default function EditList(){
   )
 }
 
+const DeleteList = () => {
+    return (
+        <Form
+            method="post"
+            action="delete"
+            className='flex flex-row items-center'
+            onSubmit={(event) => {
+            if (
+                !confirm(
+                "Please confirm you want to delete this record."
+                )
+            ) {
+                event.preventDefault();
+            }
+            }}
+        >
+            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer mx-4"/></button>
+        </Form>
+    )
+}
+
+
+
+
+
+
+
+  // TOPIC MANAGEMENT // 
+//   const getNewTopic = async () => {
+//     try {
+//       setIsSpinning(true);
+//       const newTopic = await fetchNewTopic()
+//       await new Promise(resolve => setTimeout(resolve, 300)); // Delay for 300ms
+//       setTopic(newTopic);
+//       setIsSpinning(false);
+//       setCurrentListId('');
+//       setIdeaList([]);
+//     } catch (error) {
+//       console.error('Error fetching data:', error);
+//     }
+//   };
+
+
+  // CREATE LIST WITH FIRST IDEA
+//   const postNewList = async () => {
+//     try {
+//       // Create the new list
+//       const newListResponse = await axios.post('http://localhost:3000/api/lists/', {
+//         topic: topic._id,
+//         ideas: ideaList,
+//         dateAdded: Date.now(),
+//         timeStarted: Date.now(),
+//       });
+//       setCurrentListId(newListResponse.data._id)
+//       console.log("post new list response data:", newListResponse.data);
+  
+//       return newListResponse.data;
+//     } catch (error) {
+//       console.error('Error creating list and updating user:', error);
+//       throw error;
+//     }
+//   };
+
+//   const addListToUser = async () => {
+//     try {
+//       if (userData._id) {
+//         // Fetch the user's current data first
+//         const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData._id}`);
+//         const currentUserData = getUserResponse.data;
+  
+//         // Create an updated lists array by pushing the new value
+//         const updatedLists = [...currentUserData.lists, currentListId];
+  
+//         // Make the PATCH request with the updated lists array
+//         const response = await axios.patch(`http://localhost:3000/api/users/${userData._id}`, {
+//           lists: updatedLists, // Use the updated lists array
+//         });
+  
+//         console.log(response);
+//         return response.data;
+//       } else {
+//         console.log("User data not available yet.");
+//         return null; // Or some appropriate value indicating that the action was not performed
+//       }
+//     } catch (error) {
+//       console.error('Error updating user:', error);
+//       throw error;
+//     }
+//   };
+  
+
+  // Is there a better way to implement this logic?
+  // There is a bug here where a new list is generated if the user makes an edit to their first idea.
+  // Likewise, the finishList function is called every time a user makes updates to an idea in a completed list
+//   useEffect(() => {
+//     console.log("Calling the useEffect")
+//     if (ideaList.length === 1) {
+//       postNewList();
+//     } else if (ideaList.length > 1 && ideaList.length < 9) {
+//       addIdeaToList();
+//     } else if (ideaList.length === 9) {
+//       finishList();
+//     }
+//   }, [ideaList]);
+
+
+  // Improve implementation. This is a hacky workaround to deal with 
+  // the currentListID value changing twice because of the component mounting twice.
+  // I need to address the root issue of the component remounting.
+  // This is preventing me from being able to use the useEffect
+//   useEffect(() => {
+//     if (currentListId.length > 1){
+//     console.log("currentListId has just been updated to:", currentListId)
+//     addListToUser()
+//   }
+//   }, [currentListId]);
+
+// USE ACTION TO MAKE LIST UPDATES?
+// export async function action({ request, params }) {
+//     const formData = await request.formData();
+//     const updates = Object.fromEntries(formData);
+    
+
+//     console.log("updates:", updates)
+
+//     await updateList(params.listId, updates);
+    // return redirect(`/user/${params.userId}`);
+//   }

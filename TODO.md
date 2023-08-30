@@ -1,6 +1,6 @@
 
 - editList page:
-    - Finalize action to manage updates based on length of ideaList
+    - Troubleshoot why patch update is not correctly updating idea text field
     - Prevent component from remounting on every key stroke in textarea. e.g. console.log("listData:", listData) is running on every key stroke.
     - Clean up all unused functions and conditional rendering logic. Use ReactRouter action for ever add idea event
 
