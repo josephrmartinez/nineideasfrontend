@@ -109,6 +109,7 @@ const handleLogout = () => {
   setAccessToken(null);
   setIsLoggedIn(false);
   setUserAuthData(null);
+  setUserData(null);
 };
 
 

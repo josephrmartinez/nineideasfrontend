@@ -14,12 +14,13 @@
     - Clean up unused endpoint functions (get lists by user is still using visibility: public, but this endpoint is not ever being called.)
 
 - lists page
-    - update feed to only display lists NOT by current user
+    - update feed to only display lists NOT by current user?
 
 - sign up
-    - make email optional. write warning about no password recovery without email.
-    - confirm username needs to be unique on sign up
-    - BUG: After a user signs up, they are redirected to the addList page, but the userData does not appear to be updating correctly. This may be due to useAuth not rerunning. 
+    - Error handling: pass a useful error from the server to the frontend if the user tries to sign up with a username that is already taken
+
+- log in
+    - error handling for wrong password / user does not exist
 
 - viewUser page
     - Add click event on each list -> navigate to addList page if draft and pass along needed props to populate page correctly.

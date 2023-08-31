@@ -28,7 +28,7 @@ export default function SignUp(){
     e.preventDefault();
 
     // Validate the form data before sending the POST request
-    if (!formData.username || !formData.password || !formData.confirmPassword || !formData.bio || !formData.email) {
+    if (!formData.username || !formData.password || !formData.confirmPassword ) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -47,7 +47,7 @@ export default function SignUp(){
       .post('http://localhost:3000/api/users', postData)
       .then((response) => {
         // Handle the response from the server if needed
-        console.log(response.data);
+        console.log("Sign up data:", response.data);
         
         // Log in the user after successful signup
         login({
@@ -58,10 +58,15 @@ export default function SignUp(){
 
       })
       .catch((error) => {
-        // Handle any errors that occur during the POST request
-        console.error('Error:', error);
+        // IMPROVE THIS USERNAME ALREADY TAKEN ERROR HANDLING
+        if (error.response && error.response.data.error && error.response.data.error.keyPattern) {
+          const key = Object.keys(error.response.data.error.keyPattern)[0];
+          alert('Username already taken');
+        } else {
+          console.log('An unexpected error occurred:', error);
+        }
       });
-  };
+    }
 
   return (
     <div className="w-1/2 mx-auto mt-8">
@@ -100,11 +105,12 @@ export default function SignUp(){
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="bio">Bio (limit to 30 characters):</label>
+          <label htmlFor="bio">Bio:</label>
           <input
             id="bio"
             name="bio"
             value={formData.bio}
+            placeholder='Optional. Limit to 30 characters.'
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
             maxLength="30"
@@ -118,6 +124,7 @@ export default function SignUp(){
             name="email"
             value={formData.email}
             onChange={handleChange}
+            placeholder='Optional. Required for password reset.'
             className="w-full px-3 py-2 border rounded"
           />
         </div>

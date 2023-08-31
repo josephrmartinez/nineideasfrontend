@@ -10,6 +10,7 @@ import { fetchNewTopic } from '../utils/topic';
 import { useLocation } from 'react-router-dom';
 
 
+
 export default function AddList(){
   const location = useLocation();
 
@@ -21,12 +22,19 @@ export default function AddList(){
   
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
-  const { isLoggedIn, userData } = useAuth()
+  const { isLoggedIn, userAuthData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const [popupMessage, setPopupMessage] = useState({})
   const [publicList, setPublicList] = useState(true)
   const ideaInputRef = useRef(null)
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
+
+  useEffect(() => {
+    if (userAuthData !== null) {
+      console.log("userData loaded:", userAuthData);
+      // Now that userData is available, you can use it for further logic or updates.
+    }
+  }, [userAuthData]);
 
   // TOPIC MANAGEMENT // 
 
@@ -189,16 +197,16 @@ export default function AddList(){
 
   const addListToUser = async () => {
     try {
-      if (userData._id) {
+      if (userAuthData.userId) {
         // Fetch the user's current data first
-        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData._id}`);
+        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userAuthData.userId}`);
         const currentUserData = getUserResponse.data;
   
         // Create an updated lists array by pushing the new value
         const updatedLists = [...currentUserData.lists, currentListId];
   
         // Make the PATCH request with the updated lists array
-        const response = await axios.patch(`http://localhost:3000/api/users/${userData._id}`, {
+        const response = await axios.patch(`http://localhost:3000/api/users/${userAuthData.userId}`, {
           lists: updatedLists, // Use the updated lists array
         });
   
