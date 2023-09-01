@@ -6,7 +6,7 @@ import { ArrowsClockwise, ToggleLeft, LockLaminated, LockKeyOpen } from "@phosph
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
-import { fetchNewTopic } from '../utils/topic';
+import { fetchNewTopic, createNewTopic } from '../utils/topic';
 import { useLocation } from 'react-router-dom';
 
 
@@ -20,6 +20,7 @@ export default function AddList(){
   const [ideaList, setIdeaList] = useState([])
   const [currentListId, setCurrentListId] = useState("")
   
+  const [topicActive, setTopicActive] = useState(false)
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn, userAuthData } = useAuth()
@@ -27,6 +28,7 @@ export default function AddList(){
   const [popupMessage, setPopupMessage] = useState({})
   const [publicList, setPublicList] = useState(true)
   const ideaInputRef = useRef(null)
+  const topicInputRef = useRef(null)
   const fillWidth = `${((ideaList.length) / 9) * 100}%`;
 
   useEffect(() => {
@@ -35,6 +37,9 @@ export default function AddList(){
       // Now that userData is available, you can use it for further logic or updates.
     }
   }, [userAuthData]);
+
+
+  
 
   // TOPIC MANAGEMENT // 
 
@@ -45,6 +50,10 @@ export default function AddList(){
       getNewTopic();
     }
   }, []);
+
+  useEffect(() => {
+    console.log("Topic:", topic)
+  }, [topic]);
 
   const getNewTopic = async () => {
     try {
@@ -315,9 +324,38 @@ export default function AddList(){
   }, [publicList]);
 
 
-
-
+ async function toggleTopicActive() {
+    if (topicActive) {
+      setTopicActive(false)
+      ideaInputRef.current.focus()
+      createTopic()
+    } else {
+      setTopicActive(true)
+    }
+  }
   
+  async function createTopic(){
+    if (!topic._id && topic.name){
+      const newTopic = await createNewTopic(topic.name)
+      setTopic(newTopic)
+      console.log("newTopic:", newTopic)
+    }
+  }
+    
+
+
+  function handleTopicInputChange(event) {
+    setTopic({_id: '', name: event.target.value})
+  }
+
+  function checkForSubmitTopic(event) {
+    if (event.key === 'Enter' && topicActive) {
+      event.preventDefault();
+      toggleTopicActive()
+    }
+  }
+  
+
 
 
 
@@ -354,9 +392,24 @@ export default function AddList(){
         )
         }
       </div>
-      <div className='text-left mb-2 h-12'>
+
+      {topicActive ?
+        <textarea
+        className='text-left mb-2 w-full h-12'
+          value={topic.name}
+          ref={topicInputRef}
+          autoFocus
+          onBlur={toggleTopicActive}
+          onChange={handleTopicInputChange}
+          onKeyDown={checkForSubmitTopic}></textarea>
+        : <div
+        className='text-left mb-2 h-12'
+        onClick={toggleTopicActive}>
+          
         {topic.name}{topic.name ? ':' : ''}
       </div>
+      }
+
 
         
       <textarea
