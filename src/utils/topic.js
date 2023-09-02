@@ -12,7 +12,7 @@ export async function fetchNewTopic() {
 
 export async function createNewTopic(name) {
     try {
-        const response = await axios.post('http://localhost:3000/api/topic', {name: name});
+        const response = await axios.post('http://localhost:3000/api/user-topic', {name: name});
         return response.data;
     } catch (error) {
         console.error('Error creating new topic:', error);

@@ -176,7 +176,7 @@ export default function AddList(){
           ideas: ideaList
         }
       });
-      console.log("Updated list after PATCH:", response)
+      console.log("Updated list after PATCH:", response.data)
       return response.data
       } catch (error) {
         console.error('Error updating list:', error);
