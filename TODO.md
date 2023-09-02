@@ -1,10 +1,13 @@
 <!-- MVP -->
 
+- NEW USERTOPIC route 
+    - Spin up new database for project
+    - Populate new Topic collection
+    - Confirm correct implementation of UserTopic document creation
+    - Confirm correct implementation of CommonTopic
+
 - addList page:
-    - Check that only unused topics are being suggested by fetchNewTopic
-    - Enable user to write their own topic by double clicking topic text.
-        - Create new collection of user submitted topics (isolate from main DB)
-        - BUG FIX: Pressing enter is causing a DOUBLE submit to the API. But clicking outside the text input does not. Why?
+    - BUG FIX: Pressing enter on new UserTopic is causing a DOUBLE submit to the API. But clicking outside the text input does not. Why? Try without strict mode
 
 
 
