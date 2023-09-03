@@ -336,7 +336,7 @@ export default function AddList(){
   
   async function createTopic(){
     if (!topic._id && topic.name){
-      const newTopic = await createNewTopic(topic.name)
+      const newTopic = await createNewTopic(topic.name, false)
       setTopic(newTopic)
       console.log("newTopic:", newTopic)
     }
