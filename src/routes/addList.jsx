@@ -324,8 +324,12 @@ export default function AddList(){
   }, [publicList]);
 
 
- async function toggleTopicActive() {
-    if (topicActive) {
+  
+
+  
+
+  async function toggleTopicActive() {
+    if (topicActive && topic.name.trim()) {
       setTopicActive(false)
       ideaInputRef.current.focus()
       createTopic()
@@ -333,6 +337,14 @@ export default function AddList(){
       setTopicActive(true)
     }
   }
+
+  // function handleBlur() {
+  //   if (topicActive && topic.name.trim()) {
+  //     setTopicActive(false)
+  //     ideaInputRef.current.focus()
+  //   }
+  // }
+
   
   async function createTopic(){
     if (!topic._id && topic.name){
@@ -341,7 +353,6 @@ export default function AddList(){
       console.log("newTopic:", newTopic)
     }
   }
-    
 
 
   function handleTopicInputChange(event) {
@@ -351,9 +362,11 @@ export default function AddList(){
   function checkForSubmitTopic(event) {
     if (event.key === 'Enter' && topicActive) {
       event.preventDefault();
+      event.stopPropagation();
       toggleTopicActive()
+      }
     }
-  }
+  
   
 
 
@@ -404,7 +417,7 @@ export default function AddList(){
           onKeyDown={checkForSubmitTopic}></textarea>
         : <div
         className='text-left mb-2 h-12'
-        onClick={toggleTopicActive}>
+        onClick={()=>setTopicActive(true)}>
           
         {topic.name}{topic.name ? ':' : ''}
       </div>

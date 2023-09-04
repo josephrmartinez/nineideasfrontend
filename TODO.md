@@ -1,15 +1,4 @@
 <!-- MVP -->
-
-- UNDO ALL OF THE COMMON TOPIC LOGIC. JUST UPDATE THE TOPIC MODEL TO HAVE A USERCREATED VALUE. DEFAULT TO FLASE, JUST SET THIS ON THE INSTANCE WHERE THE USER CREATES A NEW TOPIC.
-
-- Problem: in the userData object, the list _id is being added to the lists array, but the "topic" field is staying null. Why? Public and completed are true. But topic is null...
-
-- NEW USERTOPIC route 
-    - Spin up new database for project
-    - Populate new Topic collection
-    - Confirm correct implementation of UserTopic document creation
-    - Confirm correct implementation of CommonTopic
-
 - addList page:
     - BUG FIX: Pressing enter on new UserTopic is causing a DOUBLE submit to the API. But clicking outside the text input does not. Why? Try without strict mode
 

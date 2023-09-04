@@ -12,7 +12,7 @@ export async function fetchNewTopic() {
 
 export async function createNewTopic(name, isPublic) {
     try {
-        const response = await axios.post('http://localhost:3000/api/user-topic', {name: name, public: isPublic});
+        const response = await axios.post('http://localhost:3000/api/topic', {name: name, public: isPublic});
         return response.data;
     } catch (error) {
         console.error('Error creating new topic:', error);
