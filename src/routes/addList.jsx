@@ -324,9 +324,14 @@ export default function AddList(){
   }, [publicList]);
 
 
-  
 
-  
+  async function createTopic(){
+    if (!topic._id && topic.name.trim()){
+      const newTopic = await createNewTopic(topic.name, false)
+      setTopic(newTopic)
+      console.log("newTopic:", newTopic)
+    }
+  }
 
   async function toggleTopicActive() {
     if (topicActive && topic.name.trim()) {
@@ -338,35 +343,18 @@ export default function AddList(){
     }
   }
 
-  // function handleBlur() {
-  //   if (topicActive && topic.name.trim()) {
-  //     setTopicActive(false)
-  //     ideaInputRef.current.focus()
-  //   }
-  // }
-
-  
-  async function createTopic(){
-    if (!topic._id && topic.name){
-      const newTopic = await createNewTopic(topic.name, false)
-      setTopic(newTopic)
-      console.log("newTopic:", newTopic)
-    }
-  }
-
-
   function handleTopicInputChange(event) {
     setTopic({_id: '', name: event.target.value})
   }
 
   function checkForSubmitTopic(event) {
-    if (event.key === 'Enter' && topicActive) {
+    if (event.key === 'Enter' && topicActive && topic.name.trim()) {
       event.preventDefault();
-      event.stopPropagation();
-      toggleTopicActive()
+      setTopicActive(false)
+      ideaInputRef.current.focus()
       }
     }
-  
+
   
 
 
