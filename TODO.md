@@ -1,10 +1,9 @@
 <!-- MVP -->
-- addList page:
-    - BUG FIX: Pressing enter on new UserTopic is causing a DOUBLE submit to the API. But clicking outside the text input does not. Why? Try without strict mode
 
 
 
 <!-- AFTER DEPLOY -->
+- Implement 'delete user' feature: delete all associated likes and lists (and ideas)
 
 - viewList page
     - Create new route to view lists on same topic: lists/:topicId OR list/:topicId ??

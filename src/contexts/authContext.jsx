@@ -20,15 +20,15 @@ const AuthProvider = ({ children }) => {
     axios
       .post('http://localhost:3000/api/users/login', formData)
       .then((response) => {
-        console.log('headers:', response.headers)
+        // console.log('headers:', response.headers)
         // Handle the response from the server if needed
-        console.log('data:', response.data);
+        // console.log('data:', response.data);
         // If the server responds with the user data, decode the token and update the userData state
         if (response.data) {
           const token = getAccessTokenCookie()
           const decoded = decodeToken(token)
           setIsLoggedIn(true);
-          console.log("Printing decoded from authContext:", decoded)
+          // console.log("Printing decoded from authContext:", decoded)
           setUserAuthData({ userId: decoded.userId, username: decoded.username });
         }
 
@@ -42,7 +42,7 @@ const AuthProvider = ({ children }) => {
 
   // Function to get the value of the accessToken cookie
   const getAccessTokenCookie = () => {
-    return Cookies.get('accessToken');
+    return Cookies.get('nineideasAccessToken');
   };
 
 
@@ -70,7 +70,7 @@ const AuthProvider = ({ children }) => {
             setUserAuthData({ userId: decodedToken.userId, username: decodedToken.username });
             const fetchedUserData = await getUserData(decodedToken.userId);
             setUserData(fetchedUserData);
-            console.log("Fetched user data in authContext:", fetchedUserData);
+            // console.log("Fetched user data in authContext:", fetchedUserData);
           } catch (error) {
             console.error('Error fetching user data:', error);
             // Handle the error gracefully, you might want to set an error state
@@ -105,7 +105,7 @@ const AuthProvider = ({ children }) => {
 
 // Function to handle logout action
 const handleLogout = () => {
-  Cookies.remove('accessToken')
+  Cookies.remove('nineideasAccessToken')
   setAccessToken(null);
   setIsLoggedIn(false);
   setUserAuthData(null);

@@ -351,6 +351,7 @@ export default function AddList(){
     if (event.key === 'Enter' && topicActive && topic.name.trim()) {
       event.preventDefault();
       setTopicActive(false)
+      // Running this focus event will subsequently trigger the onBlur function (toggleTopicActive)
       ideaInputRef.current.focus()
       }
     }

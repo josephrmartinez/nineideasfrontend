@@ -16,16 +16,11 @@ export default function ViewUser(){
   const { userAuthData } = useAuth()
   const navigate = useNavigate();
 
-  console.log("userData from loader:", userData)
+  // console.log("userData from loader:", userData)
 
 
   const isCurrentUser = userAuthData.userId === userData._id;
 
-  // function createListOnTopic(){
-  //   navigate('/', { state: {topic: listData.topic}})
-  // }
-  
-  // onClick={createListOnTopic}/>
 
   return(
     <div className="h-full flex flex-col items-center">
