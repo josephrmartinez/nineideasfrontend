@@ -1,8 +1,7 @@
-import { useLoaderData, redirect, useNavigation, useFetcher, NavLink, Form, useNavigate } from "react-router-dom";
+import { useLoaderData, useFetcher, NavLink, Form, useNavigate } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { useAuth } from "../contexts/authContext";
-import { HandsClapping, TextIndent, Trash, ToggleLeft, ToggleRight, LockLaminated, LockKeyOpen } from "@phosphor-icons/react";
-import { useState } from "react";
+import { HandsClapping, TextIndent, Trash, LockLaminated, LockKeyOpen } from "@phosphor-icons/react";
 import { toggleStatus, updateList } from "../utils/list";
 
 export async function loader({ params }) {

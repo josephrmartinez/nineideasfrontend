@@ -1,4 +1,5 @@
 import axios from "axios";
+import apiEndpoint from "../config";
   
 export async function getUserData(userId) {
     console.log("userId var passed to getUserData:", userId)

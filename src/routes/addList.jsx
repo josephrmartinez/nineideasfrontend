@@ -11,7 +11,6 @@ import { useLocation } from 'react-router-dom';
 import apiEndpoint from '../config';
 
 
-
 export default function AddList(){
   const location = useLocation();
 

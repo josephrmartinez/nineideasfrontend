@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
 import { fetchNewTopic } from '../utils/topic';
+import apiEndpoint from '../config';
 
 
 export async function loader() {

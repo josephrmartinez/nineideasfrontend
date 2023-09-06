@@ -1,4 +1,5 @@
 import axios from "axios";
+import apiEndpoint from "../config";
 
 export async function fetchNewTopic() {
     try {

@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useLoaderData, redirect, useNavigate, NavLink, Form } from "react-router-dom";
+import { useLoaderData, useNavigate, NavLink, Form } from "react-router-dom";
 import { useAuth } from '../contexts/authContext';
-import axios from 'axios'; 
 import { HandsClapping, Chat } from "@phosphor-icons/react";
 import { getUserData } from '../utils/user';
-import { useMatch } from 'react-router-dom';
 
 export async function loader({ params }) {
   const userData = await getUserData(params.userId);

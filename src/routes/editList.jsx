@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
 import { getOneList, updateList } from '../utils/list';
 import { useLoaderData, Form } from 'react-router-dom';
+import apiEndpoint from '../config';
 
 export async function loader({ params }) {
     const listData = await getOneList(params.listId);
