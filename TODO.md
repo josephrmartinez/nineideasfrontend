@@ -1,8 +1,8 @@
-<!-- MVP -->
-deploy
+- Address this warning: Layout was forced before the page was fully loaded. If stylesheets are not yet loaded this may cause a flash of unstyled content.
 
+- Review max topic length. Delete topics that are too long (db operation). 
+- Set limit on topic length for user generated topics
 
-<!-- AFTER DEPLOY -->
 - Implement 'delete user' feature: delete all associated likes and lists (and ideas)
 
 - viewList page
