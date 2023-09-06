@@ -1,3 +1,5 @@
+- Invalid JWT issue
+
 - Address this warning: Layout was forced before the page was fully loaded. If stylesheets are not yet loaded this may cause a flash of unstyled content.
 
 - Review max topic length. Delete topics that are too long (db operation). 
@@ -13,9 +15,6 @@
 - Developed logged out version of the app
     - Create isLoggedIn value, pass it to relevant components. (isLoggedIn has already been created on likeIcon. Pass this up to parent.)
 
-- API
-    - Clean up unused endpoint functions (get lists by user is still using visibility: public, but this endpoint is not ever being called.)
-
 
 - editUser page:
     - consolidate this action into just the input box rendering and calling the PATCH request. 
@@ -23,7 +22,7 @@
 - addList page:
     - Set up content moderation AI API integration.
         - Check whether content is complete and related to topic. 
-
+`
 - editList page:
     - Learn why patch update only works if I run it on the idea object itself and not the whole list. 
 

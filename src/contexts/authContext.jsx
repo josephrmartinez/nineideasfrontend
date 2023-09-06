@@ -27,6 +27,7 @@ const AuthProvider = ({ children }) => {
         // If the server responds with the user data, decode the token and update the userData state
         if (response.data) {
           const token = getAccessTokenCookie()
+          console.log("token:", token)
           const decoded = decodeToken(token)
           setIsLoggedIn(true);
           // console.log("Printing decoded from authContext:", decoded)
@@ -114,16 +115,6 @@ const handleLogout = () => {
 };
 
 
-// Set the accessToken in the Axios headers when it's available or changed
-// useEffect(() => {
-//   if (accessToken) {
-//     axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-//   } else {
-//     delete axios.defaults.headers.common['Authorization'];
-//   }
-// }, [accessToken]);
-
-
   return (
     <AuthContext.Provider
       value={{ isLoggedIn, userAuthData, userData, userId, login, handleLogout }}
@@ -140,3 +131,16 @@ const useAuth = () => {
 
 export { AuthProvider, useAuth };
 
+
+
+
+
+
+// Set the accessToken in the Axios headers when it's available or changed
+// useEffect(() => {
+//   if (accessToken) {
+//     axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+//   } else {
+//     delete axios.defaults.headers.common['Authorization'];
+//   }
+// }, [accessToken]);
