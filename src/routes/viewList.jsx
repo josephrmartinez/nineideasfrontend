@@ -47,10 +47,6 @@ export default function ViewList(){
         navigate('/', { state: {topic: listData.topic}})
     }
 
-    function likeTopic(){
-        // Should the function go here?
-        // Or should I write an action like I did for the visibilityToggle?
-    }
     
    
 

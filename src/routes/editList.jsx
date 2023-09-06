@@ -38,7 +38,7 @@ export default function EditList(){
   // CREATE IDEA OBJ
   const postNewIdea = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/idea/', {
+      const response = await axios.post(`${apiEndpoint}/idea/`, {
         text: currentIdea,
         parentTopic: topic._id
       });
@@ -82,7 +82,7 @@ export default function EditList(){
 
   async function updateIdeaTextOnServer(ideaId, updatedText) {
     try {
-    const response = await axios.patch(`http://localhost:3000/api/idea/${ideaId}`, {
+    const response = await axios.patch(`${apiEndpoint}/idea/${ideaId}`, {
       updates: {
           text: updatedText,
     }});
@@ -133,7 +133,7 @@ export default function EditList(){
     console.log("Calling addIdeaToList with this ideaList:", ideaList)
     try {
         const updatedIdeas = [...ideaList]
-      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         updates: {
             ideas: updatedIdeas,
       }});
@@ -148,7 +148,7 @@ export default function EditList(){
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
     try {
-      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         updates: {
         ideas: ideaList,
         completed: true,

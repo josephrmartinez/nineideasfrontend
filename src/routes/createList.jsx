@@ -61,7 +61,7 @@ export default function CreateList(){
   // CREATE IDEA OBJ
   const postNewIdea = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/idea/', {
+      const response = await axios.post(`${apiEndpoint}/idea/`, {
         text: currentIdea,
         parentTopic: topic._id
       });
@@ -137,7 +137,7 @@ export default function CreateList(){
   const postNewList = async () => {
     try {
       // Create the new list
-      const newListResponse = await axios.post('http://localhost:3000/api/lists/', {
+      const newListResponse = await axios.post(`${apiEndpoint}/api/lists/`, {
         topic: topic._id,
         ideas: ideaList,
         dateAdded: Date.now(),
@@ -157,7 +157,7 @@ export default function CreateList(){
   const addIdeaToList = async () => {
     console.log("Calling addIdeaToList")
     try {
-      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         ideas: ideaList,
       });
       console.log("Updated list after PATCH:", response)
@@ -171,7 +171,7 @@ export default function CreateList(){
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
     try {
-      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         ideas: ideaList,
         completed: true,
         public: true,
@@ -190,14 +190,14 @@ export default function CreateList(){
     try {
       if (userData._id) {
         // Fetch the user's current data first
-        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userData._id}`);
+        const getUserResponse = await axios.get(`${apiEndpoint}/users/${userData._id}`);
         const currentUserData = getUserResponse.data;
   
         // Create an updated lists array by pushing the new value
         const updatedLists = [...currentUserData.lists, currentListId];
   
         // Make the PATCH request with the updated lists array
-        const response = await axios.patch(`http://localhost:3000/api/users/${userData._id}`, {
+        const response = await axios.patch(`${apiEndpoint}/users/${userData._id}`, {
           lists: updatedLists, // Use the updated lists array
         });
   

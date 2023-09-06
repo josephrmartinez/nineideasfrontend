@@ -18,7 +18,6 @@ import EditUser, {loader as editUserLoader, action as editUserAction} from './ro
 import EditList, {loader as editListLoader} from './routes/editList';
 import Lists, {loader as listsLoader} from './routes/lists';
 import {action as deleteListAction} from './routes/deleteList';
-// import CurrentUserDataLoader from './utils/CurrentUserDataLoader';
 
 
 const router = createBrowserRouter([

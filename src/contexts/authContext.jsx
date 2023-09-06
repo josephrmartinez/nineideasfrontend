@@ -3,6 +3,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
+import apiEndpoint from '../config';
 
 
 const AuthContext = createContext();
@@ -18,7 +19,7 @@ const AuthProvider = ({ children }) => {
   const login = (formData) => {
     // Make the POST request using axios
     axios
-      .post('http://localhost:3000/api/users/login', formData)
+      .post(`${apiEndpoint}/users/login`, formData)
       .then((response) => {
         // console.log('headers:', response.headers)
         // Handle the response from the server if needed
@@ -94,7 +95,7 @@ const AuthProvider = ({ children }) => {
 
   async function getUserData(userId) {
     try {
-        const response = await axios.get(`http://localhost:3000/api/users/${userId}`);
+        const response = await axios.get(`${apiEndpoint}/users/${userId}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching user data:', error);

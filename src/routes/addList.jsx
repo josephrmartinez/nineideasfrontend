@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
 import { fetchNewTopic, createNewTopic } from '../utils/topic';
 import { useLocation } from 'react-router-dom';
+import apiEndpoint from '../config';
 
 
 
@@ -75,7 +76,7 @@ export default function AddList(){
   // CREATE IDEA OBJ
   const postNewIdea = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/idea/', {
+      const response = await axios.post(`${apiEndpoint}/idea/`, {
         text: currentIdea,
         parentTopic: topic._id
       });
@@ -151,7 +152,7 @@ export default function AddList(){
   const postNewList = async () => {
     try {
       // Create the new list
-      const newListResponse = await axios.post('http://localhost:3000/api/lists/', {
+      const newListResponse = await axios.post(`${apiEndpoint}/lists/`, {
         topic: topic._id,
         ideas: ideaList,
         dateAdded: Date.now(),
@@ -171,7 +172,7 @@ export default function AddList(){
   const addIdeaToList = async () => {
     console.log("Calling addIdeaToList")
     try {
-      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         updates: {
           ideas: ideaList
         }
@@ -187,7 +188,7 @@ export default function AddList(){
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
     try {
-      const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         updates: {
           ideas: ideaList,
           completed: true,
@@ -208,14 +209,14 @@ export default function AddList(){
     try {
       if (userAuthData.userId) {
         // Fetch the user's current data first
-        const getUserResponse = await axios.get(`http://localhost:3000/api/users/${userAuthData.userId}`);
+        const getUserResponse = await axios.get(`${apiEndpoint}/users/${userAuthData.userId}`);
         const currentUserData = getUserResponse.data;
   
         // Create an updated lists array by pushing the new value
         const updatedLists = [...currentUserData.lists, currentListId];
   
         // Make the PATCH request with the updated lists array
-        const response = await axios.patch(`http://localhost:3000/api/users/${userAuthData.userId}`, {
+        const response = await axios.patch(`${apiEndpoint}/users/${userAuthData.userId}`, {
           lists: updatedLists, // Use the updated lists array
         });
   
@@ -307,7 +308,7 @@ export default function AddList(){
     if (ideaList.length === 9){
       async function updateListVisibility(){
       try {
-        const response = await axios.patch(`http://localhost:3000/api/lists/${currentListId}`, {
+        const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
           updates: {
             public: publicList
           }

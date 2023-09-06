@@ -44,7 +44,7 @@ export default function SignUp(){
 
     // Make the POST request using axios
     axios
-      .post('http://localhost:3000/api/users', postData)
+      .post(`${apiEndpoint}/users`, postData)
       .then((response) => {
         // Handle the response from the server if needed
         console.log("Sign up data:", response.data);

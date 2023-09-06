@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function fetchNewTopic() {
     try {
-        const response = await axios.get('http://localhost:3000/api/topic/new');
+        const response = await axios.get(`${apiEndpoint}/topic/new`);
         return response.data;
     } catch (error) {
         console.error('Error fetching topic:', error);
@@ -12,7 +12,7 @@ export async function fetchNewTopic() {
 
 export async function createNewTopic(name, isPublic) {
     try {
-        const response = await axios.post('http://localhost:3000/api/topic', {name: name, public: isPublic});
+        const response = await axios.post(`${apiEndpoint}/topic`, {name: name, public: isPublic});
         return response.data;
     } catch (error) {
         console.error('Error creating new topic:', error);
