@@ -5,7 +5,6 @@ import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import apiEndpoint from '../config';
 
-
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -15,39 +14,36 @@ const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState("")
   const [userData, setUserData] = useState(null)
 
-  // Function to make login API call
-  const login = (formData) => {
-    // Make the POST request using axios
-    axios
-      .post(`${apiEndpoint}/users/login`, formData)
-      .then((response) => {
-        console.log('headers:', response.headers)
-        // Handle the response from the server if needed
-        console.log('data:', response.data);
-        // If the server responds with the user data, decode the token and update the userData state
-        if (response.data) {
-          const token = getAccessTokenCookie()
-          console.log("token:", token)
-          const decoded = decodeToken(token)
-          setIsLoggedIn(true);
-          // console.log("Printing decoded from authContext:", decoded)
-          setUserAuthData({ userId: decoded.userId, username: decoded.username });
-        }
 
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the POST request
-        console.error('Error:', error);
-      });
-  };
-  
 
-  // Function to get the value of the accessToken cookie
-  const getAccessTokenCookie = () => {
-    const token = Cookies.get('nineideasAccessToken');
-    console.log("token from getAccessToken:", token)
-    return token;
-  };
+  const handleCookieAfterResponse = async (response) => {
+    // Check if the response contains the 'nineideasAccessToken' cookie
+  if (response.headers['set-cookie']) {
+    const token = extractTokenFromResponse(response);
+    if (token) {
+      // Set the retrieved token in the cookie
+      Cookies.set('nineideasAccessToken', token, { path: '/' });
+      console.log('Token set in cookie:', token);
+    }
+  }
+};
+
+// Function to extract the token from the response
+const extractTokenFromResponse = (response) => {
+  // Implement logic to extract the token from the response headers or body
+  // For example, if it's in the response headers:
+  return response.headers['set-cookie'].find((cookie) =>
+    cookie.startsWith('nineideasAccessToken')
+  );
+};
+
+
+// Function to get the value of the accessToken cookie
+const getAccessTokenCookie = () => {
+  const token = Cookies.get('nineideasAccessToken');
+  console.log("token from getAccessToken:", token)
+  return token;
+};
 
 
   // Decode the JWT to get user ID and username
@@ -60,38 +56,39 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const handleUserAuthData = async (token) => {
+    if (token) {
+      setAccessToken(token);
+      setIsLoggedIn(true);
+
+      const decodedToken = decodeToken(token);
+      if (decodedToken) {
+        try {
+          setUserAuthData({ userId: decodedToken.userId, username: decodedToken.username });
+          const fetchedUserData = await getUserData(decodedToken.userId);
+          setUserData(fetchedUserData);
+          // console.log("Fetched user data in authContext:", fetchedUserData);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          // Handle the error gracefully, you might want to set an error state
+        }
+      } else {
+        setUserAuthData(null);
+      }
+
+      // Update Axios headers
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+      setIsLoggedIn(false);
+      setUserAuthData(null);
+      delete axios.defaults.headers.common['Authorization'];
+    }
+  };
+
+
+
   useEffect(() => {
     const token = getAccessTokenCookie();
-  
-    const handleUserAuthData = async (token) => {
-      if (token) {
-        setAccessToken(token);
-        setIsLoggedIn(true);
-  
-        const decodedToken = decodeToken(token);
-        if (decodedToken) {
-          try {
-            setUserAuthData({ userId: decodedToken.userId, username: decodedToken.username });
-            const fetchedUserData = await getUserData(decodedToken.userId);
-            setUserData(fetchedUserData);
-            // console.log("Fetched user data in authContext:", fetchedUserData);
-          } catch (error) {
-            console.error('Error fetching user data:', error);
-            // Handle the error gracefully, you might want to set an error state
-          }
-        } else {
-          setUserAuthData(null);
-        }
-  
-        // Update Axios headers
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      } else {
-        setIsLoggedIn(false);
-        setUserAuthData(null);
-        delete axios.defaults.headers.common['Authorization'];
-      }
-    };
-  
     handleUserAuthData(token);
   }, []);
   
@@ -115,6 +112,32 @@ const handleLogout = () => {
   setUserAuthData(null);
   setUserData(null);
 };
+
+
+  // Function to make login API call
+  const login = async (formData) => {
+    try {
+      const response = await axios.post(`${apiEndpoint}/users/login`, formData);
+      console.log('headers:', response.headers);
+      console.log('data:', response.data);
+      if (response.data) {
+        await handleCookieAfterResponse(response);
+        const token = getAccessTokenCookie();
+        console.log("token from login:", token);
+        const decoded = decodeToken(token);
+        setIsLoggedIn(true);
+        setUserAuthData({ userId: decoded.userId, username: decoded.username });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+    
+  
+
+  
+
+
 
 
   return (
