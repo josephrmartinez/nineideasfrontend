@@ -120,6 +120,7 @@ const handleLogout = () => {
       const response = await axios.post(`${apiEndpoint}/users/login`, formData);
       console.log('headers:', response.headers);
       console.log('data:', response.data);
+      console.log("response object:", response)
       if (response.data) {
         await handleCookieAfterResponse(response);
         const token = getAccessTokenCookie();
