@@ -118,9 +118,11 @@ const handleLogout = () => {
   const login = async (formData) => {
     try {
       const response = await axios.post(`${apiEndpoint}/users/login`, formData);
-      console.log('headers:', response.headers);
+      // Log specific headers
+    console.log('Content-Type header:', response.headers.get('content-type'));
+    console.log('Set-Cookie header:', response.headers.get('set-cookie'));
       console.log('data:', response.data);
-      console.log("response object:", response)
+      
       if (response.data) {
         await handleCookieAfterResponse(response);
         const token = getAccessTokenCookie();
