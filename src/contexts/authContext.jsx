@@ -21,9 +21,9 @@ const AuthProvider = ({ children }) => {
     axios
       .post(`${apiEndpoint}/users/login`, formData)
       .then((response) => {
-        // console.log('headers:', response.headers)
+        console.log('headers:', response.headers)
         // Handle the response from the server if needed
-        // console.log('data:', response.data);
+        console.log('data:', response.data);
         // If the server responds with the user data, decode the token and update the userData state
         if (response.data) {
           const token = getAccessTokenCookie()
