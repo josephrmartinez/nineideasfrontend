@@ -44,7 +44,9 @@ const AuthProvider = ({ children }) => {
 
   // Function to get the value of the accessToken cookie
   const getAccessTokenCookie = () => {
-    return Cookies.get('nineideasAccessToken');
+    const token = Cookies.get('nineideasAccessToken');
+    console.log("token from getAccessToken:", token)
+    return token;
   };
 
 
