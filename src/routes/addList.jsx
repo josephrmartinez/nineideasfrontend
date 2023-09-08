@@ -156,6 +156,7 @@ export default function AddList(){
         ideas: ideaList,
         dateAdded: Date.now(),
         timeStarted: Date.now(),
+        author: userAuthData.userId
       });
       setCurrentListId(newListResponse.data._id)
       console.log("post new list response data:", newListResponse.data);
