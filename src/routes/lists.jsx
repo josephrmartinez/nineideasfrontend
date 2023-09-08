@@ -1,6 +1,6 @@
 import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
 import { getAllLists } from "../utils/list";
-import { HandsClapping, Chat } from "@phosphor-icons/react";
+import { HandsClapping } from "@phosphor-icons/react";
 
 
 export async function loader() {

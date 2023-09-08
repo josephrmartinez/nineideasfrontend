@@ -33,7 +33,7 @@ export default function AddList(){
 
   useEffect(() => {
     if (userAuthData !== null) {
-      console.log("userData loaded:", userAuthData);
+      console.log("userData loaded from addList useEffect:", userAuthData);
       // Now that userData is available, you can use it for further logic or updates.
     }
   }, [userAuthData]);

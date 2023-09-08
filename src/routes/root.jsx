@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import '../App.css';
 import { ListPlus, StackSimple } from "@phosphor-icons/react";
 import { Outlet, NavLink, useMatch } from "react-router-dom";
 import { useAuth } from '../contexts/authContext';
 import { useNavigate } from 'react-router-dom';
-import { getUserData } from '../utils/user';
+// import { getUserData } from '../utils/user';
 
 
 
 export default function Root() {
-  const { userAuthData, isLoggedIn, handleLogout } = useAuth()
-  const [userData, setUserData] = useState({})
+  const { userAuthData, isLoggedIn, authLogout } = useAuth()
+  // const [userData, setUserData] = useState({})
   const navigate = useNavigate()
 
   const isLoginActive = useMatch("/login");
@@ -20,24 +20,9 @@ export default function Root() {
   const isUserActive = useMatch(`/user/${userAuthData?.userId}/*`)
 
   
-  // useEffect(() => {
-  //   if (userAuthData) {
-  //     const fetchUserData = async () => {
-  //       try {
-  //         const fetchedUserData = await getUserData(userAuthData.userId);
-  //         setUserData(fetchedUserData);
-  //         console.log("Fetched user data in root:", fetchedUserData)
-  //       } catch (error) {
-  //         console.error('Error fetching user data:', error);
-  //       }
-  //     };
 
-  //     fetchUserData();
-  //   }
-  // }, [userAuthData]); 
-
-  function handleSignout(){
-    handleLogout()
+  function handleLogout(){
+    authLogout()
     navigate('/')
   }
 
@@ -60,7 +45,7 @@ export default function Root() {
                 <NavLink to={`/user/${userAuthData.userId}`} className={`text-sm cursor-pointer font-semibold ${isUserActive ? 'text-[#ff3c00] ' : 'text-neutral-500'}`}>
                   {userAuthData?.username}
                 </NavLink>
-                <div className="text-sm cursor-pointer font-semibold text-neutral-500" onClick={()=> handleSignout()}>sign out</div>
+                <div className="text-sm cursor-pointer font-semibold text-neutral-500" onClick={()=> handleLogout()}>sign out</div>
               </>
             ) : (
               <>
@@ -84,3 +69,19 @@ export default function Root() {
 }
 
 
+
+  // useEffect(() => {
+  //   if (userAuthData) {
+  //     const fetchUserData = async () => {
+  //       try {
+  //         const fetchedUserData = await getUserData(userAuthData.userId);
+  //         setUserData(fetchedUserData);
+  //         console.log("Fetched user data in root:", fetchedUserData)
+  //       } catch (error) {
+  //         console.error('Error fetching user data:', error);
+  //       }
+  //     };
+
+  //     fetchUserData();
+  //   }
+  // }, [userAuthData]); 

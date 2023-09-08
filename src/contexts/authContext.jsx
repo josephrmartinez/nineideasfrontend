@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
   // const [accessToken, setAccessToken] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userAuthData, setUserAuthData] = useState(null);
-  const [userData, setUserData] = useState(null)
+  // const [userData, setUserData] = useState(null)
 
 
 
@@ -33,8 +33,8 @@ const AuthProvider = ({ children }) => {
         setIsLoggedIn(true);
         try {
           setUserAuthData({ userId: decodedToken.userId, username: decodedToken.username });
-          const fetchedUserData = await getUserData(decodedToken.userId);
-          setUserData(fetchedUserData);
+          // const fetchedUserData = await getUserData(decodedToken.userId);
+          // setUserData(fetchedUserData);
           // console.log("Fetched user data in authContext:", fetchedUserData);
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -43,7 +43,7 @@ const AuthProvider = ({ children }) => {
       } else {
         setIsLoggedIn(false);
         setUserAuthData(null);
-        setUserData(null);
+        // setUserData(null);
       }
 
       // Update Axios headers?
@@ -67,24 +67,24 @@ const AuthProvider = ({ children }) => {
 
  
 
-  async function getUserData(userId) {
-    try {
-        const response = await axios.get(`${apiEndpoint}/users/${userId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-        throw error;
-    } 
-    };
+  // async function getUserData(userId) {
+  //   try {
+  //       const response = await axios.get(`${apiEndpoint}/users/${userId}`);
+  //       return response.data;
+  //   } catch (error) {
+  //       console.error('Error fetching user data:', error);
+  //       throw error;
+  //   } 
+  //   };
 
 
 
 // Function to handle logout action when using JWT
-const handleLogout = () => {
+const authLogout = () => {
   localStorage.clear('nineideasAccessToken')
   setIsLoggedIn(false);
   setUserAuthData(null);
-  setUserData(null);
+  // setUserData(null);
 };
 
   
@@ -115,7 +115,7 @@ const handleLogout = () => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, userAuthData, userData, login, handleLogout }}
+      value={{ isLoggedIn, userAuthData, login, authLogout }} //userData
     >
       {children}
     </AuthContext.Provider>
