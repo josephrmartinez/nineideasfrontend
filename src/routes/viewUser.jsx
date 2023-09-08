@@ -13,11 +13,7 @@ export default function ViewUser(){
   const { userAuthData } = useAuth()
   const navigate = useNavigate();
 
-  // console.log("userData from loader:", userData)
-
-
   const isCurrentUser = userAuthData.userId === userData._id;
-
 
   return(
     <div className="h-full flex flex-col items-center">

@@ -1,4 +1,5 @@
-- Invalid JWT issue
+- viewCurrentUser DELETED
+- setUserData in authContext can be deleted?
 
 - Simplify sign up to no longer require email?
 

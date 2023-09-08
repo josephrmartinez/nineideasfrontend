@@ -39,15 +39,12 @@ export default function ViewList(){
     const navigate = useNavigate()
     const isCurrentUserList = userAuthData?.userId === listData.author._id
     
-    console.log("listData:", listData)
-    console.log("currentUserId:", userAuthData?.userId)
+    // console.log("listData:", listData)
+    // console.log("currentUserId:", userAuthData?.userId)
 
     function createListOnTopic(){
         navigate('/', { state: {topic: listData.topic}})
     }
-
-    
-   
 
     return(
     <div className="h-full flex flex-col items-center">

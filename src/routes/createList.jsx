@@ -27,7 +27,7 @@ export default function CreateList(){
   
   const [buttonActive, setButtonActive] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
-  const { isLoggedIn, userData } = useAuth()
+  const { isLoggedIn, userAuthData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const [popupMessage, setPopupMessage] = useState({})
   const [publicList, setPublicList] = useState(true)
@@ -189,20 +189,20 @@ export default function CreateList(){
 
   const addListToUser = async () => {
     try {
-      if (userData._id) {
+      if (userAuthData.userId) {
         // Fetch the user's current data first
-        const getUserResponse = await axios.get(`${apiEndpoint}/users/${userData._id}`);
+        const getUserResponse = await axios.get(`${apiEndpoint}/users/${userAuthData.userId}`);
         const currentUserData = getUserResponse.data;
   
         // Create an updated lists array by pushing the new value
         const updatedLists = [...currentUserData.lists, currentListId];
   
         // Make the PATCH request with the updated lists array
-        const response = await axios.patch(`${apiEndpoint}/users/${userData._id}`, {
+        const response = await axios.patch(`${apiEndpoint}/users/${userAuthData.userId}`, {
           lists: updatedLists, // Use the updated lists array
         });
   
-        console.log(response);
+        console.log("Response data from addListToUser:", response.data);
         return response.data;
       } else {
         console.log("User data not available yet.");

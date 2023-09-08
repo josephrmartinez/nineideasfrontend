@@ -82,7 +82,6 @@ const AuthProvider = ({ children }) => {
 // Function to handle logout action when using JWT
 const handleLogout = () => {
   localStorage.clear('nineideasAccessToken')
-  setAccessToken(null);
   setIsLoggedIn(false);
   setUserAuthData(null);
   setUserData(null);
