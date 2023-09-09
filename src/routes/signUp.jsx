@@ -13,8 +13,7 @@ export default function SignUp(){
     username: '',
     password: '',
     confirmPassword: '',
-    bio: '',
-    email: '',
+    bio: ''
   });
 
   const handleChange = (e) => {
@@ -111,22 +110,10 @@ export default function SignUp(){
             id="bio"
             name="bio"
             value={formData.bio}
-            placeholder='Optional. Limit to 30 characters.'
+            placeholder='Optional. Max 42 characters.'
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
-            maxLength="30"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder='Optional. Required for password reset.'
-            className="w-full px-3 py-2 border rounded"
+            maxLength="42"
           />
         </div>
         <button type="submit" className="px-4 py-2 my-4 bg-[#11699c] text-white rounded-lg">
