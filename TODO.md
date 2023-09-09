@@ -1,3 +1,18 @@
+- Why is component mounting on every onChange for textarea input on editList component but not addList?
+    - Check ReactRouter configuration
+
+- Form handling: prevent user from submitting idea twice.
+    - This is currently possible onEnter and onSubmit (clicking add idea)
+
+- Error handling with username:
+    - Show message that tells user "username not found"
+
+- Update username storage and retrieval so that it is not case sensitive
+
+- Create consistent appearance between addList and editList components
+
+- Change private/public icons to open/closed eye
+
 - Simplify sign up to no longer require email?
 
 - Review max topic length. Delete topics that are too long (db operation). 

@@ -385,10 +385,10 @@ export default function AddList(){
         ) : (
         <div className='flex flex-row items-center justify-between outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer text-neutral-600'
         onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }>
-          <LockLaminated 
+          {/* <LockLaminated 
             size={22} 
             weight='light'
-            className='cursor-pointer mr-2'/>
+            className='cursor-pointer mr-2'/> */}
             
           <div className='text-sm uppercase select-none'>private</div>
         </div>
