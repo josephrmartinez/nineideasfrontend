@@ -15,6 +15,9 @@ export default function ViewUser(){
 
   const isCurrentUser = userAuthData.userId === userData._id;
 
+  console.log("isCurrentUser:", isCurrentUser)
+  console.log("userData from loader:", userData)
+
   return(
     <div className="h-full flex flex-col items-center">
       <div className='w-full border-b-2'>

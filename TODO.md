@@ -1,9 +1,4 @@
-- viewCurrentUser DELETED
-- setUserData in authContext can be deleted?
-
 - Simplify sign up to no longer require email?
-
-- Address this warning: Layout was forced before the page was fully loaded. If stylesheets are not yet loaded this may cause a flash of unstyled content.
 
 - Review max topic length. Delete topics that are too long (db operation). 
 - Set limit on topic length for user generated topics
