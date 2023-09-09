@@ -272,7 +272,7 @@ export default function AddList(){
         <li>Comment on and like public lists</li>
         <li>Securely save your lists</li>
       </ul>
-      <p className='text-sm mb-4'>Or don't. You can use the site without creating an account. In this case, all of your lists are private and saved locally on your browser until you choose to clear browsing data.</p>
+      <p className='text-sm mb-4'>No email address required to create an account. You can still use the site without creating an account but your lists will not be saved.</p>
       <p className='text-sm'>Make generating ideas a daily habit.</p>
       </>
     )
