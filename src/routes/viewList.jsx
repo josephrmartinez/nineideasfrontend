@@ -128,22 +128,12 @@ const VisibilityToggle = ({listData}) => {
             <button
                 name="public"
                 value={publicList ? "false" : "true"} 
-                className='flex flex-row items-center justify-between text-neutral-600'
+                className='flex flex-row items-center justify-between text-neutral-600 outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer'
                 >
                 {publicList ? 
-                <>
-                {/* <div className='text-sm uppercase select-none'>public</div> */}
-                <LockKeyOpen size={22} 
-                    weight="light" 
-                    className="cursor-pointer text-neutral-600"/>
-                </>
+                    <div className='text-sm uppercase select-none'>public</div>
                 :
-                <>
-                {/* <div className='text-sm uppercase select-none'>private</div> */}
-                <LockLaminated size={22} 
-                    weight="light" 
-                    className="cursor-pointer text-neutral-600"/>
-                </>}
+                <div className='text-sm uppercase select-none'>private</div>}
             </button>
         </fetcher.Form>
     )
