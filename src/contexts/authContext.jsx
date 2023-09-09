@@ -23,6 +23,7 @@ const AuthProvider = ({ children }) => {
 
   const handleToken = async (token) => {
     if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setTokenInLocalStorage(token)
       const decodedToken = decodeToken(token);
       if (decodedToken) {
@@ -53,7 +54,7 @@ const AuthProvider = ({ children }) => {
 
 // Function to handle logout action when using JWT
 const authLogout = () => {
-  localStorage.clear('nineideasAccessToken')
+  localStorage.removeItem('nineideasAccessToken')
   setIsLoggedIn(false);
   setUserAuthData(null);
 };
