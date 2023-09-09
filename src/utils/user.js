@@ -13,7 +13,7 @@ export async function getUserData(userId) {
     };
 
  
-    export async function updateUser(userId, updatedBio) {
+    export async function updateUserBio(userId, updatedBio) {
         
         try {
             const response = await axios.patch(`${apiEndpoint}/users/${userId}`, updatedBio);

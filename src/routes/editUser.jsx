@@ -1,5 +1,5 @@
 import { Form, useLoaderData, redirect, NavLink } from "react-router-dom";
-import { getUserData, updateUser } from "../utils/user";
+import { getUserData, updateUserBio } from "../utils/user";
 import { HandsClapping } from "@phosphor-icons/react";
 import { useAuth } from "../contexts/authContext";
 
@@ -14,7 +14,7 @@ export async function action({ request, params }) {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
     
-    await updateUser(params.userId, updates);
+    await updateUserBio(params.userId, updates);
     return redirect(`/user/${params.userId}`);
   }
 
@@ -29,16 +29,6 @@ export default function EditUser() {
       <div className='w-full border-b-2'>
         <div className='text-left mt-6 w-10/12 max-w-md mx-auto space-y-2'>
         <Form method="post">
-            {/* <div>
-              <input
-              className='font-bold border'
-            placeholder="username"
-            aria-label="username"
-            type="text"
-            name="username"
-            defaultValue={userData.username}
-              />
-            </div> */}
             <div className='font-bold'>{userData.username}</div>
             <div className="my-[6px]">
               <input

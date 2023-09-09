@@ -105,7 +105,7 @@ export default function SignUp(){
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="bio">Bio:</label>
+          <label htmlFor="bio">Profile line:</label>
           <input
             id="bio"
             name="bio"
