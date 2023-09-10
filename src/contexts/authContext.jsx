@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
         try {
           setUserAuthData({ userId: decodedToken.userId, username: decodedToken.username });
         } catch (error) {
-          console.error('Error fetching user data:', error);
+          console.error('Error fetching user data in handleToken:', error);
         }
       } else {
         setIsLoggedIn(false);

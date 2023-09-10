@@ -7,7 +7,7 @@ export async function getUserData(userId) {
         const response = await axios.get(`${apiEndpoint}/users/${userId}`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching user data in getUserData:', error);
         throw error;
     } 
     };
