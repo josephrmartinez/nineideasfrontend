@@ -71,6 +71,7 @@ export default function SignUp(){
   return (
     <div className="w-1/2 mx-auto mt-8">
       <form onSubmit={handleSubmit}>
+        <div className='w-56'>
         <div className="mb-4">
           <label htmlFor="username">Username:</label>
           <input
@@ -119,6 +120,7 @@ export default function SignUp(){
         <button type="submit" className="px-4 py-2 my-4 bg-[#11699c] text-white rounded-lg">
           Sign Up
         </button>
+        </div>
       </form>
     </div>
   );
