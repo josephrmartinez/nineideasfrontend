@@ -38,7 +38,7 @@ export default function LogIn() {
       <form onSubmit={handleSubmit}>
       
         <div className="mb-4">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">username:</label>
           <input
             type="text"
             id="username"
@@ -49,7 +49,7 @@ export default function LogIn() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">password:</label>
           <input
             type="password"
             id="password"

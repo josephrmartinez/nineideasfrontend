@@ -3,15 +3,6 @@ Important updates for MVP:
 - Form handling: prevent user from submitting idea twice.
     - This is currently possible onEnter and onSubmit (clicking add idea)
 
-
-- Review max topic length. Delete topics that are too long (db operation):
-    { "$expr": { "$gt": [ { "$strLenCP": "$name" }, 90 ] } }
-
-    - Set limit on topic length for user generated topics: 90 characters
-
-
-
-
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
 
@@ -21,6 +12,7 @@ Important updates for MVP:
 
 - Update visibility toggle on addList page to be same text color as "topic"
     - Update visibility toggle component to be DRY accross components if possible
+    - Merge "draft" into "public"/"private"?
 
 - Why is component mounting on every onChange for textarea input on editList component but not addList?
     - Check ReactRouter configuration

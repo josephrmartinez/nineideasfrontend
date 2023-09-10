@@ -73,7 +73,7 @@ export default function SignUp(){
       <form onSubmit={handleSubmit}>
         
         <div className="mb-4">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">username:</label>
           <input
             type="text"
             id="username"
@@ -84,7 +84,7 @@ export default function SignUp(){
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">password:</label>
           <input
             type="password"
             id="password"
@@ -95,7 +95,7 @@ export default function SignUp(){
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <label htmlFor="confirmPassword">confirm password:</label>
           <input
             type="password"
             id="confirmPassword"
@@ -106,12 +106,12 @@ export default function SignUp(){
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="bio">Profile line:</label>
+          <label htmlFor="bio">profile line:</label>
           <input
             id="bio"
             name="bio"
             value={formData.bio}
-            placeholder='Optional. Max 42 characters.'
+            placeholder='max 42 characters'
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
             maxLength="42"
