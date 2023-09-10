@@ -34,9 +34,9 @@ export default function LogIn() {
   };
 
   return (
-    <div className="w-1/2 mx-auto mt-8">
+    <div className="w-56 mx-auto mt-8">
       <form onSubmit={handleSubmit}>
-      <div className='w-56'>
+      
         <div className="mb-4">
           <label htmlFor="username">Username:</label>
           <input
@@ -65,7 +65,7 @@ export default function LogIn() {
         >
           log in
         </button>
-        </div>
+        
       </form>
     </div>
   );
