@@ -3,10 +3,14 @@ Important updates for MVP:
 - Form handling: prevent user from submitting idea twice.
     - This is currently possible onEnter and onSubmit (clicking add idea)
 
-- Simplify sign up to no longer require email
 
-- Review max topic length. Delete topics that are too long (db operation). 
-    - Set limit on topic length for user generated topics
+- Review max topic length. Delete topics that are too long (db operation):
+    { "$expr": { "$gt": [ { "$strLenCP": "$name" }, 90 ] } }
+
+    - Set limit on topic length for user generated topics: 90 characters
+
+
+
 
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
@@ -29,6 +33,7 @@ Features:
     - Check whether content is complete and related to topic. 
 
 - Implement 'delete account' feature: delete all associated likes and lists (and ideas)
+    - Keep likes on lists, but remove all lists so that fetching all lists still works (author is null)
 
 - Implement 'download lists' feature: output all lists in structured format
 

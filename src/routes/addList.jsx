@@ -400,6 +400,7 @@ export default function AddList(){
         <textarea
         className='text-left mb-2 w-full h-12'
           value={topic.name}
+          maxLength={90}
           ref={topicInputRef}
           autoFocus
           onBlur={toggleTopicActive}
