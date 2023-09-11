@@ -80,6 +80,7 @@ export default function SignUp(){
             name="username"
             value={formData.username}
             onChange={handleChange}
+            autocapitalize="none" 
             className="w-full px-3 py-2 border rounded"
           />
         </div>
@@ -113,6 +114,7 @@ export default function SignUp(){
             value={formData.bio}
             placeholder='max 42 characters'
             onChange={handleChange}
+            autocapitalize="none" 
             className="w-full px-3 py-2 border rounded"
             maxLength="42"
           />
