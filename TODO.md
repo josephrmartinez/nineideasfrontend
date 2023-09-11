@@ -1,18 +1,21 @@
 Important updates for MVP:
 
+- Update production version of code to allow local development
+    - Check CORS issue with server expecting netlify domain, not localhost
+
 - Form handling: prevent user from submitting idea twice.
     - This is currently possible onEnter and onSubmit (clicking add idea)
 
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
 
-- Update production version of code to allow local development
-
-- Create consistent appearance between addList and editList components
-
 - Update visibility toggle on addList page to be same text color as "topic"
     - Update visibility toggle component to be DRY accross components if possible
-    - Merge "draft" into "public"/"private"?
+    - Create consistent appearance between addList and editList components
+
+- Implement loading state for NavLinks
+
+- Address top section nudging to the right when clicking from lists view to viewList
 
 - Why is component mounting on every onChange for textarea input on editList component but not addList?
     - Check ReactRouter configuration
