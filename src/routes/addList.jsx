@@ -370,11 +370,11 @@ export default function AddList(){
     <div className='h-full flex flex-col items-center'>
       <div className='w-[22rem] mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
-        <div className='flex flex-row items-center outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer'
+        <div className='flex flex-row items-center text-neutral-600 outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer'
         onClick={getNewTopic}>
           <ArrowsClockwise
             size={22}
-            className={`cursor-pointer text-neutral-600 mr-2 ${isSpinning ? 'animate-spin' : ''}`}
+            className={`cursor-pointer mr-2 ${isSpinning ? 'animate-spin' : ''}`}
             
           />
           <div className='text-sm uppercase select-none'>topic</div>
@@ -385,12 +385,8 @@ export default function AddList(){
         ) : (
         <div className='flex flex-row items-center justify-between outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer text-neutral-600'
         onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }>
-          {/* <LockLaminated 
-            size={22} 
-            weight='light'
-            className='cursor-pointer mr-2'/> */}
-            
-          <div className='text-sm uppercase select-none'>private</div>
+          
+          <div className='text-sm uppercase select-none'>{ideaList.length === 0 ? 'private' : 'draft' }</div>
         </div>
         )
         }
