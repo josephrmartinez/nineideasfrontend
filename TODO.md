@@ -6,7 +6,7 @@ Important updates for MVP:
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
 
-- Update username storage and retrieval so that it is not case sensitive
+- Update production version of code to allow local development
 
 - Create consistent appearance between addList and editList components
 

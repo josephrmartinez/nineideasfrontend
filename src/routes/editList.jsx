@@ -229,21 +229,22 @@ export default function EditList(){
       <div className='flex flex-row w-full justify-between items-center h-14'>
         <div className='flex flex-row items-center'>
             <DeleteList />
-            <div className='text-sm uppercase select-none'>DRAFT</div>
         </div>
 
         { isLoggedIn && ideaList.length === 9 ? (
         <VisibilityToggle publicList={publicList} onToggleClick={handleToggleVisibility}/> 
         ) : (
-        <div className='flex flex-row items-center w-[86px] justify-between text-neutral-600'>
-          <ToggleLeft 
-            size={24} 
-            className='cursor-pointer' 
-            onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }/>
-          <div className='text-sm uppercase select-none'>private</div>
+        <div className='flex flex-row items-center justify-between outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer text-neutral-600'
+        onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }>
+          
+          <div className='text-sm uppercase select-none'>{ideaList.length === 0 ? 'private' : 'draft' }</div>
         </div>
         )
         }
+
+      
+        
+      
       </div>
       <div className='text-left mb-2 h-12'>
         {topic.name}{topic.name ? ':' : ''}
@@ -323,7 +324,7 @@ const DeleteList = () => {
             }
             }}
         >
-            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer mx-4"/></button>
+            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer"/></button>
         </Form>
     )
 }
