@@ -22,6 +22,7 @@ export default function AddList(){
   
   const [topicActive, setTopicActive] = useState(false)
   const [buttonActive, setButtonActive] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false);
   const { isLoggedIn, userAuthData } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
@@ -90,15 +91,20 @@ export default function AddList(){
 
   // ADD IDEA OBJ TO IDEASLIST
   async function handleAddIdea() {
-    if (buttonActive) {
+    if (isSubmitting) {
       return
     }
 
     setButtonActive(true);
+    setIsSubmitting(true)
     
     setTimeout(() => {
       setButtonActive(false);
-    }, 100);
+    }, 150);
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 1000);
     
     if (currentIdea.trim().length < 3) return;
     if (ideaList.includes(currentIdea)) return;
@@ -139,7 +145,7 @@ export default function AddList(){
 
   function checkForSubmit(event) {
     if (currentIdea.trim().length < 3) return;
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !isSubmitting) {
       event.preventDefault();
       handleAddIdea()
     }
