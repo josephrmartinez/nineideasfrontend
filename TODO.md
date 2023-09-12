@@ -20,6 +20,8 @@ Important updates for MVP:
 - Why is component mounting on every onChange for textarea input on editList component but not addList?
     - Check ReactRouter configuration
 
+- Troubleshoot why I am unable to navigate directly to child links. eg. .app/lists/87348734928
+
 
 
 Features:

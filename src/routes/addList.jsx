@@ -90,9 +90,11 @@ export default function AddList(){
 
   // ADD IDEA OBJ TO IDEASLIST
   async function handleAddIdea() {
+    if (buttonActive) {
+      return
+    }
+
     setButtonActive(true);
-    // handleAddIdeaAudio.currentTime = 0;
-    // handleAddIdeaAudio.play();
     
     setTimeout(() => {
       setButtonActive(false);
