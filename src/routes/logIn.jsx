@@ -45,7 +45,7 @@ export default function LogIn() {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            autocapitalize="none" 
+            autoCapitalize="none" 
             className="w-full px-3 py-2 border rounded"
           />
         </div>

@@ -1,19 +1,17 @@
 Important updates for MVP:
 
-- Update production version of code to allow local development
-    - Check CORS issue with server expecting netlify domain, not localhost
+- Implement loading state for NavLinks
 
-- Form handling: prevent user from submitting idea twice.
-    - This is currently possible onEnter and onSubmit (clicking add idea)
+- Decrease load time for newTopic on initial load
 
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
 
-- Update visibility toggle on addList page to be same text color as "topic"
-    - Update visibility toggle component to be DRY accross components if possible
-    - Create consistent appearance between addList and editList components
+- DRY refactoring:
+- Update visibility toggle component across addList and editList
+    - Create consistent appearance and functionality between addList and editList components
 
-- Implement loading state for NavLinks
+
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
