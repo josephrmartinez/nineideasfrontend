@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import '../App.css'
 import VisibilityToggle from '../components/VisibilityToggle';
 import PopupModal from '../components/PopupModal';
-import { ArrowsClockwise, ToggleLeft, LockLaminated, LockKeyOpen } from "@phosphor-icons/react";
+import { ArrowsClockwise } from "@phosphor-icons/react";
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';

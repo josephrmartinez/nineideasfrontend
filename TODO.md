@@ -1,33 +1,36 @@
 Important updates for MVP:
 
+- Add idea has a network delay. Add some sort of isSubmitting indicator. Texttarea?
+
+- Set up AI content moderation API integration.
+    - Check whether content is complete and related to topic. 
+
 - Remove period from this topic: Boutique hotel ideas. Location, style, and something special about the property.:
 
 - Decrease load time for newTopic on initial load
 
+- Download phosphor icons into public folder instead of importing them on load?
+
+- Add 50 new topics
+
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
+
+- Address top section nudging to the right when clicking from lists view to viewList
+
 
 - DRY refactoring:
 - Update visibility toggle component across addList and editList
     - Create consistent appearance and functionality between addList and editList components
 
-
-
-- Address top section nudging to the right when clicking from lists view to viewList
-
-- Why is component mounting on every onChange for textarea input on editList component but not addList?
+- Is component mounting on every onChange for textarea input on editList component but not addList? Or is this just console.log placement?
     - Check ReactRouter configuration
 
-- Troubleshoot content not loading when navigating directly to subfolder links
-    - e.g. Loader does not appear to load correctly at .app/user/03948290834
 
 
 
 
 Features:
-
-- Set up content moderation AI API integration.
-    - Check whether content is complete and related to topic. 
 
 - Implement 'delete account' feature: delete all associated likes and lists (and ideas)
     - Keep likes on lists, but remove all lists so that fetching all lists still works (author is null)
@@ -62,5 +65,3 @@ General issues for research:
     - Why am I fetching data in BOTH root and authContext on initial load?
     - Need to troubleshoot the way that useAuth is handling userData. 
         If I log out of one account, the userId remains. This causes lists to be added to the previous user. (Check if still true)
-
-
