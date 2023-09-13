@@ -32,7 +32,8 @@ export default function Root() {
       <div className='h-14 border-b-2 px-4'>
         <div className='flex flex-row w-full justify-between items-center h-full'>
           <div className='grid grid-cols-2 gap-6'>
-            <NavLink to={`/`}>
+            <NavLink to={`/`}
+            >
                 <ListPlus size={24} className={`cursor-pointer ${isAddListActive ? 'text-[#ff3c00]' : 'text-[#636062]'}`} />
             </NavLink>
             <NavLink to={`/lists`}>
@@ -42,7 +43,10 @@ export default function Root() {
           <div className='grid grid-cols-2 gap-4'>
             {isLoggedIn ? (
               <>
-                <NavLink to={`/user/${userAuthData.userId}`} className={`text-sm cursor-pointer font-semibold ${isUserActive ? 'text-[#ff3c00] ' : 'text-neutral-500'}`}>
+                <NavLink 
+                to={`/user/${userAuthData.userId}`} 
+                className={({isActive, isPending}) =>
+                  `text-sm cursor-pointer font-semibold ${isActive ? 'text-[#ff3c00] ' : isPending ? 'text-orange-500' : 'text-neutral-500'}`}>
                   {userAuthData?.username}
                 </NavLink>
                 <div className="text-sm cursor-pointer font-semibold text-neutral-500" onClick={()=> handleLogout()}>sign out</div>
@@ -68,20 +72,3 @@ export default function Root() {
   );
 }
 
-
-
-  // useEffect(() => {
-  //   if (userAuthData) {
-  //     const fetchUserData = async () => {
-  //       try {
-  //         const fetchedUserData = await getUserData(userAuthData.userId);
-  //         setUserData(fetchedUserData);
-  //         console.log("Fetched user data in root:", fetchedUserData)
-  //       } catch (error) {
-  //         console.error('Error fetching user data:', error);
-  //       }
-  //     };
-
-  //     fetchUserData();
-  //   }
-  // }, [userAuthData]); 
