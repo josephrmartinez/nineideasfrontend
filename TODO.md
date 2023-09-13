@@ -1,6 +1,6 @@
 Important updates for MVP:
 
-- Implement loading state for NavLinks
+- Remove period from this topic: Boutique hotel ideas. Location, style, and something special about the property.:
 
 - Decrease load time for newTopic on initial load
 
@@ -18,7 +18,9 @@ Important updates for MVP:
 - Why is component mounting on every onChange for textarea input on editList component but not addList?
     - Check ReactRouter configuration
 
-- Troubleshoot why I am unable to navigate directly to child links. eg. .app/lists/87348734928
+- Troubleshoot content not loading when navigating directly to subfolder links
+    - e.g. Loader does not appear to load correctly at .app/user/03948290834
+
 
 
 
