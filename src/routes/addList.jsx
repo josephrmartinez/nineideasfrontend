@@ -9,6 +9,8 @@ import IdeasList from '../components/IdeasList';
 import { fetchNewTopic, createNewTopic } from '../utils/topic';
 import { useLocation } from 'react-router-dom';
 import apiEndpoint from '../config';
+import { deleteList } from '../utils/list';
+import { contentModeration } from '../utils/contentModeration';
 
 
 export default function AddList(){
@@ -179,6 +181,7 @@ export default function AddList(){
   // UPDATE LIST ON IDEAS 2 - 8
   const addIdeaToList = async () => {
     console.log("Calling addIdeaToList")
+    console.log("ideaList:", ideaList)
     try {
       const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         updates: {
@@ -196,22 +199,41 @@ export default function AddList(){
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
     try {
-      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
-        updates: {
-          ideas: ideaList,
-          completed: true,
-          public: true,
-          timeCompleted: Date.now()
+      // Step 1: Call content moderation API
+      const isContentSafe = await contentModeration(ideaList);
+      // const isContentSafe = true
+      // Step 2: Check content moderation result
+      if (isContentSafe) {
+        try {
+          // Step 3: If content is safe, update the list
+          const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
+            updates: {
+              ideas: ideaList,
+              completed: true,
+              public: true,
+              timeCompleted: Date.now()
+            }
+          });
+          console.log("Finished list response object:", response.data);
+          setPublicList(true);
+          return response.data;
+        } catch (error) {
+          console.error('Error updating list:', error);
+          throw error;
         }
-        });
-      console.log("Finished list response object:", response.data)
-      setPublicList(true)
-      return response.data
-      } catch (error) {
-        console.error('Error updating list:', error);
-        throw error;
+      } else {
+        // Step 4: If content is not safe, delete the list
+        await deleteList(currentListId);
       }
-    };
+    } catch (error) {
+      console.error('Error with content moderation:', error);
+      throw error;
+    }
+  };
+  
+
+
+    
 
   const addListToUser = async () => {
     try {
