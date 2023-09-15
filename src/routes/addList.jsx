@@ -9,8 +9,7 @@ import IdeasList from '../components/IdeasList';
 import { fetchNewTopic, createNewTopic } from '../utils/topic';
 import { useLocation } from 'react-router-dom';
 import apiEndpoint from '../config';
-import { deleteList } from '../utils/list';
-import { contentModeration } from '../utils/contentModeration';
+import { deleteList, contentModeration } from '../utils/list';
 
 
 export default function AddList(){
@@ -200,10 +199,18 @@ export default function AddList(){
   const finishList = async () => {
     try {
       // Step 1: Call content moderation API
-      const isContentSafe = await contentModeration(ideaList);
-      // const isContentSafe = true
-      // Step 2: Check content moderation result
-      if (isContentSafe) {
+
+      const startTime = Date.now();
+
+      const response = await contentModeration(ideaList);
+
+      const endTime = Date.now();
+      const elapsedTime = endTime - startTime;
+
+      const isContentReadable = response.data
+      console.log("content moderation result:", isContentReadable)
+      console.log("Time taken (ms):", elapsedTime);
+      if (isContentReadable) {
         try {
           // Step 3: If content is safe, update the list
           const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {

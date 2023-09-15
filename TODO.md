@@ -1,15 +1,13 @@
 Important updates for MVP:
 
+- Set up AI content moderation API integration.
+    - Run on both addList and editList
+
+- Troubleshoot: why is currentstreak and record streak not loading?
+
 - Add idea has a network delay. Add some sort of isSubmitting indicator. Texttarea?
 
-- Set up AI content moderation API integration.
-    - Check whether content is complete and related to topic. 
-
-- Remove period from this topic: Boutique hotel ideas. Location, style, and something special about the property.:
-
 - Decrease load time for newTopic on initial load
-
-- Download phosphor icons into public folder instead of importing them on load?
 
 - Add 50 new topics
 

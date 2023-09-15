@@ -58,16 +58,15 @@ export async function updateList(listId, updates) {
         }
         };
 
-
-// export async function updateList(listId, updates) {
-//     try {
-//         const response = await axios.patch(`${apiEndpoint}/lists/${listId}`, {
-//         public: publicList,
-//         });
-//         console.log("Updated list after PATCH:", response.data)
-//         return response.data
-//         } catch (error) {
-//             console.error('Error updating list:', error);
-//             throw error;
-//         }
-//         };
+export async function contentModeration(ideaList) {
+    try {
+        const contentModerationResponse = await axios.post(`${apiEndpoint}/lists/check`, {
+            ideaList: ideaList
+          });
+          return contentModerationResponse
+    } catch (error) {
+        console.error('Error with content moderation:', error);
+        throw error;
+    }
+}
+        
