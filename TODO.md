@@ -1,7 +1,9 @@
 Important updates for MVP:
 
 - Set up AI content moderation API integration.
+    - update new api key on server
     - Run on both addList and editList
+    - Implement some sort of indicator that list has been removed due to content moderation policy?
 
 - Troubleshoot: why is currentstreak and record streak not loading?
 
