@@ -198,19 +198,20 @@ export default function AddList(){
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
     try {
-      // Step 1: Call content moderation API
-
       const startTime = Date.now();
 
       const response = await contentModeration(ideaList);
 
-      const endTime = Date.now();
-      const elapsedTime = endTime - startTime;
-
       const isContentReadable = response.data
       console.log("content moderation result:", isContentReadable)
-      console.log("Time taken (ms):", elapsedTime);
+
+      const endTime = Date.now();
+      const elapsedTime = endTime - startTime;
+      console.log("Time required for content moderation (ms):", elapsedTime);
+      
       if (isContentReadable) {
+        
+
         try {
           // Step 3: If content is safe, update the list
           const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
@@ -229,8 +230,23 @@ export default function AddList(){
           throw error;
         }
       } else {
-        // Step 4: If content is not safe, delete the list
-        await deleteList(currentListId);
+        setIdeaList(prevIdeas => {
+          // Create a copy of the existing ideas array without the first element
+          const updatedIdeas = prevIdeas.slice(1);
+          
+          return updatedIdeas;
+        });
+
+        setTimeout(() => {
+          setPopupMessage(
+            <>
+            <p className="font-semibold text-md mb-1">Content Moderation alert</p>
+            <p className='text-sm mb-4'>This list does not pass the content moderation check. This is probably because you typed in something like "adflkjhasflgkj"</p>
+            <p className='text-sm'>Please complete your list with real, complete ideas.</p>
+            </>
+          )
+          setShowPopup(true)
+        }, 800);
       }
     } catch (error) {
       console.error('Error with content moderation:', error);
