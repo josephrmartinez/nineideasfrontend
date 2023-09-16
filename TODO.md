@@ -5,6 +5,9 @@ Important updates for MVP:
 
 - Troubleshoot:
     - What is leading to list duplication?
+    
+- Troubleshoot delete list error:
+    - userId var passed to getUserData: undefined
     - on delete routing to: http://localhost:5173/user/undefined
 
 - Troubleshoot: why is currentstreak and record streak not loading?
