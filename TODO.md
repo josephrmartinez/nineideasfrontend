@@ -1,16 +1,22 @@
 Important updates for MVP:
 
-- Troubleshoot: list duplication?
-
 - Troubleshoot: why is currentstreak and record streak not loading?
 
-- Add idea has a network delay. Add some sort of isSubmitting indicator. Texttarea?
+- Add idea has a network delay. Add some sort of isSubmitting indicator. Textarea?
 
 - Decrease load time for newTopic on initial load
 
 - Create "share list" function
 
 - Add 50 new topics
+
+- Add 20 lists. 
+
+- Populate site with likes
+
+- Implement pagination for main lists page
+
+- Implement pagination for lists in viewUser page
 
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
@@ -26,6 +32,7 @@ Important updates for MVP:
     - Check ReactRouter configuration
 
 
+- Troubleshoot: list duplication?
 
 
 
