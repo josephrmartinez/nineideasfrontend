@@ -41,7 +41,7 @@ export default function AddList(){
   }, [userAuthData]);
 
 
-  
+  console.log("isLoggedIn value:", isLoggedIn)
 
   // TOPIC MANAGEMENT // 
 
@@ -111,9 +111,19 @@ export default function AddList(){
     if (ideaList.includes(currentIdea)) return;
 
     try {
-      // SEND POST REQUEST TO CREATE IDEA
-      const newIdea = await postNewIdea();
+      let newIdea = {}
 
+      // If user logged in, make POST request to create idea obj in DB.
+      // If user logged out, just create a frontend-only idea obj
+      if (!isLoggedIn) {
+        newIdea =
+        {
+          text: currentIdea,
+          parentTopic: topic._id
+        }
+      } else {
+        newIdea = await postNewIdea();
+      }
       // Update ideaList state
       setIdeaList(prevIdeas => {
         return [newIdea, ...prevIdeas];
@@ -158,6 +168,7 @@ export default function AddList(){
 
   // CREATE LIST WITH FIRST IDEA
   const postNewList = async () => {
+    if (!isLoggedIn) return;
     try {
       // Create the new list
       const newListResponse = await axios.post(`${apiEndpoint}/lists/`, {
@@ -165,7 +176,7 @@ export default function AddList(){
         ideas: ideaList,
         dateAdded: Date.now(),
         timeStarted: Date.now(),
-        author: userAuthData.userId
+        author: userAuthData?.userId || 'loggedOutUser'
       });
       setCurrentListId(newListResponse.data._id)
       console.log("post new list response data:", newListResponse.data);
@@ -179,6 +190,7 @@ export default function AddList(){
 
   // UPDATE LIST ON IDEAS 2 - 8
   const addIdeaToList = async () => {
+    if (!isLoggedIn) return;
     console.log("Calling addIdeaToList")
     console.log("ideaList:", ideaList)
     try {
@@ -210,10 +222,9 @@ export default function AddList(){
       console.log("Time required for content moderation (ms):", elapsedTime);
       
       if (isContentReadable) {
-        
-
+        if (!isLoggedIn) return;
         try {
-          // Step 3: If content is safe, update the list
+          // Step 3: If content is safe and user is logged in, update the list
           const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
             updates: {
               ideas: ideaList,
@@ -229,6 +240,8 @@ export default function AddList(){
           console.error('Error updating list:', error);
           throw error;
         }
+
+
       } else {
         setIdeaList(prevIdeas => {
           // Create a copy of the existing ideas array without the first element

@@ -28,7 +28,7 @@ export default function IdeasList({ ideaList, updateIdea }) {
     const initialRows = Math.ceil(idea.text.length / 40);
 
     return (
-      <div key={idea._id} className="border-b text-sm max-w-md mx-auto text-left">
+      <div key={index} className="border-b text-sm max-w-md mx-auto text-left">
         {editIndex === index ? (
           <textarea
             className="my-4 tracking-wide w-full p-0 text-gray-700"
