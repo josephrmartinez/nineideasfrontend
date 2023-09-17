@@ -22,9 +22,10 @@ export async function getOneList(listId) {
     };
 
 export async function deleteList(listId) {
+    console.log("listId passed to deleteList function:", listId)
     try {
         const response = await axios.delete(`${apiEndpoint}/lists/${listId}`);
-        return response.data.authorId;
+        return response
     } catch (error) {
         console.error('Error fetching list:', error);
         throw error;

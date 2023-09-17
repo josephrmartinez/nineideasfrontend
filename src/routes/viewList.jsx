@@ -183,22 +183,3 @@ const LikeIcon = ({listData, userAuthData}) => {
 
     return formContent
 }
-
-
-// DEPRECATED VISIBILITY TOGGLE:
-{/* <button
-                name="public"
-                value={publicList ? "false" : "true"} 
-                className='flex flex-row items-center w-[86px] justify-between text-neutral-600'
-                >
-                {publicList ? 
-                <>
-                <ToggleRight size={24} className='cursor-pointer'/>
-                <div className='text-sm uppercase select-none'>public</div>
-                </>
-                :
-                <>
-                <ToggleLeft size={24} className='cursor-pointer'/>
-                <div className='text-sm uppercase select-none'>private</div>
-                </>}
-            </button> */}
