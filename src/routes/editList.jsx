@@ -6,7 +6,7 @@ import { Trash } from "@phosphor-icons/react";
 import axios from 'axios';
 import { useAuth } from '../contexts/authContext';
 import IdeasList from '../components/IdeasList';
-import { getOneList, updateList } from '../utils/list';
+import { getOneList, updateList, contentModeration } from '../utils/list';
 import { useLoaderData, Form } from 'react-router-dom';
 import apiEndpoint from '../config';
 
@@ -17,7 +17,6 @@ export async function loader({ params }) {
 
 export default function EditList(){
     const { listData } = useLoaderData();
-    console.log("listData:", listData)
 
   const [topic, setTopic] = useState(listData.topic)
   const [currentIdea, setCurrentIdea] = useState("")
@@ -149,20 +148,61 @@ export default function EditList(){
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
     try {
-      const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
-        updates: {
-        ideas: ideaList,
-        completed: true,
-        public: true,
-        timeCompleted: Date.now()}
-      });
-      console.log("Finished list response data:", response.data)
-      setPublicList(true)
-      } catch (error) {
-        console.error('Error updating list:', error);
-        throw error;
+      const startTime = Date.now();
+
+      const response = await contentModeration(ideaList);
+
+      const isContentReadable = response.data
+      console.log("content moderation result:", isContentReadable)
+
+      const endTime = Date.now();
+      const elapsedTime = endTime - startTime;
+      console.log("Time required for content moderation (ms):", elapsedTime);
+      
+      if (isContentReadable) {
+        
+
+        try {
+          // Step 3: If content is safe, update the list
+          const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
+            updates: {
+              ideas: ideaList,
+              completed: true,
+              public: true,
+              timeCompleted: Date.now()
+            }
+          });
+          console.log("Finished list response object:", response.data);
+          setPublicList(true);
+          return response.data;
+        } catch (error) {
+          console.error('Error updating list:', error);
+          throw error;
+        }
+      } else {
+        setIdeaList(prevIdeas => {
+          // Create a copy of the existing ideas array without the first element
+          const updatedIdeas = prevIdeas.slice(1);
+          
+          return updatedIdeas;
+        });
+
+        setTimeout(() => {
+          setPopupMessage(
+            <>
+            <p className="font-semibold text-md mb-1">Content Moderation Alert</p>
+            <p className='text-sm mb-4'>This list does not pass the content moderation check. This is probably because you typed in unreadable content such as "adflkjhasflgkj"</p>
+            <p className='text-sm'>Please complete your list with real, complete ideas.</p>
+            </>
+          )
+          setShowPopup(true)
+        }, 800);
       }
-    };
+    } catch (error) {
+      console.error('Error with content moderation:', error);
+      throw error;
+    }
+  };
 
     useEffect(() => {
         console.log("useEffect triggered")

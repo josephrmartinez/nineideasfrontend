@@ -1,14 +1,6 @@
 Important updates for MVP:
 
-- Set up AI content moderation API integration.
-    - Run on both addList and editList
-
-- Troubleshoot:
-    - What is leading to list duplication?
-    
-- Troubleshoot delete list error:
-    - userId var passed to getUserData: undefined
-    - on delete routing to: http://localhost:5173/user/undefined
+- Troubleshoot: list duplication?
 
 - Troubleshoot: why is currentstreak and record streak not loading?
 

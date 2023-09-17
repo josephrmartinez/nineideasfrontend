@@ -240,8 +240,8 @@ export default function AddList(){
         setTimeout(() => {
           setPopupMessage(
             <>
-            <p className="font-semibold text-md mb-1">Content Moderation alert</p>
-            <p className='text-sm mb-4'>This list does not pass the content moderation check. This is probably because you typed in something like "adflkjhasflgkj"</p>
+            <p className="font-semibold text-md mb-1">Content Moderation Alert</p>
+            <p className='text-sm mb-4'>This list does not pass the content moderation check. This is probably because you typed in unreadable content such as "adflkjhasflgkj"</p>
             <p className='text-sm'>Please complete your list with real, complete ideas.</p>
             </>
           )
