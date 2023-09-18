@@ -28,6 +28,7 @@ export default function IdeasList({ ideaList, updateIdea }) {
     const initialRows = Math.ceil(idea.text.length / 40);
 
     return (
+      // key is set as index because logged out users will generate ideas without _.id value
       <div key={index} className="border-b text-sm max-w-md mx-auto text-left">
         {editIndex === index ? (
           <textarea

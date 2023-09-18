@@ -2,9 +2,18 @@ Important updates for MVP:
 
 - Troubleshoot: why is currentstreak and record streak not loading?
 
+- Create FIXED HEIGHT for progress bar. It is resizing on addList page size change with ideas list going to scroll. 
+
+- Logged out version: allow loggedout users to view other user profiles. Currently getting error: "Cannot read properties of null (reading 'userId')"
+
+- Address top section nudging to the right when clicking from lists view to viewList
+
+
+
+
 - Add idea has a network delay. Add some sort of isSubmitting indicator. Textarea?
 
-- Decrease load time for newTopic on initial load
+- Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
 
 - Create "share list" function
 
@@ -21,7 +30,6 @@ Important updates for MVP:
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
 
-- Address top section nudging to the right when clicking from lists view to viewList
 
 
 - DRY refactoring:
@@ -71,3 +79,13 @@ General issues for research:
     - Why am I fetching data in BOTH root and authContext on initial load?
     - Need to troubleshoot the way that useAuth is handling userData. 
         If I log out of one account, the userId remains. This causes lists to be added to the previous user. (Check if still true)
+
+
+Users:
+josephm
+saulg
+kimw
+peterg
+darn
+tyvek
+matilda
