@@ -264,7 +264,7 @@ export default function EditList(){
 
   return (
     <div
-        className='h-full flex flex-col items-center'>
+        className='flex flex-col items-center'>
       <div className='w-[22rem] mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
         <div className='flex flex-row items-center'>
@@ -286,7 +286,8 @@ export default function EditList(){
         
       
       </div>
-      <div className='text-left mb-2 h-12'>
+      <div className='text-left mb-3.5 h-12'>
+        
         {topic.name}{topic.name ? ':' : ''}
       </div>
 
@@ -305,8 +306,8 @@ export default function EditList(){
       
       </div>
 
-      <div className='w-[22rem] h-4 mb-4 mx-auto rounded-full border relative'>  
-        <div className='absolute left-0 top-0 h-full rounded-full shadow-lg'
+      <div className='w-[22rem] h-2.5 mb-4 mx-auto rounded-full border relative'>  
+        <div className='absolute left-0 top-0 h-2 rounded-full shadow-lg'
           style={{ width: fillWidth, background: "linear-gradient(to bottom, #6cb00e, #005c14)", transition: "width 0.4s cubic-bezier(0.3, .15, 0.35, 1)" }}>
         </div>
       </div>
@@ -334,7 +335,7 @@ export default function EditList(){
 
 
       {ideaList.length > 0 && 
-      <div className='flex-grow overflow-y-scroll w-full border-t-2 mx-auto mt-8'>
+      <div className='flex-grow overflow-y-scroll w-full border-t-2 mx-auto mt-6'>
         <div className='w-[22rem] mx-auto'>
           <IdeasList ideaList={ideaList} updateIdea={updateIdea} />
         </div>

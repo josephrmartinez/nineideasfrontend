@@ -433,7 +433,7 @@ export default function AddList(){
 
 
   return (
-    <div className='h-full flex flex-col items-center'>
+    <div className='flex flex-col items-center'>
       <div className='w-[22rem] mx-auto'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
         <div className='flex flex-row items-center text-neutral-600 outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer'
@@ -469,7 +469,7 @@ export default function AddList(){
           onChange={handleTopicInputChange}
           onKeyDown={checkForSubmitTopic}></textarea>
         : <div
-        className='text-left mb-2 h-12'
+        className='text-left mb-3.5 h-12'
         onClick={()=>setTopicActive(true)}>
           
         {topic.name}{topic.name ? ':' : ''}
@@ -479,7 +479,7 @@ export default function AddList(){
 
         
       <textarea
-        className={`w-[22rem] mb-3 outline-none bg-neutral-50 ${ideaList.length >= 9 ? 'h-0 border-none transition-all duration-700' : 'h-20 border'}`}
+        className={`w-[22rem] mb-2 outline-none bg-neutral-50 ${ideaList.length >= 9 ? 'h-0 border-none transition-all duration-700' : 'h-20 border'}`}
         value={currentIdea}
         ref={ideaInputRef}
         autoFocus
@@ -493,8 +493,8 @@ export default function AddList(){
 
       </div>
 
-      <div className='w-[22rem] h-4 mb-4 mx-auto rounded-full border relative'>  
-        <div className='absolute left-0 top-0 h-full rounded-full shadow-lg'
+      <div className='w-[22rem] h-2.5 mb-4 mx-auto rounded-full border relative'>  
+        <div className='absolute left-0 top-0 h-2 rounded-full shadow-lg'
           style={{ width: fillWidth, background: "linear-gradient(to bottom, #6cb00e, #005c14)", transition: "width 0.4s cubic-bezier(0.3, .15, 0.35, 1)" }}>
         </div>
       </div>
@@ -519,7 +519,7 @@ export default function AddList(){
       </div>
       
       {ideaList.length > 0 && 
-      <div className='flex-grow overflow-y-scroll w-full border-t-2 mx-auto mt-8'>
+      <div className='flex-grow overflow-y-scroll w-full border-t-2 mx-auto mt-6'>
         <div className='w-[22rem] mx-auto'>
           <IdeasList ideaList={ideaList} updateIdea={updateIdea} />
         </div>

@@ -49,7 +49,7 @@ export default function ViewList(){
     return(
     <div className="h-full flex flex-col items-center">
 
-        <div className="border-b-2 w-full max-w-3xl">
+        <div className="border-b-2 w-full max-w-3xl pr-2.5">
             <div className="w-10/12 max-w-md mx-auto my-4">
                 
                 <div className="text-left text-neutral-700 my-4">
