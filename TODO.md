@@ -2,12 +2,13 @@ Important updates for MVP:
 
 - Troubleshoot: why is currentstreak and record streak not loading?
 
-- Create FIXED HEIGHT for progress bar. It is resizing on addList page size change with ideas list going to scroll. 
-
 - Logged out version: allow loggedout users to view other user profiles. Currently getting error: "Cannot read properties of null (reading 'userId')"
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
+- Change width of elements on addList and editList to match content width in other pages (10/12?)
+
+- Troubleshoot h-full behavior on progress bar indicator. 
 
 
 
