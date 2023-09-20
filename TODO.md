@@ -2,21 +2,21 @@ Important updates for MVP:
 
 - Troubleshoot: why is currentstreak and record streak not loading?
 
-- Logged out version: allow loggedout users to view other user profiles. Currently getting error: "Cannot read properties of null (reading 'userId')"
+- Troubleshoot: Why are already completed topics being presented to the user?
+
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
-- Change width of elements on addList and editList to match content width in other pages (10/12?)
+- Change width of elements on addList and editList to match
+    - Refactor addList route first. Then implement maintainable editList page with updates
 
-- Troubleshoot h-full behavior on progress bar indicator. 
-
-
+- Implement pulsing effect on pending routes (addList, lists view, viewUser)
 
 - Add idea has a network delay. Add some sort of isSubmitting indicator. Textarea?
 
 - Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
 
-- Create "share list" function
+- Create "share list" function?
 
 - Add 50 new topics
 
