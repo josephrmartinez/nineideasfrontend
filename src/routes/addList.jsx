@@ -434,8 +434,8 @@ export default function AddList(){
 
   return (
     // h-full is causing the progress bar parent container to resize. Troubleshoot
-    <div className='h-full flex flex-col items-center'>
-      <div className='w-[22rem] mx-auto'>
+    <div className='h-full flex flex-col items-center content-center w-10/12 max-w-md mx-auto'>
+      <div className='w-full'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
         <div className='flex flex-row items-center text-neutral-600 outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer'
         onClick={getNewTopic}>
@@ -445,7 +445,7 @@ export default function AddList(){
             
           />
           <div className='text-sm uppercase select-none'>topic</div>
-      </div>
+        </div>
 
         { isLoggedIn && ideaList.length === 9 ? (
         <VisibilityToggle publicList={publicList} onToggleClick={handleToggleVisibility}/> 
@@ -480,7 +480,7 @@ export default function AddList(){
 
         
       <textarea
-        className={`w-[22rem] mb-2 outline-none bg-neutral-50 ${ideaList.length >= 9 ? 'h-0 border-none transition-all duration-700' : 'h-20 border'}`}
+        className={`w-full mb-2 outline-none bg-neutral-50 ${ideaList.length >= 9 ? 'h-0 border-none transition-all duration-700' : 'h-20 border'}`}
         value={currentIdea}
         ref={ideaInputRef}
         autoFocus
@@ -490,17 +490,13 @@ export default function AddList(){
       >
       </textarea> 
       
-      
-
-      </div>
-
-      <div className='w-[22rem] h-2.5 mb-4 mx-auto rounded-full border relative'>  
+      <div className='w-full h-2.5 mb-4 mx-auto rounded-full border relative'>  
         <div className='absolute left-0 top-0 h-2 rounded-full shadow-lg'
           style={{ width: fillWidth, background: "linear-gradient(to bottom, #6cb00e, #005c14)", transition: "width 0.4s cubic-bezier(0.3, .15, 0.35, 1)" }}>
         </div>
       </div>
 
-      <div className='w-80 mx-auto'>
+      <div className='w-full mx-auto'>
       { ideaList.length < 9 ? 
       <button className={`pushable ${buttonActive ? 'active' : ''}`} onClick={handleAddIdea}>
         <span className="shadow"></span>
@@ -517,11 +513,16 @@ export default function AddList(){
           list complete
         </span>
       </button>  }
+
       </div>
+
+      </div>
+
+      
       
       {ideaList.length > 0 && 
       <div className='flex-grow overflow-y-scroll w-full border-t-2 mx-auto mt-6'>
-        <div className='w-[22rem] mx-auto'>
+        <div className='w-full mx-auto'>
           <IdeasList ideaList={ideaList} updateIdea={updateIdea} />
         </div>
       </div>

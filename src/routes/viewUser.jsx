@@ -13,7 +13,7 @@ export default function ViewUser(){
   const { userAuthData } = useAuth()
   const navigate = useNavigate();
 
-  const isCurrentUser = userAuthData.userId === userData._id;
+  const isCurrentUser = userAuthData?.userId === userData?._id;
 
   console.log("isCurrentUser:", isCurrentUser)
   console.log("userData from loader:", userData)
