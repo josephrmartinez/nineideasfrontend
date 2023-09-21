@@ -1,9 +1,6 @@
 Important updates for MVP:
 
-- Troubleshoot: why is currentstreak and record streak not loading?
-
 - Troubleshoot: Why are already completed topics being presented to the user?
-
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
@@ -90,3 +87,4 @@ peterg
 darn
 tyvek
 matilda
+ingleside

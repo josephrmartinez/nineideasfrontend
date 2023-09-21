@@ -12,6 +12,8 @@ import Root from './routes/root';
 import AddList from './routes/addList';
 import LogIn from './routes/logIn';
 import SignUp from './routes/signUp';
+import ContentModeration from './routes/contentModeration';
+
 import ViewList, {loader as listLoader, action as listPublicToggleAction} from './routes/viewList';
 import ViewUser, {loader as userLoader} from './routes/viewUser';
 import EditUser, {loader as editUserLoader, action as editUserAction} from './routes/editUser';
@@ -52,6 +54,10 @@ const router = createBrowserRouter([
         path: "/lists",
         element: <Lists />,
         loader: listsLoader,
+      },
+      {
+        path: "/content-moderation",
+        element: <ContentModeration />,
       },
       {
         path: "/lists/:listId",
