@@ -2,6 +2,8 @@ Important updates for MVP:
 
 - Troubleshoot: Why are already completed topics being presented to the user?
 
+- Update content moderation policy: add line "make generating ideas a daily habit"
+
 - Address top section nudging to the right when clicking from lists view to viewList
 
 - Change width of elements on addList and editList to match
