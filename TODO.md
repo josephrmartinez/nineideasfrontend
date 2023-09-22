@@ -2,14 +2,13 @@ Important updates for MVP:
 
 - Troubleshoot: Why are already completed topics being presented to the user?
 
-- Update content moderation policy: add line "make generating ideas a daily habit"
+- Troubleshoot: current streak. possible to enter date for user's browser location?
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
 - Change width of elements on addList and editList to match
     - Refactor addList route first. Then implement maintainable editList page with updates
 
-- Implement pulsing effect on pending routes (addList, lists view, viewUser)
 
 - Add idea has a network delay. Add some sort of isSubmitting indicator. Textarea?
 
