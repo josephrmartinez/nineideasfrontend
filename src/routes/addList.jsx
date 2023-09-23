@@ -41,7 +41,6 @@ export default function AddList(){
   }, [userAuthData]);
 
 
-  console.log("isLoggedIn value:", isLoggedIn)
 
   // TOPIC MANAGEMENT // 
 
@@ -174,8 +173,7 @@ export default function AddList(){
       const newListResponse = await axios.post(`${apiEndpoint}/lists/`, {
         topic: topic._id,
         ideas: ideaList,
-        dateAdded: Date.now(),
-        timeStarted: Date.now(),
+        timeStarted: new Date().toLocaleDateString(),
         author: userAuthData?.userId || 'loggedOutUser'
       });
       setCurrentListId(newListResponse.data._id)
@@ -230,7 +228,7 @@ export default function AddList(){
               ideas: ideaList,
               completed: true,
               public: true,
-              timeCompleted: Date.now()
+              timeCompleted: new Date().toLocaleDateString()
             }
           });
           console.log("Finished list response object:", response.data);
@@ -320,7 +318,7 @@ export default function AddList(){
   // This is preventing me from being able to use the useEffect
   useEffect(() => {
     if (currentListId.length > 1){
-    console.log("currentListId has just been updated to:", currentListId)
+    // console.log("currentListId has just been updated to:", currentListId)
     addListToUser()
   }
   }, [currentListId]);

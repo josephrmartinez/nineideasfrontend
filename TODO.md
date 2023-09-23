@@ -10,7 +10,7 @@ Important updates for MVP:
     - Refactor addList route first. Then implement maintainable editList page with updates
 
 
-- Add idea has a network delay. Add some sort of isSubmitting indicator. Textarea?
+- Add idea has a network delay. Refactor code to immediately update on front end. See react router tutorial
 
 - Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
 
