@@ -169,11 +169,14 @@ export default function AddList(){
   const postNewList = async () => {
     if (!isLoggedIn) return;
     try {
+
+      const timeStarted = new Date()
+
       // Create the new list
       const newListResponse = await axios.post(`${apiEndpoint}/lists/`, {
         topic: topic._id,
         ideas: ideaList,
-        timeStarted: new Date().toLocaleDateString(),
+        timeStarted: timeStarted,
         author: userAuthData?.userId || 'loggedOutUser'
       });
       setCurrentListId(newListResponse.data._id)
@@ -222,13 +225,18 @@ export default function AddList(){
       if (isContentReadable) {
         if (!isLoggedIn) return;
         try {
-          // Step 3: If content is safe and user is logged in, update the list
+
+          // Create a new Date object on the frontend
+          const dateCompletedObject = new Date().toLocaleDateString();
+
+          // If content is safe and user is logged in, update the list
           const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
             updates: {
               ideas: ideaList,
               completed: true,
               public: true,
-              timeCompleted: new Date().toLocaleDateString()
+              timeCompleted: new Date(),
+              dateCompleted: dateCompletedObject
             }
           });
           console.log("Finished list response object:", response.data);
