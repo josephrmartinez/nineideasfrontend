@@ -29,7 +29,7 @@ export default function IdeasList({ ideaList, updateIdea }) {
 
     return (
       // key is set as index because logged out users will generate ideas without _.id value
-      <div key={index} className="border-b text-sm max-w-md mx-auto text-left">
+      <div key={index} className="border-b text-sm w-10/12 max-w-md mx-auto text-left">
         {editIndex === index ? (
           <textarea
             className="my-4 tracking-wide w-full p-0 text-gray-700"

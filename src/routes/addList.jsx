@@ -441,8 +441,8 @@ export default function AddList(){
 
   return (
     // h-full is causing the progress bar parent container to resize. Troubleshoot
-    <div className='h-full flex flex-col items-center content-center w-10/12 max-w-md mx-auto'>
-      <div className='w-full'>
+    <div className='h-full flex flex-col items-center content-center  mx-auto'>
+      <div className='w-10/12 max-w-md'>
       <div className='flex flex-row w-full justify-between items-center h-14'>
         <div className='flex flex-row items-center text-neutral-600 outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer'
         onClick={getNewTopic}>
