@@ -1,9 +1,8 @@
 Important updates for MVP:
 
-- Troubleshoot: Why are already completed topics being presented to the user?
+- Feature: implement record streak calculation
 
-- Troubleshoot: current streak. possible to enter date for user's browser location?
-    - Update model and front end code. Record timeStarted and timeFinished still as Date objects. But ADD a new field with dateCompleted. This will just be a new Date().toLocaleDateString(). I will then calculate current and record streak using just this value. Make an update so that the old data in the database does not need to be completely purged to implement this update. Old values should still be valid!!
+- Troubleshoot: Why are already completed topics being presented to the user?
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
