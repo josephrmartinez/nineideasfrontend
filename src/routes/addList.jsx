@@ -9,7 +9,7 @@ import IdeasList from '../components/IdeasList';
 import { fetchNewTopic, createNewTopic } from '../utils/topic';
 import { useLocation } from 'react-router-dom';
 import apiEndpoint from '../config';
-import { deleteList, contentModeration } from '../utils/list';
+import { contentModeration, postNewIdea } from '../utils/list';
 
 
 export default function AddList(){
@@ -71,23 +71,6 @@ export default function AddList(){
   };
 
 
-  // IDEA MANAGEMENT //
-
-  // CREATE IDEA OBJ
-  const postNewIdea = async () => {
-    try {
-      const response = await axios.post(`${apiEndpoint}/idea/`, {
-        text: currentIdea,
-        parentTopic: topic._id
-      });
-      console.log("postNewIdea response:", response.data)
-      return response.data;
-    } catch (error) {
-      console.error('Error creating idea:', error);
-      throw error;
-    }
-  };
-
 
   // ADD IDEA OBJ TO IDEASLIST
   async function handleAddIdea() {
@@ -102,38 +85,78 @@ export default function AddList(){
       setButtonActive(false);
     }, 150);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 1000);
     
     if (currentIdea.trim().length < 3) return;
     if (ideaList.includes(currentIdea)) return;
 
     try {
-      let newIdea = {}
-
-      // If user logged in, make POST request to create idea obj in DB.
-      // If user logged out, just create a frontend-only idea obj
-      if (!isLoggedIn) {
-        newIdea =
-        {
-          text: currentIdea,
-          parentTopic: topic._id
-        }
-      } else {
-        newIdea = await postNewIdea();
-      }
-      // Update ideaList state
-      setIdeaList(prevIdeas => {
-        return [newIdea, ...prevIdeas];
+      // Create an optimistic idea object with just text and parentTopic
+      let optimisticIdea = {
+        text: currentIdea,
+        parentTopic: topic._id,
+      };
+  
+      // Optimistic UI update: Add the optimistic idea object to the UI immediately
+      setIdeaList((prevIdeas) => {
+        return [optimisticIdea, ...prevIdeas];
       });
-      // Set currentIdea and focus input before calling postNewListAPI
+  
+      // Clear the input and set focus
       setCurrentIdea("");
       ideaInputRef.current.focus();
+  
+      let newIdea;
+  
+      // If user logged in, make POST request to create idea obj in DB.
+      if (isLoggedIn) {
+        // Make the backend API call to create the idea
+        newIdea = await postNewIdea(currentIdea, topic._id);
+  
+        // Update the UI with the response from the backend
+        setIdeaList((prevIdeas) => {
+          // Replace the optimistic idea object with the response from the backend
+          return prevIdeas.map((idea) =>
+            idea === optimisticIdea ? newIdea : idea
+          );
+        });
+      } else {
+        // If user is not logged in, the newIdea is the same as the optimisticIdea
+        newIdea = optimisticIdea;
+      }
+  
+      setIsSubmitting(false); // Set isSubmitting to false after the backend call (if any)
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
+      // Handle the error here, e.g., show an error message to the user
+      // You might also consider rolling back the UI update if the backend call fails
     }
   }
+
+  //   try {
+  //     let newIdea = {}
+
+  //     // If user logged in, make POST request to create idea obj in DB.
+  //     // If user logged out, just create a frontend-only idea obj
+  //     if (!isLoggedIn) {
+  //       newIdea =
+  //       {
+  //         text: currentIdea,
+  //         parentTopic: topic._id
+  //       }
+  //     } else {
+  //       newIdea = await postNewIdea(currentIdea, topic._id);
+  //     }
+  //     // Update ideaList state
+  //     setIdeaList(prevIdeas => {
+  //       return [newIdea, ...prevIdeas];
+  //     });
+  //     // Set currentIdea and focus input before calling postNewListAPI
+  //     setCurrentIdea("");
+  //     ideaInputRef.current.focus();
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // }
 
   // Update already posted idea
   // CURRENTLY, THIS FUNCTION TRIGGERS THE USEEFFECT BECAUSE THE LOCAL IDEALIST IS BEING UPDATED.

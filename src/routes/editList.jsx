@@ -24,6 +24,8 @@ export default function EditList(){
   const [currentListId, setCurrentListId] = useState(listData._id)
   
   const [buttonActive, setButtonActive] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const { isLoggedIn } = useAuth()
   const [showPopup, setShowPopup] = useState(false)
   const [popupMessage, setPopupMessage] = useState({})

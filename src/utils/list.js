@@ -70,4 +70,18 @@ export async function contentModeration(ideaList) {
         throw error;
     }
 }
-        
+
+export async function postNewIdea(currentIdea, parentTopicId) {
+    try {
+      const response = await axios.post(`${apiEndpoint}/idea/`, {
+        text: currentIdea,
+        parentTopic: parentTopicId
+      });
+      console.log("postNewIdea response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating idea:', error);
+      throw error;
+    }
+  }
+
