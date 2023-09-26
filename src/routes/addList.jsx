@@ -114,6 +114,7 @@ function createOptimisticIdea() {
   return {
     text: currentIdea,
     parentTopic: topic._id,
+    isOptimistic: true
   };
 }
 
@@ -130,13 +131,16 @@ async function performAPIRequest(optimisticIdea) {
     console.log("ideaList", ideaList)
     try {
       const newIdea = await postNewIdea(optimisticIdea.text, topic._id);
-      
-      const updatedIdeaList = ideaList.map((idea) =>
-        idea === optimisticIdea ? newIdea : idea
-      );
-      setIdeaList(updatedIdeaList);
-      setOptimisticIdeaPresent(false);
       console.log("newIdea", newIdea);
+
+      setIdeaList((prevIdeas) =>
+        prevIdeas.map((idea) =>
+          idea.isOptimistic ? newIdea : idea
+        )
+      );
+
+    
+      
     } catch (error) {
       console.log("Error while creating idea:", error);
     }
@@ -373,9 +377,9 @@ async function performAPIRequest(optimisticIdea) {
   // There is a bug here where a new list is generated if the user makes an edit to their first idea.
   // Likewise, the finishList function is called every time a user makes updates to an idea in a completed list
   useEffect(() => {
-      // Check if there are any optimistic ideas in the ideaList
+    const hasOptimisticIdeas = ideaList.some((idea) => idea.isOptimistic);
 
-    if (!optimisticIdeaPresent) {
+    if (!hasOptimisticIdeas) {
       if (ideaList.length === 1) {
         postNewList();
       } else if (ideaList.length > 1 && ideaList.length < 9) {

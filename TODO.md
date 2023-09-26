@@ -1,7 +1,5 @@
 Important updates for MVP:
 
-- Undo optimistic UI. Implement simpler loading indicator. 
-
 - Troubleshoot: Why are already completed topics being presented to the user?
 
 - Address top section nudging to the right when clicking from lists view to viewList
