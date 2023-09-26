@@ -1,6 +1,6 @@
 Important updates for MVP:
 
-- Feature: implement record streak calculation
+- Undo optimistic UI. Implement simpler loading indicator. 
 
 - Troubleshoot: Why are already completed topics being presented to the user?
 
@@ -8,9 +8,6 @@ Important updates for MVP:
 
 - Change width of elements on addList and editList to match
     - Refactor addList route first. Then implement maintainable editList page with updates
-
-
-- Add idea has a network delay. Refactor code to immediately update on front end. See react router tutorial
 
 - Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
 

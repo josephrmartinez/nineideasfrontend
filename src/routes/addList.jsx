@@ -19,6 +19,8 @@ export default function AddList(){
   const [currentIdea, setCurrentIdea] = useState("")
 
   const [ideaList, setIdeaList] = useState([])
+  const [optimisticIdeaPresent, setOptimisticIdeaPresent] = useState(false)
+
   const [currentListId, setCurrentListId] = useState("")
   
   const [topicActive, setTopicActive] = useState(false)
@@ -56,6 +58,10 @@ export default function AddList(){
     console.log("Topic:", topic)
   }, [topic]);
 
+  useEffect(() => {
+    console.log("ideaList:", ideaList)
+  }, [ideaList]);
+
   const getNewTopic = async () => {
     try {
       setIsSpinning(true);
@@ -65,6 +71,7 @@ export default function AddList(){
       setIsSpinning(false);
       setCurrentListId('');
       setIdeaList([]);
+      
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -85,82 +92,114 @@ export default function AddList(){
       setButtonActive(false);
     }, 150);
 
-    
     if (currentIdea.trim().length < 3) return;
     if (ideaList.includes(currentIdea)) return;
 
+
+  try {
+    const optimisticIdea = createOptimisticIdea();
+    updateUIWithOptimisticIdea(optimisticIdea);
+
+    await performAPIRequest(optimisticIdea);
+
+    
+  } catch (error) {
+    console.error("Error:", error);
+  } finally{
+    setIsSubmitting(false);
+  }
+}
+
+function createOptimisticIdea() {
+  return {
+    text: currentIdea,
+    parentTopic: topic._id,
+  };
+}
+
+function updateUIWithOptimisticIdea(optimisticIdea) {
+  setOptimisticIdeaPresent(true);
+  setIdeaList((prevIdeas) => [optimisticIdea, ...prevIdeas]);
+  setCurrentIdea("");
+  ideaInputRef.current.focus();
+}
+
+async function performAPIRequest(optimisticIdea) {
+  if (isLoggedIn) {
+    console.log("performingAPIRequest")
+    console.log("ideaList", ideaList)
     try {
-      // Create an optimistic idea object with just text and parentTopic
-      let optimisticIdea = {
-        text: currentIdea,
-        parentTopic: topic._id,
-      };
-  
-      // Optimistic UI update: Add the optimistic idea object to the UI immediately
-      setIdeaList((prevIdeas) => {
-        return [optimisticIdea, ...prevIdeas];
-      });
-  
-      // Clear the input and set focus
-      setCurrentIdea("");
-      ideaInputRef.current.focus();
-  
-      let newIdea;
-  
-      // If user logged in, make POST request to create idea obj in DB.
-      if (isLoggedIn) {
-        // Make the backend API call to create the idea
-        newIdea = await postNewIdea(currentIdea, topic._id);
-  
-        // Update the UI with the response from the backend
-        setIdeaList((prevIdeas) => {
-          // Replace the optimistic idea object with the response from the backend
-          return prevIdeas.map((idea) =>
-            idea === optimisticIdea ? newIdea : idea
-          );
-        });
-      } else {
-        // If user is not logged in, the newIdea is the same as the optimisticIdea
-        newIdea = optimisticIdea;
-      }
-  
-      setIsSubmitting(false); // Set isSubmitting to false after the backend call (if any)
+      const newIdea = await postNewIdea(optimisticIdea.text, topic._id);
+      
+      const updatedIdeaList = ideaList.map((idea) =>
+        idea === optimisticIdea ? newIdea : idea
+      );
+      setIdeaList(updatedIdeaList);
+      setOptimisticIdeaPresent(false);
+      console.log("newIdea", newIdea);
     } catch (error) {
-      console.error("Error:", error);
-      // Handle the error here, e.g., show an error message to the user
-      // You might also consider rolling back the UI update if the backend call fails
+      console.log("Error while creating idea:", error);
     }
   }
+}
 
   //   try {
-  //     let newIdea = {}
-
-  //     // If user logged in, make POST request to create idea obj in DB.
-  //     // If user logged out, just create a frontend-only idea obj
-  //     if (!isLoggedIn) {
-  //       newIdea =
-  //       {
-  //         text: currentIdea,
-  //         parentTopic: topic._id
-  //       }
-  //     } else {
-  //       newIdea = await postNewIdea(currentIdea, topic._id);
-  //     }
-  //     // Update ideaList state
-  //     setIdeaList(prevIdeas => {
-  //       return [newIdea, ...prevIdeas];
+  //     // Create an optimistic idea object with just text and parentTopic
+  //     let optimisticIdea = {
+  //       text: currentIdea,
+  //       parentTopic: topic._id,
+  //     };
+  //     setOptimisticIdeaPresent(true)
+  
+  //     // Optimistic UI update: Add the optimistic idea object to the ideaListUI immediately
+  //     setIdeaList((prevIdeas) => {
+  //       return [optimisticIdea, ...prevIdeas];
   //     });
-  //     // Set currentIdea and focus input before calling postNewListAPI
+  
+  //     // Clear the input and set focus
   //     setCurrentIdea("");
   //     ideaInputRef.current.focus();
+  
+  //     // HOW DO I UPDATE THE CODE SO THAT EVERYTHING ABOVE THIS LINE MUST FINISH FIRST? THEN THE REST OF THE CODE EXECUTES. 
+  //     // If user logged in, make POST request to create idea obj in DB.
+  //     if (isLoggedIn) {
+  //       console.log("ideaList", ideaList)
+  //       console.log("optimisticIdea.text:", optimisticIdea.text)
+        
+  //       // Make the backend API call to create the idea
+  //       postNewIdea(currentIdea, topic._id)
+  //         .then((newIdea) => {
+  //           console.log("newIdea", newIdea)
+  //           console.log("optimisticIdea", optimisticIdea)
+  //           console.log("ideaList", ideaList)
+          
+  
+  //       // Once the API call is successful, replace the optimistic idea in the UI
+  //       const updatedIdeaList = ideaList.map((idea) =>
+  //       idea === optimisticIdea ? newIdea : idea
+  //     );
+  //       console.log("updatedIdeaList:", updatedIdeaList)
+  //     setIdeaList(updatedIdeaList);
+  //     setOptimisticIdeaPresent(false)
+  //   })
+  //   .catch((error) => {
+  //     console.log("Error while creating idea:", error)
+  //   });
+  // }
+  
+  //     setIsSubmitting(false); // Set isSubmitting to false after the backend call (if any)
   //   } catch (error) {
-  //     console.error('Error:', error);
+  //     console.error("Error:", error);
   //   }
   // }
+
 
   // Update already posted idea
   // CURRENTLY, THIS FUNCTION TRIGGERS THE USEEFFECT BECAUSE THE LOCAL IDEALIST IS BEING UPDATED.
   function updateIdea(index, updatedText) {
+
+    console.log("running updateIdea")
+    // Update ideaList on db
     setIdeaList((prevList) =>
       prevList.map((prevIdea, i) => {
         if (i === index) {
@@ -328,18 +367,24 @@ export default function AddList(){
     }
   };
   
-
+// DEBUG
+// Currently, the optimistic UI is generating a bug: the useEffect is firing with the optimisticIdea object, but this does not pass validation and leads to a server error
   // Is there a better way to implement this logic?
   // There is a bug here where a new list is generated if the user makes an edit to their first idea.
   // Likewise, the finishList function is called every time a user makes updates to an idea in a completed list
   useEffect(() => {
-    if (ideaList.length === 1) {
-      postNewList();
-    } else if (ideaList.length > 1 && ideaList.length < 9) {
-      addIdeaToList();
-    } else if (ideaList.length === 9) {
-      finishList();
+      // Check if there are any optimistic ideas in the ideaList
+
+    if (!optimisticIdeaPresent) {
+      if (ideaList.length === 1) {
+        postNewList();
+      } else if (ideaList.length > 1 && ideaList.length < 9) {
+        addIdeaToList();
     }
+  }
+  if (ideaList.length === 9) {
+    finishList();
+  }
   }, [ideaList]);
 
 
