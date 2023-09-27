@@ -276,6 +276,7 @@ async function performAPIRequest(optimisticIdea) {
 
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
+    console.log(`calling finishList ${new Date()}`)
     try {
       const startTime = Date.now();
 
@@ -384,11 +385,11 @@ async function performAPIRequest(optimisticIdea) {
         postNewList();
       } else if (ideaList.length > 1 && ideaList.length < 9) {
         addIdeaToList();
-    }
+      } else if (ideaList.length === 9) {
+        finishList();
+      }
   }
-  if (ideaList.length === 9) {
-    finishList();
-  }
+  
   }, [ideaList]);
 
 

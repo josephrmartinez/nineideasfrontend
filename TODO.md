@@ -1,5 +1,7 @@
 Important updates for MVP:
 
+- Create "share list" function
+
 - Troubleshoot: Why are already completed topics being presented to the user?
 
 - Address top section nudging to the right when clicking from lists view to viewList
@@ -8,8 +10,6 @@ Important updates for MVP:
     - Refactor addList route first. Then implement maintainable editList page with updates
 
 - Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
-
-- Create "share list" function?
 
 - Add 50 new topics
 
