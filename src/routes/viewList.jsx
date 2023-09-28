@@ -140,7 +140,6 @@ const VisibilityToggle = ({listData}) => {
 function ShareList({listData}) {
     const handleShareClick = async () => {
         let shareTopic = listData.topic.name
-        shareTopic = shareTopic.charAt(0).toLowerCase() + shareTopic.slice(1);
 
       if (navigator.share) {
         try {
@@ -148,7 +147,7 @@ function ShareList({listData}) {
             
           await navigator.share({
             title: `${shareTopic}`,
-            text: `Check out these ideas on ${shareTopic}`,
+            text: `${shareTopic}`,
             url: `https://nineideas.net/lists/${listData._id}`
           });
           console.log('Link shared successfully');
