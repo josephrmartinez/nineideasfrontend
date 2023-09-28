@@ -10,6 +10,8 @@ import { fetchNewTopic, createNewTopic } from '../utils/topic';
 import { useLocation } from 'react-router-dom';
 import apiEndpoint from '../config';
 import { contentModeration, postNewIdea } from '../utils/list';
+import ShareList from "../components/ShareList";
+
 
 
 export default function AddList(){
@@ -19,6 +21,7 @@ export default function AddList(){
   const [currentIdea, setCurrentIdea] = useState("")
 
   const [ideaList, setIdeaList] = useState([])
+  const [listData, setListData] = useState({})
   const [optimisticIdeaPresent, setOptimisticIdeaPresent] = useState(false)
 
   const [currentListId, setCurrentListId] = useState("")
@@ -147,56 +150,6 @@ async function performAPIRequest(optimisticIdea) {
   }
 }
 
-  //   try {
-  //     // Create an optimistic idea object with just text and parentTopic
-  //     let optimisticIdea = {
-  //       text: currentIdea,
-  //       parentTopic: topic._id,
-  //     };
-  //     setOptimisticIdeaPresent(true)
-  
-  //     // Optimistic UI update: Add the optimistic idea object to the ideaListUI immediately
-  //     setIdeaList((prevIdeas) => {
-  //       return [optimisticIdea, ...prevIdeas];
-  //     });
-  
-  //     // Clear the input and set focus
-  //     setCurrentIdea("");
-  //     ideaInputRef.current.focus();
-  
-  //     // HOW DO I UPDATE THE CODE SO THAT EVERYTHING ABOVE THIS LINE MUST FINISH FIRST? THEN THE REST OF THE CODE EXECUTES. 
-  //     // If user logged in, make POST request to create idea obj in DB.
-  //     if (isLoggedIn) {
-  //       console.log("ideaList", ideaList)
-  //       console.log("optimisticIdea.text:", optimisticIdea.text)
-        
-  //       // Make the backend API call to create the idea
-  //       postNewIdea(currentIdea, topic._id)
-  //         .then((newIdea) => {
-  //           console.log("newIdea", newIdea)
-  //           console.log("optimisticIdea", optimisticIdea)
-  //           console.log("ideaList", ideaList)
-          
-  
-  //       // Once the API call is successful, replace the optimistic idea in the UI
-  //       const updatedIdeaList = ideaList.map((idea) =>
-  //       idea === optimisticIdea ? newIdea : idea
-  //     );
-  //       console.log("updatedIdeaList:", updatedIdeaList)
-  //     setIdeaList(updatedIdeaList);
-  //     setOptimisticIdeaPresent(false)
-  //   })
-  //   .catch((error) => {
-  //     console.log("Error while creating idea:", error)
-  //   });
-  // }
-  
-  //     setIsSubmitting(false); // Set isSubmitting to false after the backend call (if any)
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // }
-
 
   // Update already posted idea
   // CURRENTLY, THIS FUNCTION TRIGGERS THE USEEFFECT BECAUSE THE LOCAL IDEALIST IS BEING UPDATED.
@@ -266,6 +219,7 @@ async function performAPIRequest(optimisticIdea) {
           ideas: ideaList
         }
       });
+      setListData(response.data)
       console.log("Updated list after PATCH:", response.data)
       return response.data
       } catch (error) {
@@ -307,6 +261,7 @@ async function performAPIRequest(optimisticIdea) {
             }
           });
           console.log("Finished list response object:", response.data);
+          setListData(response.data)
           setPublicList(true);
           return response.data;
         } catch (error) {
@@ -527,8 +482,12 @@ async function performAPIRequest(optimisticIdea) {
           <div className='text-sm uppercase select-none'>topic</div>
         </div>
 
+        <div className="flex flex-row items-center">
         { isLoggedIn && ideaList.length === 9 ? (
+        <>
+        {publicList && <ShareList listData={listData}/>}
         <VisibilityToggle publicList={publicList} onToggleClick={handleToggleVisibility}/> 
+        </>
         ) : (
         <div className='flex flex-row items-center justify-between outline outline-1 outline-neutral-200 active:bg-neutral-100 shadow-sm rounded-full px-3 py-1 cursor-pointer text-neutral-600'
         onClick={isLoggedIn ? handleIncompleteListClick : handleLoggedOutClick }>
@@ -537,6 +496,7 @@ async function performAPIRequest(optimisticIdea) {
         </div>
         )
         }
+        </div>
       </div>
 
       {topicActive ?
