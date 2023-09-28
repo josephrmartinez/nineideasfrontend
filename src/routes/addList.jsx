@@ -87,17 +87,16 @@ export default function AddList(){
     if (isSubmitting) {
       return
     }
-
-    setButtonActive(true);
-    setIsSubmitting(true)
     
     setTimeout(() => {
       setButtonActive(false);
     }, 150);
 
     if (currentIdea.trim().length < 3) return;
-    if (ideaList.includes(currentIdea)) return;
+    if (ideaList.some(idea => idea.text === currentIdea)) return;
 
+    setButtonActive(true);
+    setIsSubmitting(true)
 
   try {
     const optimisticIdea = createOptimisticIdea();
@@ -122,7 +121,6 @@ function createOptimisticIdea() {
 }
 
 function updateUIWithOptimisticIdea(optimisticIdea) {
-  setOptimisticIdeaPresent(true);
   setIdeaList((prevIdeas) => [optimisticIdea, ...prevIdeas]);
   setCurrentIdea("");
   ideaInputRef.current.focus();
