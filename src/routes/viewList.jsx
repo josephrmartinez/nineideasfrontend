@@ -139,11 +139,16 @@ const VisibilityToggle = ({listData}) => {
 
 function ShareList({listData}) {
     const handleShareClick = async () => {
+        let shareTopic = listData.topic.name
+        shareTopic = shareTopic.charAt(0).toLowerCase() + shareTopic.slice(1);
+
       if (navigator.share) {
         try {
+
+            
           await navigator.share({
-            title: `${listData.topic.name}`,
-            text: 'Check out this list on nineideas',
+            title: `${shareTopic}`,
+            text: `Check out this list on ${shareTopic}`,
             url: `https://nineideas.net/lists/${listData._id}`
           });
           console.log('Link shared successfully');
@@ -155,11 +160,10 @@ function ShareList({listData}) {
         const urlToCopy = `https://nineideas.net/lists/${listData._id}`; // Replace with your actual URL
         try {
           await navigator.clipboard.writeText(urlToCopy);
-          console.log('Share link copied to clipboard');
-          alert('Share link copied to clipboard');
+          alert('List URL copied to clipboard');
         } catch (error) {
           console.error('Error copying link to clipboard:', error);
-          alert('Unable to copy link to clipboard.');
+          alert('Unable to copy URL to clipboard.');
         }
       }
     };
