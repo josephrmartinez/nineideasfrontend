@@ -1,7 +1,7 @@
 import { useLoaderData, useFetcher, NavLink, Form, useNavigate } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { useAuth } from "../contexts/authContext";
-import { HandsClapping, TextIndent, Trash, LockLaminated, LockKeyOpen } from "@phosphor-icons/react";
+import { HandsClapping, TextIndent, Trash, ShareNetwork, Copy, CopySimple } from "@phosphor-icons/react";
 import { toggleStatus, updateList } from "../utils/list";
 
 export async function loader({ params }) {
@@ -39,7 +39,7 @@ export default function ViewList(){
     const navigate = useNavigate()
     const isCurrentUserList = userAuthData?.userId === listData.author._id
     
-    // console.log("listData:", listData)
+    console.log("listData:", listData)
     // console.log("currentUserId:", userAuthData?.userId)
 
     function createListOnTopic(){
@@ -63,14 +63,10 @@ export default function ViewList(){
                         </div>
                     </NavLink>
                     
-                    <div className="flex flex-row">
+                    <div className="flex flex-row items-center">
 
                     { isCurrentUserList && 
-                    
-                    
-                    <div className="flex flex-row items-center">
-                        
-                            
+                    <>      
                         <VisibilityToggle listData={listData} /> 
 
                         <Form
@@ -87,18 +83,20 @@ export default function ViewList(){
                             }
                             }}
                         >
-                            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer mx-4"/></button>
+                            <button type="submit"><Trash size={22} weight={'thin'} className="cursor-pointer ml-4"/></button>
                         </Form>
-                    </div>
+                    </>
                     }
+                    <ShareList listData={listData}/>
                     { !isCurrentUserList &&
-                    <TextIndent 
-                    size={22} 
+                    <Copy 
+                    size={24} 
                     weight="light" 
-                    className="cursor-pointer mx-4 text-neutral-600"
+                    className="cursor-pointer mr-4 text-neutral-600"
                     onClick={createListOnTopic}/>
                     }
                         <LikeIcon listData={listData} userAuthData={userAuthData}/> 
+                        
                     </div>
                 </div>
                 
@@ -139,7 +137,38 @@ const VisibilityToggle = ({listData}) => {
     )
 }
 
-
+function ShareList({listData}) {
+    const handleShareClick = async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `${listData.topic.name}`,
+            text: 'Check out this list on nineideas',
+            url: `https://nineideas.net/lists/${listData._id}`
+          });
+          console.log('Link shared successfully');
+        } catch (error) {
+          console.error('Error sharing link:', error);
+        }
+      } else {
+        // Fallback for browsers that don't support the Web Share API
+        const urlToCopy = `https://nineideas.net/lists/${listData._id}`; // Replace with your actual URL
+        try {
+          await navigator.clipboard.writeText(urlToCopy);
+          console.log('Share link copied to clipboard');
+          alert('Share link copied to clipboard');
+        } catch (error) {
+          console.error('Error copying link to clipboard:', error);
+          alert('Unable to copy link to clipboard.');
+        }
+      }
+    };
+  
+  
+    return (
+        <ShareNetwork className="cursor-pointer mx-4" onClick={handleShareClick} size={20} weight={"regular"} color={"#666666"}/>
+    );
+  }
 
 const LikeIcon = ({listData, userAuthData}) => {
     const fetcher = useFetcher();
