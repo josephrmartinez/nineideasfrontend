@@ -148,7 +148,7 @@ function ShareList({listData}) {
             
           await navigator.share({
             title: `${shareTopic}`,
-            text: `Check out this list on ${shareTopic}`,
+            text: `Check out these ideas on ${shareTopic}`,
             url: `https://nineideas.net/lists/${listData._id}`
           });
           console.log('Link shared successfully');
