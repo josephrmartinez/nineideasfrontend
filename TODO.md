@@ -1,5 +1,9 @@
 Important updates for MVP:
 
+- Fix "not found" error on shareList
+
+- Add 8 more users.
+
 - Add 50 new topics
 
 - Add 20 lists. 

@@ -57,9 +57,9 @@ export default function AddList(){
   //   console.log("Topic:", topic)
   // }, [topic]);
 
-  // useEffect(() => {
-  //   console.log("ideaList:", ideaList)
-  // }, [ideaList]);
+  useEffect(() => {
+    console.log("listData:", listData)
+  }, [listData]);
 
   const getNewTopic = async () => {
     try {
@@ -193,6 +193,10 @@ async function performAPIRequest(optimisticIdea) {
         author: userAuthData?.userId || 'loggedOutUser'
       });
       setCurrentListId(newListResponse.data._id)
+      setListData({
+        _id: newListResponse.data._id,
+        topic: topic,
+       })
       console.log("post new list response data:", newListResponse.data);
   
       return newListResponse.data;
@@ -213,7 +217,7 @@ async function performAPIRequest(optimisticIdea) {
           ideas: ideaList
         }
       });
-      setListData(response.data)
+      
       console.log("Updated list after PATCH:", response.data)
       return response.data
       } catch (error) {
@@ -255,7 +259,7 @@ async function performAPIRequest(optimisticIdea) {
             }
           });
           console.log("Finished list response object:", response.data);
-          setListData(response.data)
+          
           setPublicList(true);
           return response.data;
         } catch (error) {
