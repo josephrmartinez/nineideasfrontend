@@ -19,13 +19,9 @@ export default function AddList(){
 
   const [topic, setTopic] = useState(location.state?.topic || {})
   const [currentIdea, setCurrentIdea] = useState("")
-
   const [ideaList, setIdeaList] = useState([])
   const [listData, setListData] = useState({})
-  const [optimisticIdeaPresent, setOptimisticIdeaPresent] = useState(false)
-
   const [currentListId, setCurrentListId] = useState("")
-  
   const [topicActive, setTopicActive] = useState(false)
   const [buttonActive, setButtonActive] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -57,13 +53,13 @@ export default function AddList(){
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Topic:", topic)
-  }, [topic]);
+  // useEffect(() => {
+  //   console.log("Topic:", topic)
+  // }, [topic]);
 
-  useEffect(() => {
-    console.log("ideaList:", ideaList)
-  }, [ideaList]);
+  // useEffect(() => {
+  //   console.log("ideaList:", ideaList)
+  // }, [ideaList]);
 
   const getNewTopic = async () => {
     try {

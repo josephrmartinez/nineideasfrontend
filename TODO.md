@@ -1,16 +1,5 @@
 Important updates for MVP:
 
-- Create "share list" function
-
-- Troubleshoot: Why are already completed topics being presented to the user?
-
-- Address top section nudging to the right when clicking from lists view to viewList
-
-- Change width of elements on addList and editList to match
-    - Refactor addList route first. Then implement maintainable editList page with updates
-
-- Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
-
 - Add 50 new topics
 
 - Add 20 lists. 
@@ -21,6 +10,14 @@ Important updates for MVP:
 
 - Implement pagination for lists in viewUser page
 
+- Troubleshoot: Why are already completed topics being presented to the user?
+
+- Address top section nudging to the right when clicking from lists view to viewList
+
+
+- Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
+
+
 - Error handling with login:
     - Show message that tells user "username not found", "incorrect password" ?
 
@@ -29,12 +26,6 @@ Important updates for MVP:
 - DRY refactoring:
 - Update visibility toggle component across addList and editList
     - Create consistent appearance and functionality between addList and editList components
-
-- Is component mounting on every onChange for textarea input on editList component but not addList? Or is this just console.log placement?
-    - Check ReactRouter configuration
-
-
-- Troubleshoot: list duplication?
 
 
 
