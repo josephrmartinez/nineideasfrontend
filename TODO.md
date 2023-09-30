@@ -1,35 +1,18 @@
 Important updates for MVP:
 
-- Fix "not found" error on shareList
-
-- Add 8 more users.
-
-- Add 50 new topics
-
-- Add 20 lists. 
-
-- Populate site with likes
+- Add site content:
+    - Add 50 new topics
+    - Add 20 lists. 
+    - Populate site with likes
 
 - Implement pagination for main lists page
-
 - Implement pagination for lists in viewUser page
 
-- Troubleshoot: Why are already completed topics being presented to the user?
+- Troubleshoot: Are already completed topics being presented to the user? Update function to not display drafted topics either.
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
-
 - Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
-
-
-- Error handling with login:
-    - Show message that tells user "username not found", "incorrect password" ?
-
-
-
-- DRY refactoring:
-- Update visibility toggle component across addList and editList
-    - Create consistent appearance and functionality between addList and editList components
 
 
 
@@ -41,41 +24,12 @@ Features:
 - Implement 'download lists' feature: output all lists in structured format
 
 
-Optional features:
-
-- Develop fully-functional logged out version of the app
-    - Is it possible to create an "account" page for non-logged-in users?
-    - Persist lists and calculate streak, etc all from data in local storage?
-    - I may need to rethink the log in / sign up format in the root nav menu
-
-
-- viewList page
-    - Create new route to view lists on same topic: lists/:topicId OR list/:topicId ??
-    - add icon and route to view all lists on the same topic or place onClick event on topic text
-
-- editUser page:
-    - consolidate this action into just the input box rendering and calling the PATCH request. 
-
-
 General issues for research:
 - editList page:
     - Learn why patch update only works if I run it on the idea object itself and not the whole list. 
-
-- History stack
-    - Check history stack throughout app: https://reactrouter.com/en/main/start/tutorial#managing-the-history-stack
 
 - authContext / root:
     - Why am I fetching data in BOTH root and authContext on initial load?
     - Need to troubleshoot the way that useAuth is handling userData. 
         If I log out of one account, the userId remains. This causes lists to be added to the previous user. (Check if still true)
 
-
-Users:
-josephm
-saulg
-kimw
-peterg
-darn
-tyvek
-matilda
-ingleside
