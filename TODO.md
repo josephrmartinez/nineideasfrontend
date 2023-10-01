@@ -6,13 +6,12 @@ Important updates for MVP:
     - Populate site with likes
 
 - Implement pagination for main lists page
-- Implement pagination for lists in viewUser page
+    - server function getAllLists currently only returns last 20ct.
 
-- Troubleshoot: Are already completed topics being presented to the user? Update function to not display drafted topics either.
+- Implement pagination for lists in viewUser page
+    - Lists are pulled from userData. Currently no limit, dsiplaying all. 
 
 - Address top section nudging to the right when clicking from lists view to viewList
-
-- Decrease load time for newTopic on initial load. Is this just taking a long time when the server is starting up?
 
 
 
