@@ -13,7 +13,6 @@ import { contentModeration, postNewIdea } from '../utils/list';
 import ShareList from "../components/ShareList";
 
 
-
 export default function AddList(){
   const location = useLocation();
 
@@ -64,8 +63,10 @@ export default function AddList(){
   const getNewTopic = async () => {
     try {
       setIsSpinning(true);
-      const newTopic = await fetchNewTopic()
-      await new Promise(resolve => setTimeout(resolve, 300)); // Delay for 300ms
+      const [newTopic] = await Promise.all([
+        fetchNewTopic(),
+        new Promise(resolve => setTimeout(resolve, 300))
+      ]);
       setTopic(newTopic);
       setIsSpinning(false);
       setCurrentListId('');
