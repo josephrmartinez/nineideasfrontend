@@ -1,5 +1,7 @@
 Important updates for MVP:
 
+- Develop README
+
 - Add site content:
     - Add 50 new topics
     - Add 20 lists. 
