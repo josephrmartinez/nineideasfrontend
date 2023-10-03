@@ -10,6 +10,18 @@ export async function getAllLists() {
         throw error;
     } 
     };
+
+export async function getLists(page = 1) {
+    console.log("page value:", page)
+    try {
+        const response = await axios.get(`${apiEndpoint}/lists/page/${page}`);
+        console.log("getLists response:", response.data)
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    } 
+    };
   
 export async function getOneList(listId) {
     try {
