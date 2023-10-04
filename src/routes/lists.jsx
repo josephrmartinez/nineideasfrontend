@@ -42,8 +42,8 @@ export default function Lists(){
 
     return(
         <div className="h-full overflow-y-scroll">
-            {listData.map((each) => (
-                <div className="border-b-2 w-10/12 max-w-md mx-auto my-4" key={each._id} onClick={()=> console.log(each)}>
+            {listData.map((each, index) => (
+                <div className={`${index !== listData.length - 1 ? 'border-b-2' : ''} w-10/12 max-w-md mx-auto my-4`} key={each._id} onClick={()=> console.log(each)}>
                     <NavLink to={`/lists/${each._id}`}>
                         <div className="text-left text-neutral-700 my-4">{each.topic.name}</div>
                     </NavLink>
@@ -62,7 +62,7 @@ export default function Lists(){
             ))}
             {hasMore && 
             <div 
-            className="text-xs text-neutral-400 mb-6 cursor-pointer border rounded-full p-2 w-28 mx-auto"
+            className="text-xs text-neutral-400 mb-6 mt-6 cursor-pointer border rounded-full p-2 w-28 mx-auto"
             onClick={loadMoreLists}>load more lists</div>}
         </div>
     )

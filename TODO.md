@@ -1,5 +1,11 @@
 Important updates for MVP:
 
+- Implement pagination for lists in viewUser page
+    - Lists are pulled from userData. Currently no limit, displaying all. 
+
+- Address top section nudging to the right when clicking from lists view to viewList
+
+
 - Develop README
 
 - Add site content:
@@ -7,13 +13,6 @@ Important updates for MVP:
     - Add 20 lists. 
     - Populate site with likes
 
-- Implement pagination for main lists page
-    - server function getAllLists currently only returns last 20ct.
-
-- Implement pagination for lists in viewUser page
-    - Lists are pulled from userData. Currently no limit, dsiplaying all. 
-
-- Address top section nudging to the right when clicking from lists view to viewList
 
 
 
