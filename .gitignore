@@ -12,9 +12,6 @@ dist
 dist-ssr
 *.local
 config.js
-todo.md
-
-TODO
 
 # Editor directories and files
 .vscode/*
@@ -26,3 +23,6 @@ TODO
 *.njsproj
 *.sln
 *.sw?
+
+todo.md
+TODO.md
