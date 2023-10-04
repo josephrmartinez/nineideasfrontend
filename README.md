@@ -1,6 +1,8 @@
 # nineideas frontend README
 
-[**nineideas.net**](https://nineideas.net/) is a minimalist social network and micro-blogging platform that encourages users to develop a habit of coming up with new ideas each day. The goal is to maintain a daily streak of developing nine ideas on a new topic every day. This project is part of a MERN (MongoDB, Express.js, React, Node.js) application.
+[**nineideas.net**](https://nineideas.net/) is a minimalist social network and micro-blogging platform that encourages users to develop a habit of coming up with new ideas each day. The goal is to maintain a daily streak of developing nine ideas on a new topic every day. 
+
+This repo is the frontend of a MERN (MongoDB, Express.js, React, Node.js) application.
 
 View a short video demo of the site:
 
@@ -14,6 +16,7 @@ View a short video demo of the site:
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Assets](#assets)
 
 ## Project Structure
 
@@ -125,6 +128,10 @@ Please ensure your code follows best practices and includes appropriate document
 ## License
 
 This project is licensed under the MIT License. Feel free to use, modify, and distribute the code for your purposes while adhering to the terms of the license.
+
+## Assets
+
+Icons - [Phosphor Icons](https://github.com/phosphor-icons)
 
 ---
 
