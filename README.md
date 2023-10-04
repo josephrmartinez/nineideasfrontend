@@ -1,8 +1,8 @@
 # nineideas frontend README
 
-**nineideas.net** is a minimalist social network and micro-blogging platform that encourages users to develop a habit of coming up with new ideas each day. The goal is to maintain a daily streak of developing nine ideas on a new topic every day. This project is part of a MERN (MongoDB, Express.js, React, Node.js) application.
+[**nineideas.net**](https://nineideas.net/) is a minimalist social network and micro-blogging platform that encourages users to develop a habit of coming up with new ideas each day. The goal is to maintain a daily streak of developing nine ideas on a new topic every day. This project is part of a MERN (MongoDB, Express.js, React, Node.js) application.
 
-View a short video demo of the site here:
+View a short video demo of the site:
 
 [![nineideas site demo video](http://img.youtube.com/vi/oy5Wy8Ah7ok/0.jpg)](http://www.youtube.com/watch?v=oy5Wy8Ah7ok "nineideas demo")
 
@@ -124,8 +124,8 @@ Please ensure your code follows best practices and includes appropriate document
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute the code for your purposes while adhering to the terms of the license.
+This project is licensed under the MIT License. Feel free to use, modify, and distribute the code for your purposes while adhering to the terms of the license.
 
 ---
 
-Thank you for your interest in **nineideas.net**! If you have any questions or issues, please don't hesitate to reach out to the project maintainers. Happy coding!
+Thank you for your interest in [**nineideas.net**](https://nineideas.net/)! If you have any questions or issues, please don't hesitate to reach out to the project maintainers. Happy coding!
