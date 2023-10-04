@@ -3,6 +3,7 @@
 **nineideas.net** is a minimalist social network and micro-blogging platform that encourages users to develop a habit of coming up with new ideas each day. The goal is to maintain a daily streak of developing nine ideas on a new topic every day. This project is part of a MERN (MongoDB, Express.js, React, Node.js) application.
 
 View a short video demo of the site here:
+
 [![nineideas site demo video](http://img.youtube.com/vi/oy5Wy8Ah7ok/0.jpg)](http://www.youtube.com/watch?v=oy5Wy8Ah7ok "nineideas demo")
 
 
