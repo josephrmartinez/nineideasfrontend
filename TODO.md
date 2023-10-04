@@ -5,23 +5,10 @@ Important updates for MVP:
 
 - Address top section nudging to the right when clicking from lists view to viewList
 
-
-- Develop README
-
 - Add site content:
     - Add 50 new topics
     - Add 20 lists. 
     - Populate site with likes
-
-
-
-
-Features:
-
-- Implement 'delete account' feature: delete all associated likes and lists (and ideas)
-    - Keep likes on lists, but remove all lists so that fetching all lists still works (author is null)
-
-- Implement 'download lists' feature: output all lists in structured format
 
 
 General issues for research:
