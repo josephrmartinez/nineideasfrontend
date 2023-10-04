@@ -12,7 +12,9 @@ dist
 dist-ssr
 *.local
 config.js
-TODO.md
+todo.md
+
+TODO
 
 # Editor directories and files
 .vscode/*
