@@ -136,13 +136,10 @@ async function performAPIRequest(optimisticIdea) {
           idea.isOptimistic ? newIdea : idea
         )
       );
-
-    
-      
     } catch (error) {
       console.log("Error while creating idea:", error);
     }
-  }
+  } else return
 }
 
 
@@ -344,6 +341,15 @@ async function performAPIRequest(optimisticIdea) {
       }
   }
   
+  }, [ideaList]);
+
+  
+  useEffect(() => {
+    if (!isLoggedIn) {
+      if (ideaList.length === 9) {
+        finishList();
+      }
+  }
   }, [ideaList]);
 
 
