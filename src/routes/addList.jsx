@@ -125,11 +125,11 @@ function updateUIWithOptimisticIdea(optimisticIdea) {
 
 async function performAPIRequest(optimisticIdea) {
   if (isLoggedIn) {
-    console.log("performingAPIRequest")
-    console.log("ideaList", ideaList)
+    // console.log("performingAPIRequest")
+    // console.log("ideaList", ideaList)
     try {
       const newIdea = await postNewIdea(optimisticIdea.text, topic._id);
-      console.log("newIdea", newIdea);
+      // console.log("newIdea", newIdea);
 
       setIdeaList((prevIdeas) =>
         prevIdeas.map((idea) =>
@@ -147,7 +147,7 @@ async function performAPIRequest(optimisticIdea) {
   // CURRENTLY, THIS FUNCTION TRIGGERS THE USEEFFECT BECAUSE THE LOCAL IDEALIST IS BEING UPDATED.
   function updateIdea(index, updatedText) {
 
-    console.log("running updateIdea")
+    // console.log("running updateIdea")
     // Update ideaList on db
     setIdeaList((prevList) =>
       prevList.map((prevIdea, i) => {
@@ -195,7 +195,7 @@ async function performAPIRequest(optimisticIdea) {
         _id: newListResponse.data._id,
         topic: topic,
        })
-      console.log("post new list response data:", newListResponse.data);
+      // console.log("post new list response data:", newListResponse.data);
   
       return newListResponse.data;
     } catch (error) {
@@ -207,8 +207,8 @@ async function performAPIRequest(optimisticIdea) {
   // UPDATE LIST ON IDEAS 2 - 8
   const addIdeaToList = async () => {
     if (!isLoggedIn) return;
-    console.log("Calling addIdeaToList")
-    console.log("ideaList:", ideaList)
+    // console.log("Calling addIdeaToList")
+    // console.log("ideaList:", ideaList)
     try {
       const response = await axios.patch(`${apiEndpoint}/lists/${currentListId}`, {
         updates: {
@@ -216,7 +216,7 @@ async function performAPIRequest(optimisticIdea) {
         }
       });
       
-      console.log("Updated list after PATCH:", response.data)
+      // console.log("Updated list after PATCH:", response.data)
       return response.data
       } catch (error) {
         console.error('Error updating list:', error);
@@ -226,18 +226,18 @@ async function performAPIRequest(optimisticIdea) {
 
   // ADD 9TH IDEA TO FINISH LIST
   const finishList = async () => {
-    console.log(`calling finishList ${new Date()}`)
+    // console.log(`calling finishList ${new Date()}`)
     try {
       const startTime = Date.now();
 
       const response = await contentModeration(ideaList);
 
       const isContentReadable = response.data
-      console.log("content moderation result:", isContentReadable)
+      // console.log("content moderation result:", isContentReadable)
 
       const endTime = Date.now();
       const elapsedTime = endTime - startTime;
-      console.log("Time required for content moderation (ms):", elapsedTime);
+      // console.log("Time required for content moderation (ms):", elapsedTime);
       
       if (isContentReadable) {
         if (!isLoggedIn) return;
@@ -256,7 +256,7 @@ async function performAPIRequest(optimisticIdea) {
               dateCompleted: dateCompletedObject
             }
           });
-          console.log("Finished list response object:", response.data);
+          // console.log("Finished list response object:", response.data);
           
           setPublicList(true);
           return response.data;
@@ -311,10 +311,10 @@ async function performAPIRequest(optimisticIdea) {
           lists: updatedLists, // Use the updated lists array
         });
   
-        console.log("Added list to user:", response.data);
+        // console.log("Added list to user:", response.data);
         return response.data;
       } else {
-        console.log("User data not available yet.");
+        // console.log("User data not available yet.");
         return null; // Or some appropriate value indicating that the action was not performed
       }
     } catch (error) {
@@ -406,7 +406,7 @@ async function performAPIRequest(optimisticIdea) {
 
   function handleToggleVisibility(){
     setPublicList(!publicList);
-    console.log("Calling handleToggleVisibility")
+    // console.log("Calling handleToggleVisibility")
     };
 
 
@@ -419,7 +419,7 @@ async function performAPIRequest(optimisticIdea) {
             public: publicList
           }
       });
-      console.log("Updated list after PATCH:", response.data)
+      // console.log("Updated list after PATCH:", response.data)
       
       } catch (error) {
         console.error('Error updating list:', error);
@@ -436,7 +436,7 @@ async function performAPIRequest(optimisticIdea) {
     if (!topic._id && topic.name.trim()){
       const newTopic = await createNewTopic(topic.name, false)
       setTopic(newTopic)
-      console.log("newTopic:", newTopic)
+      // console.log("newTopic:", newTopic)
     }
   }
 
