@@ -1,6 +1,6 @@
 import { useLoaderData, useNavigate, NavLink, Form } from "react-router-dom";
 import { useAuth } from '../contexts/authContext';
-import { HandsClapping, Chat } from "@phosphor-icons/react";
+import { HandsClapping } from "@phosphor-icons/react";
 import { getUserData } from '../utils/user';
 
 export async function loader({ params }) {

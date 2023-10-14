@@ -1,5 +1,5 @@
-import { useLoaderData, redirect, useNavigation, NavLink } from "react-router-dom";
-import { getAllLists, getLists } from "../utils/list";
+import { useLoaderData, NavLink } from "react-router-dom";
+import { getLists } from "../utils/list";
 import { HandsClapping } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 

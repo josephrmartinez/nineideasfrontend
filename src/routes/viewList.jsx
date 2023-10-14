@@ -1,7 +1,7 @@
 import { useLoaderData, useFetcher, NavLink, Form, useNavigate } from "react-router-dom";
 import { getOneList } from "../utils/list";
 import { useAuth } from "../contexts/authContext";
-import { HandsClapping, TextIndent, Trash, ShareNetwork, Copy, CopySimple } from "@phosphor-icons/react";
+import { HandsClapping, TextIndent, Trash, Copy } from "@phosphor-icons/react";
 import { toggleStatus, updateList } from "../utils/list";
 import ShareList from "../components/ShareList";
 
