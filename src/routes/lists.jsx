@@ -27,7 +27,7 @@ export default function Lists(){
     setLoading(true);
     const nextPage = page + 1;
     const { allLists: newLists } = await loader({ page: nextPage });
-    console.log("allLists in loadMoreLists", allLists)
+    // console.log("allLists in loadMoreLists", allLists)
 
     if (newLists.length === 0) {
       setHasMore(false);
