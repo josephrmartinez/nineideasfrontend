@@ -15,7 +15,7 @@ export async function getLists(page = 1) {
     console.log("page value:", page)
     try {
         const response = await axios.get(`${apiEndpoint}/lists/page/${page}`);
-        console.log("getLists response:", response.data)
+        // console.log("getLists response:", response.data)
         return response.data;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -34,7 +34,7 @@ export async function getOneList(listId) {
     };
 
 export async function deleteList(listId) {
-    console.log("listId passed to deleteList function:", listId)
+    // console.log("listId passed to deleteList function:", listId)
     try {
         const response = await axios.delete(`${apiEndpoint}/lists/${listId}`);
         return response
@@ -49,7 +49,7 @@ export async function toggleStatus(listId, publicList) {
         const response = await axios.patch(`${apiEndpoint}/lists/${listId}`, {
         public: publicList,
         });
-        console.log("Updated list after PATCH:", response.data)
+        // console.log("Updated list after PATCH:", response.data)
         return response.data
         } catch (error) {
           console.error('Error updating list:', error);
@@ -63,7 +63,7 @@ export async function updateList(listId, updates) {
         const response = await axios.patch(`${apiEndpoint}/lists/${listId}`, {
         updates
         });
-        console.log("Updated list after PATCH:", response.data)
+        // console.log("Updated list after PATCH:", response.data)
         return response.data
         } catch (error) {
             console.error('Error updating list:', error);
@@ -89,7 +89,7 @@ export async function postNewIdea(currentIdea, parentTopicId) {
         text: currentIdea,
         parentTopic: parentTopicId
       });
-      console.log("postNewIdea response:", response.data);
+    //   console.log("postNewIdea response:", response.data);
       return response.data;
     } catch (error) {
       console.error('Error creating idea:', error);
