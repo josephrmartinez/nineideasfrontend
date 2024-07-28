@@ -9,7 +9,6 @@ export async function loader({ page }) {
     return { allLists };
   }
 
-
 export default function Lists(){
     const { allLists } = useLoaderData();
     const [page, setPage] = useState(1)
@@ -17,8 +16,6 @@ export default function Lists(){
     const [hasMore, setHasMore] = useState(true);
     const [listData, setListData] = useState(allLists)
     
-
-
   const loadMoreLists = async () => {
     if (loading || !hasMore) {
       return;

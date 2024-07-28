@@ -234,6 +234,7 @@ async function performAPIRequest(optimisticIdea) {
 
       const isContentReadable = response.data
       // console.log("content moderation result:", isContentReadable)
+      
 
       const endTime = Date.now();
       const elapsedTime = endTime - startTime;
